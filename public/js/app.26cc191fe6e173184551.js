@@ -1646,7 +1646,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            categories: []
+            categories: [],
+            active: -1
         };
     },
 
@@ -1663,6 +1664,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$http.get('/api/categories/' + category.id).then(function (response) {
                 return Event.fire('products', response.body);
             });
+
+            this.active = category.id;
         }
     },
 
@@ -1678,10 +1681,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
 //
 //
 //
@@ -1747,6 +1746,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2079,12 +2097,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-lg-6 col-sm-12"
-  }, [_c('div', {
-    staticClass: "card"
-  }, [_c('div', {
-    staticClass: "content"
-  }, [_c('products')], 1)])])])])])]), _vm._v(" "), _c('basket')], 1)
+    staticClass: "col-lg-8 col-sm-12 p-x-0"
+  }, [_c('products')], 1)])])])]), _vm._v(" "), _c('basket')], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('nav', {
     staticClass: "navbar navbar-default"
@@ -2113,20 +2127,33 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('table', {
-    staticClass: "table table-striped"
-  }, [_c('tbody', _vm._l((_vm.products), function(product) {
-    return _c('tr', [_c('td', {
-      domProps: {
-        "textContent": _vm._s(product.name)
+  return _c('div', _vm._l((_vm.products), function(product) {
+    return _c('div', {
+      staticClass: "card col-lg-3 col-sm-6 cursor-pointer"
+    }, [_c('div', {
+      staticClass: "content",
+      staticStyle: {
+        "padding": "15px 0 10px 0"
       }
-    }), _vm._v(" "), _c('td', {
-      domProps: {
-        "textContent": _vm._s(product.prices[0].trade)
-      }
-    })])
-  }))])
-},staticRenderFns: []}
+    }, [_c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-xs-5"
+    }, [_c('div', {
+      staticClass: "text-left f-18"
+    }, [_vm._v("\n                        " + _vm._s(product.name) + "\n                    ")])]), _vm._v(" "), _c('div', {
+      staticClass: "col-xs-7"
+    }, [_c('div', {
+      staticClass: "numbers"
+    }, [_c('p', [_vm._v("Price")]), _vm._v("\n                        " + _vm._s(product.prices[0].trade) + "\n                    ")])])]), _vm._v(" "), _vm._m(0, true)])])
+  }))
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "footer"
+  }, [_c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "stats"
+  }, [_vm._v("\n                    No deals available\n                ")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -2152,7 +2179,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._t("default"), _vm._v(" "), _c('ul', {
     staticClass: "nav"
   }, _vm._l((_vm.categories), function(category) {
-    return _c('li', [_c('a', {
+    return _c('li', {
+      class: {
+        'active': _vm.active === category.id
+      }
+    }, [_c('a', {
       attrs: {
         "href": "javascript:void(0)"
       },

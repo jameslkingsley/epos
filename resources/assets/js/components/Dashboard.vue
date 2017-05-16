@@ -20,12 +20,8 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="card">
-                                <div class="content">
-                                    <products></products>
-                                </div>
-                            </div>
+                        <div class="col-lg-8 col-sm-12 p-x-0">
+                            <products></products>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@
             <slot></slot>
 
             <ul class="nav">
-                <li v-for="category in categories">
+                <li :class="{ 'active': active === category.id }" v-for="category in categories">
                     <a href="javascript:void(0)" @click="view(category)">
                         <i class="ti-panel"></i>
                         <p>{{ category.name }}</p>
@@ -19,19 +19,22 @@
     export default {
         data() {
             return {
-                categories: []
+                categories: [],
+                active: -1
             }
         },
 
         methods: {
             setup() {
                 this.$http.get('/api/categories')
-                .then(response => this.categories = response.body);
+                    .then(response => this.categories = response.body);
             },
 
             view(category) {
                 this.$http.get('/api/categories/' + category.id)
-                .then(response => Event.fire('products', response.body));
+                    .then(response => Event.fire('products', response.body));
+
+                this.active = category.id;
             }
         },
 

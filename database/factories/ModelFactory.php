@@ -38,7 +38,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Price::class, function (Faker\Generator $faker) {
     return [
-        'trade' => $faker->randomFloat(2, 0, 100),
+        'trade' => $faker->randomFloat(2, 0, 20),
         'markup' => $faker->randomFloat(2, 0, 1),
         'vat' => $faker->randomFloat(2, 0, 0.2)
     ];

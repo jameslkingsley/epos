@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Price;
+
 trait HasPrices
 {
     /**
@@ -11,6 +13,9 @@ trait HasPrices
      */
     public function prices()
     {
-        return $this->hasMany('App\Price');
+        return Price::where('model_type', get_class($this))
+            ->where('model_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

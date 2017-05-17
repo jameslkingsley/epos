@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BasketItemController extends Controller
 {
-    protected $category;
+    /**
+     * The basket session instance.
+     *
+     * @var App\Basket
+     */
+    protected $basket;
 
-    public function __construct(Category $category)
+    /**
+     * Constructor method.
+     *
+     * @return any
+     */
+    public function __construct()
     {
-        $this->category = $category;
+        $this->basket = session('basket');
     }
 
     /**
@@ -21,9 +30,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            $this->category->all()
-        );
+        //
     }
 
     /**
@@ -44,7 +51,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->basket->add();
     }
 
     /**
@@ -53,11 +60,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        return response()->json(
-            $category->items->resolve()
-        );
+        //
     }
 
     /**
@@ -66,7 +71,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
         //
     }
@@ -78,7 +83,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -89,7 +94,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         //
     }

@@ -12,11 +12,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory(App\Category::class, 15)->create()->each(function($category) {
-            factory(App\Product::class, 50)->make()->each(function($product) use(&$category) {
-                $category->products()->save($product);
+            factory(App\Product::class, 50)->create()->each(function($product) use(&$category) {
+                $item = App\Item::forceCreate([
+                    'model_id' => $product->id,
+                    'model_type' => get_class($product),
+                    'category_id' => $category->id
+                ]);
 
                 factory(App\Price::class, 5)->make()->each(function($price) use(&$product) {
-                    $product->prices()->save($price);
+                    $price->model_type = get_class($product);
+                    $price->model_id = $product->id;
+                    $price->save();
                 });
             });
         });

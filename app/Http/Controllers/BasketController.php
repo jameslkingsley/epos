@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Basket;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class BasketController extends Controller
 {
-    protected $category;
-
-    public function __construct(Category $category)
-    {
-        $this->category = $category;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,23 +14,25 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            $this->category->all()
-        );
+        return response()->json(session('basket', $this->create()));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create a new basket instance in the session.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Basket
      */
     public function create()
     {
-        //
+        $basket = new Basket;
+
+        session(['basket' => $basket]);
+
+        return $basket;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Account and store the current basket.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -53,11 +48,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        return response()->json(
-            $category->items->resolve()
-        );
+        //
     }
 
     /**
@@ -66,7 +59,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
         //
     }
@@ -78,7 +71,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -89,7 +82,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         //
     }

@@ -1613,9 +1613,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    //
+    data: function data() {
+        return {
+            basket: {}
+        };
+    },
+
+
+    methods: {
+        reload: function reload() {
+            var _this = this;
+
+            this.$http.get('/api/basket').then(function (response) {
+                return _this.basket = response.body;
+            });
+        },
+        selected: function selected(product) {
+            console.log('Adding ' + product.name);
+            this.reload();
+        }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        this.reload();
+
+        Event.listen('product-select', function (product) {
+            return _this2.selected(product);
+        });
+
+        Event.listen('basket-reload', function () {
+            return _this2.reload();
+        });
+    }
 });
 
 /***/ }),
@@ -1653,11 +1687,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
+        classes: function classes(category) {
+            return {
+                'active': this.active === category.id
+            };
+        },
         setup: function setup() {
             var _this = this;
 
             this.$http.get('/api/categories').then(function (response) {
-                return _this.categories = response.body;
+                _this.categories = response.body;
+                _this.view(_this.categories[0]);
             });
         },
         view: function view(category) {
@@ -1671,6 +1711,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     created: function created() {
         this.setup();
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Clock.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            time: new Date()
+        };
+    },
+
+
+    computed: {
+        day: function day() {
+            return this.time.toLocaleString('en-us', {
+                weekday: 'short'
+            });
+        }
+    },
+
+    methods: {
+        pad: function pad(n) {
+            return n < 10 ? '0' + n : n;
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        setInterval(function () {
+            _this.time = new Date();
+        }, 1000);
     }
 });
 
@@ -1734,9 +1819,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    //
+    props: ['product'],
+
+    computed: {
+        classes: function classes() {
+            return {
+                'card': true,
+                'cursor-pointer': true
+            };
+        }
+    },
+
+    methods: {
+        select: function select() {
+            Event.fire('product-select', this.product);
+        }
+    },
+
+    created: function created() {
+        for (var key in this.product) {
+            this[key] = this.product[key];
+        }
+    }
 });
 
 /***/ }),
@@ -1746,30 +1877,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2047,7 +2154,31 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
+  return _c('div', {
+    class: _vm.classes,
+    on: {
+      "click": _vm.select
+    }
+  }, [_c('div', {
+    staticClass: "content",
+    staticStyle: {
+      "padding": "15px 0 10px 0"
+    }
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-5"
+  }, [_c('div', {
+    staticClass: "text-left f-18"
+  }, [_vm._v("\n                    " + _vm._s(_vm.product.title) + "\n                ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('div', {
+    staticClass: "numbers"
+  }, [_c('p', [_vm._v("Price")]), _vm._v("\n                    " + _vm._s(_vm.product.price) + "\n                ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "footer"
+  }, [_c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "stats"
+  }, [_vm._v("\n                " + _vm._s(_vm.product.meta.created_at) + "\n            ")])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -2059,11 +2190,27 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-49bad97b\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Clock.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_vm._v("\n    " + _vm._s(_vm.day) + " · " + _vm._s(_vm.pad(_vm.time.getHours())) + ":" + _vm._s(_vm.pad(_vm.time.getMinutes())) + ":" + _vm._s(_vm.pad(_vm.time.getSeconds())) + "\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-49bad97b", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4acd5bae\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Basket.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
+  return _c('div')
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -2088,20 +2235,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": _vm.app.url
     }
-  }, [_vm._v("\n                " + _vm._s(_vm.app.name) + "\n            ")])])]), _vm._v(" "), _c('div', {
+  }, [_c('clock')], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "main-panel"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "content"
+    staticClass: "content",
+    staticStyle: {
+      "width": "calc(100% - 25vw)"
+    }
   }, [_c('div', {
-    staticClass: "container-fluid"
+    staticClass: "container-fluid p-a-0"
+  }, [_c('products')], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "sidebar sidebar-right",
+    attrs: {
+      "data-background-color": "white",
+      "data-active-color": "danger"
+    }
   }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-lg-8 col-sm-12 p-x-0"
-  }, [_c('products')], 1)])])])]), _vm._v(" "), _c('basket')], 1)
+    staticClass: "sidebar-wrapper"
+  }, [_c('basket')], 1)])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('nav', {
-    staticClass: "navbar navbar-default"
+    staticClass: "navbar navbar-default",
+    staticStyle: {
+      "width": "calc(100% - 25vw)"
+    }
   }, [_c('div', {
     staticClass: "container-fluid"
   }, [_c('div', {
@@ -2128,32 +2285,14 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', _vm._l((_vm.products), function(product) {
-    return _c('div', {
-      staticClass: "card col-lg-3 col-sm-6 cursor-pointer"
-    }, [_c('div', {
-      staticClass: "content",
-      staticStyle: {
-        "padding": "15px 0 10px 0"
+    return _c('product', {
+      key: product.id,
+      attrs: {
+        "product": product
       }
-    }, [_c('div', {
-      staticClass: "row"
-    }, [_c('div', {
-      staticClass: "col-xs-5"
-    }, [_c('div', {
-      staticClass: "text-left f-18"
-    }, [_vm._v("\n                        " + _vm._s(product.name) + "\n                    ")])]), _vm._v(" "), _c('div', {
-      staticClass: "col-xs-7"
-    }, [_c('div', {
-      staticClass: "numbers"
-    }, [_c('p', [_vm._v("Price")]), _vm._v("\n                        " + _vm._s(product.prices[0].trade) + "\n                    ")])])]), _vm._v(" "), _vm._m(0, true)])])
+    })
   }))
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "footer"
-  }, [_c('hr'), _vm._v(" "), _c('div', {
-    staticClass: "stats"
-  }, [_vm._v("\n                    No deals available\n                ")])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -2180,9 +2319,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "nav"
   }, _vm._l((_vm.categories), function(category) {
     return _c('li', {
-      class: {
-        'active': _vm.active === category.id
-      }
+      class: _vm.classes(category)
     }, [_c('a', {
       attrs: {
         "href": "javascript:void(0)"
@@ -13495,6 +13632,7 @@ module.exports = g;
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 // Components
+Vue.component('clock', __webpack_require__("./resources/assets/js/components/Clock.vue"));
 Vue.component('products', __webpack_require__("./resources/assets/js/components/Products.vue"));
 Vue.component('categories', __webpack_require__("./resources/assets/js/components/Categories.vue"));
 Vue.component('basket', __webpack_require__("./resources/assets/js/components/Basket.vue"));
@@ -13592,6 +13730,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-ae013402", Component.options)
   } else {
     hotAPI.reload("data-v-ae013402", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Clock.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Clock.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-49bad97b\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Clock.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Clock.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Clock.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-49bad97b", Component.options)
+  } else {
+    hotAPI.reload("data-v-49bad97b", Component.options)
   }
 })()}
 

@@ -4,7 +4,7 @@
             <slot></slot>
 
             <ul class="nav">
-                <li :class="{ 'active': active === category.id }" v-for="category in categories">
+                <li :class="classes(category)" v-for="category in categories">
                     <a href="javascript:void(0)" @click="view(category)">
                         <i class="ti-panel"></i>
                         <p>{{ category.name }}</p>
@@ -25,9 +25,18 @@
         },
 
         methods: {
+            classes(category) {
+                return {
+                    'active': this.active === category.id
+                };
+            },
+
             setup() {
                 this.$http.get('/api/categories')
-                    .then(response => this.categories = response.body);
+                    .then(response => {
+                        this.categories = response.body;
+                        this.view(this.categories[0]);
+                    });
             },
 
             view(category) {

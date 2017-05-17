@@ -1,41 +1,7 @@
-// Fonts
 @import url(https://fonts.googleapis.com/css?family=Pridi:200,300,400,500,600,700);
-
-// Variables
 @import "variables";
-
-// Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-// Paper Dashboard
 @import "paper/paper-dashboard";
+@import "mixins/helpers";
 
-$spaceamounts: (0, 1, 2, 3, 4, 5);
-
-// Margins and Paddings
-@each $space in $spaceamounts {
-    @each $type in (margin, padding) {
-        .#{str-slice($type, 0, 1)}-a-#{$space} { #{$type}: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-x-#{$space} { #{$type}-left: #{$space}rem; #{$type}-right: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-y-#{$space} { #{$type}-top: #{$space}rem; #{$type}-bottom: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-t-#{$space} { #{$type}-top: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-b-#{$space} { #{$type}-bottom: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-l-#{$space} { #{$type}-left: #{$space}rem; }
-        .#{str-slice($type, 0, 1)}-r-#{$space} { #{$type}-right: #{$space}rem; }
-    }
-}
-
-// Font Sizes
-@for $i from 0 through 72 {
-    .f-#{$i} { font-size: #{$i}px; }
-}
-
-// Cursors
-@each $cursor in (pointer, default) {
-    .cursor-#{$cursor} { cursor: #{$cursor}; }
-}
-
-.card {
-    margin: 0 2rem 2rem 0;
-    width: calc(25% - 2rem);
-}
+@import "overides";

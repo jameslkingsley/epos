@@ -1,10 +1,11 @@
 <?php
 
+use App\Basket\Mode;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePricesTable extends Migration
+class CreateBasketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +14,11 @@ class CreatePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('baskets', function(Blueprint $table) {
             $table->increments('id');
-            $table->morphs('model');
-            $table->decimal('trade', 10, 2);
-            $table->decimal('markup', 10, 2)->default(0.40);
-            $table->decimal('vat', 10, 2)->default(0.20);
-            $table->string('currency', 10)->default('gbp');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->integer('mode')->default(Mode::default);
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreatePricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('baskets');
     }
 }

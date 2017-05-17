@@ -3,13 +3,13 @@
         <categories>
             <div class="logo">
                 <a :href="app.url" class="simple-text">
-                    {{ app.name }}
+                    <clock></clock>
                 </a>
             </div>
         </categories>
 
         <div class="main-panel">
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-default" style="width: calc(100% - 25vw)">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">Dashboard</a>
@@ -17,18 +17,18 @@
                 </div>
             </nav>
 
-            <div class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-8 col-sm-12 p-x-0">
-                            <products></products>
-                        </div>
-                    </div>
+            <div class="content" style="width: calc(100% - 25vw)">
+                <div class="container-fluid p-a-0">
+                    <products></products>
+                </div>
+            </div>
+
+            <div class="sidebar sidebar-right" data-background-color="white" data-active-color="danger">
+                <div class="sidebar-wrapper">
+                    <basket></basket>
                 </div>
             </div>
         </div>
-
-        <basket></basket>
     </div>
 </template>
 

@@ -85,10 +85,9 @@ class Product extends Model implements Accountant, ItemModel
      */
     public function meta()
     {
-        $class = collect(explode('\\', get_class($this)))->last();
-
         return [
-            'created_at' => "{$this->created_at->diffForHumans()} | {$class}"
+            'created_at' => $this->created_at->diffForHumans(),
+            'model' => collect(explode('\\', get_class($this)))->last()
         ];
     }
 }

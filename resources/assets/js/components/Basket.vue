@@ -16,9 +16,9 @@
                     .then(response => this.basket = response.body);
             },
 
-            selected(product) {
-                console.log('Adding ' + product.name);
-                this.reload();
+            selected(item) {
+                this.$http.post('/api/basket-items', item)
+                    .then(response => this.reload());
             }
         },
 
@@ -26,8 +26,8 @@
             this.reload();
 
             Event.listen(
-                'product-select',
-                product => this.selected(product)
+                'item-select',
+                item => this.selected(item)
             );
 
             Event.listen(

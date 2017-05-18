@@ -19,7 +19,7 @@
 
             <div class="content" style="width: calc(100% - 25vw)">
                 <div class="container-fluid p-a-0">
-                    <products></products>
+                    <items></items>
                 </div>
             </div>
 

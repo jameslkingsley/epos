@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BasketItemController extends Controller
 {
@@ -20,7 +21,7 @@ class BasketItemController extends Controller
      */
     public function __construct()
     {
-        $this->basket = session('basket');
+        $this->basket = session()->get('basket');
     }
 
     /**
@@ -51,7 +52,9 @@ class BasketItemController extends Controller
      */
     public function store(Request $request)
     {
-        $this->basket->add();
+        $this->basket->add(
+            array_to_object($request->all())
+        );
     }
 
     /**

@@ -14,7 +14,9 @@ class BasketController extends Controller
      */
     public function index()
     {
-        return response()->json(session('basket', $this->create()));
+        return response()->json(
+            session('basket', static::create())
+        );
     }
 
     /**
@@ -24,9 +26,10 @@ class BasketController extends Controller
      */
     public function create()
     {
-        $basket = new Basket;
+        // TODO Use given request mode
+        $basket = Basket::spawn();
 
-        session(['basket' => $basket]);
+        session()->put('basket', $basket);
 
         return $basket;
     }

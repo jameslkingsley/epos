@@ -27,6 +27,10 @@ class ItemCollection extends Collection
                 }
             }
 
+            // Set the model link to be able
+            // to use the model type/id in Vue
+            $model->_link = $item;
+
             return $model;
         });
     }

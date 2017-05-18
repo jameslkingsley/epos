@@ -15,3 +15,4 @@ use Illuminate\Http\Request;
 
 Route::resource('/categories', 'CategoryController');
 Route::resource('/basket', 'BasketController');
+Route::resource('/basket-items', 'BasketItemController');

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Basket;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        require_once app_path('Support/Helpers.php');
     }
 }

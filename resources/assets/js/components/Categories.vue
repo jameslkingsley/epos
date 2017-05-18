@@ -41,7 +41,7 @@
 
             view(category) {
                 this.$http.get('/api/categories/' + category.id)
-                    .then(response => Event.fire('products', response.body));
+                    .then(response => Event.fire('category-items', response.body));
 
                 this.active = category.id;
             }

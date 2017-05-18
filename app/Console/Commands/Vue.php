@@ -40,7 +40,7 @@ class Vue extends Command
         $name = $this->argument('name');
         $dir = base_path('resources/assets/js/components');
         $path = "$dir/$name.vue";
-        $slug = str_slug(snake_case($name));
+        $slug = strtolower(str_slug(snake_case($name)));
 
         if (file_exists($path)) {
             echo 'File already exists.';
@@ -54,10 +54,11 @@ class Vue extends Command
         file_put_contents($path, file_get_contents(__DIR__.'/../Stubs/VueComponent.vue.stub'));
 
         $script = base_path('resources/assets/js/app.js');
+        $jsName = str_replace('\\', '/', $name);
 
         file_put_contents($script, preg_replace(
             '/\/\/ Components/',
-            "// Components\nVue.component('$slug', require('./components/$name.vue'));",
+            "// Components\nVue.component('$slug', require('./components/$jsName.vue'));",
             file_get_contents($script)
         ));
 

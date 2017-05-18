@@ -4,14 +4,14 @@
             <div class="row">
                 <div class="col-xs-5">
                     <div class="text-left f-18">
-                        {{ product.title }}
+                        {{ item.title }}
                     </div>
                 </div>
 
                 <div class="col-xs-7">
                     <div class="numbers">
                         <p>Price</p>
-                        {{ product.price }}
+                        {{ item.price }}
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="footer">
                 <hr />
                 <div class="stats">
-                    {{ product.meta.created_at }}
+                    {{ item.meta.created_at }} | {{ item.meta.model }}
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
 <script>
     export default {
-        props: ['product'],
+        props: ['item'],
 
         computed: {
             classes() {
@@ -41,13 +41,8 @@
 
         methods: {
             select() {
-                Event.fire('product-select', this.product);
+                Event.fire('item-select', this.item);
             }
-        },
-
-        created() {
-            for (let key in this.product)
-                this[key] = this.product[key];
         }
     }
 </script>

@@ -1,5 +1,9 @@
 <template>
-    <div></div>
+    <div class="basket">
+        <basket-line :item="item" :key="item.id" v-for="item in basket.items">
+            <!-- TODO Context Actions -->
+        </basket-line>
+    </div>
 </template>
 
 <script>

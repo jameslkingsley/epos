@@ -2,28 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Basket\Basket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class BasketItemController extends Controller
 {
-    /**
-     * The basket session instance.
-     *
-     * @var App\Basket
-     */
-    protected $basket;
-
-    /**
-     * Constructor method.
-     *
-     * @return any
-     */
-    public function __construct()
-    {
-        $this->basket = session()->get('basket');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -52,9 +36,7 @@ class BasketItemController extends Controller
      */
     public function store(Request $request)
     {
-        $this->basket->add(
-            array_to_object($request->all())
-        );
+        Basket::add(array_to_object($request->all()));
     }
 
     /**

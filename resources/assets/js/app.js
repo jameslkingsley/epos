@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 // Components
+Vue.component('basket-line', require('./components/Basket/Line.vue'));
 Vue.component('models-payment', require('./components/Models/Payment.vue'));
 Vue.component('models-product', require('./components/Models/Product.vue'));
 Vue.component('clock', require('./components/Clock.vue'));

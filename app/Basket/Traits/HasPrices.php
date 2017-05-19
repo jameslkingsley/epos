@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Support;
+namespace App\Basket\Traits;
 
-use App\Price;
+use App\Basket\Models\Price;
 
 trait HasPrices
 {

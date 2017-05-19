@@ -1,0 +1,15 @@
+.basket {
+    .basket-line {
+        float: left;
+        width: 100%;
+        font-size: 16px;
+        padding: .5rem 0;
+
+        .basket-line-price, .basket-line-qty {
+            float: right;
+            text-align: right;
+            margin-left: 2rem;
+            width: 5rem;
+        }
+    }
+}

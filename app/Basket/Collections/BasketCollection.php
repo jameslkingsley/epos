@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Basket;
+namespace App\Basket\Collections;
 
 use Illuminate\Database\Eloquent\Collection;
 

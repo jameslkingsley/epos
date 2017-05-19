@@ -20,7 +20,12 @@ Route::get('/session', function() {
 });
 
 Route::resource('/api/categories', 'CategoryController');
-Route::resource('/api/basket', 'BasketController');
+
+Route::delete('/basket', 'BasketController@empty');
+Route::resource('/api/basket', 'BasketController', [
+    'except' => 'destroy'
+]);
+
 Route::resource('/api/basket-items', 'BasketItemController');
 
 Auth::routes();

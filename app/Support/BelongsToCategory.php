@@ -11,6 +11,6 @@ trait BelongsToCategory
      */
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Basket\Models\Category');
     }
 }

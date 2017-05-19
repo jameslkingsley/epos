@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Basket;
+use App\Basket\Basket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BasketController extends Controller
 {
@@ -15,7 +16,7 @@ class BasketController extends Controller
     public function index()
     {
         return response()->json(
-            session('basket', static::create())
+            Basket::resolve()
         );
     }
 
@@ -26,12 +27,7 @@ class BasketController extends Controller
      */
     public function create()
     {
-        // TODO Use given request mode
-        $basket = Basket::spawn();
-
-        session()->put('basket', $basket);
-
-        return $basket;
+        //
     }
 
     /**
@@ -85,8 +81,8 @@ class BasketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function empty()
     {
-        //
+        Basket::empty();
     }
 }

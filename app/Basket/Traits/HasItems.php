@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace App\Basket\Traits;
 
 trait HasItems
 {
@@ -11,6 +11,6 @@ trait HasItems
      */
     public function items()
     {
-        return $this->hasMany('App\Item');
+        return $this->hasMany('App\Basket\Models\Item');
     }
 }

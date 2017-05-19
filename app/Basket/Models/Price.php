@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Basket\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

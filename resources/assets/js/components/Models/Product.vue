@@ -11,7 +11,7 @@
                 <div class="col-xs-7">
                     <div class="numbers">
                         <p>Price</p>
-                        {{ item.price }}
+                        {{ item.retail_price }}
                     </div>
                 </div>
             </div>

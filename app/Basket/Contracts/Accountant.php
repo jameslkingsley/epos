@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Basket;
+namespace App\Basket\Contracts;
 
 use App\Basket;
 
@@ -12,7 +12,7 @@ interface Accountant
      *
      * @return float
      */
-    public function net(Basket $basket = null);
+    public function net(Basket $basket = null) : float;
 
     /**
      * Gets the gross amount.
@@ -20,12 +20,12 @@ interface Accountant
      *
      * @return float
      */
-    public function gross(Basket $basket = null);
+    public function gross(Basket $basket = null) : float;
 
     /**
      * Gets the VAT amount.
      *
      * @return float
      */
-    public function vat(Basket $basket = null);
+    public function vat(Basket $basket = null) : float;
 }

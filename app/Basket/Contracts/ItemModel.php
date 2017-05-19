@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Basket;
+namespace App\Basket\Contracts;
 
 interface ItemModel
 {
@@ -9,14 +9,7 @@ interface ItemModel
      *
      * @return string
      */
-    public function title();
-
-    /**
-     * Gets the retail price for the model.
-     *
-     * @return float
-     */
-    public function price();
+    public function getTitleAttribute() : string;
 
     /**
      * Gets any meta info for the model.
@@ -24,5 +17,5 @@ interface ItemModel
      *
      * @return array
      */
-    public function meta();
+    public function getMetaAttribute() : array;
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Basket\Models;
 
-use App\Support\HasItems;
+use App\Basket\Traits\HasItems;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model

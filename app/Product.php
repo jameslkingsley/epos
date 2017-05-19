@@ -2,24 +2,26 @@
 
 namespace App;
 
-use App\Basket\ItemModel;
-use App\Basket\Accountant;
-use App\Support\HasPrices;
+use App\Basket\Traits\HasPrices;
+use App\Basket\Contracts\ItemModel;
+use App\Basket\Contracts\Accountant;
+use App\Basket\Traits\HasAccountant;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model implements Accountant, ItemModel
 {
-    use HasPrices;
+    use HasPrices,
+        HasAccountant;
 
     /**
-     * Gets the resolution version of the model.
+     * The appended attributes.
      *
-     * @return App\Product
+     * @var array
      */
-    public function resolution()
-    {
-        return $this;
-    }
+    protected $appends = [
+        'net', 'gross', 'vat',
+        'title', 'retail_price', 'meta'
+    ];
 
     /**
      * Gets the net amount.
@@ -27,7 +29,7 @@ class Product extends Model implements Accountant, ItemModel
      *
      * @return float
      */
-    public function net(Basket $basket = null)
+    public function net(Basket $basket = null) : float
     {
         $price = $this->prices()->first();
 
@@ -40,7 +42,7 @@ class Product extends Model implements Accountant, ItemModel
      *
      * @return float
      */
-    public function gross(Basket $basket = null)
+    public function gross(Basket $basket = null) : float
     {
         return $this->net() + $this->vat();
     }
@@ -50,7 +52,7 @@ class Product extends Model implements Accountant, ItemModel
      *
      * @return float
      */
-    public function vat(Basket $basket = null)
+    public function vat(Basket $basket = null) : float
     {
         $price = $this->prices()->first();
 
@@ -62,19 +64,9 @@ class Product extends Model implements Accountant, ItemModel
      *
      * @return string
      */
-    public function title()
+    public function getTitleAttribute() : string
     {
         return $this->name;
-    }
-
-    /**
-     * Gets the retail price for the model.
-     *
-     * @return float
-     */
-    public function price()
-    {
-        return number_format($this->gross(), 2);
     }
 
     /**
@@ -83,7 +75,7 @@ class Product extends Model implements Accountant, ItemModel
      *
      * @return array
      */
-    public function meta()
+    public function getMetaAttribute() : array
     {
         return [
             'created_at' => $this->created_at->diffForHumans(),

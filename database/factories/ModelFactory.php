@@ -23,7 +23,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Category::class, function (Faker\Generator $faker) {
+$factory->define(App\Basket\Models\Category::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->city,
         'label' => $faker->sentence
@@ -36,7 +36,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Price::class, function (Faker\Generator $faker) {
+$factory->define(App\Basket\Models\Price::class, function (Faker\Generator $faker) {
     return [
         'trade' => $faker->randomFloat(2, 0, 20),
         'markup' => $faker->randomFloat(2, 0, 1),

@@ -1,0 +1,27 @@
+.item-wrapper {
+    width: 100%;
+    padding: 1.5rem;
+    margin: .5rem;
+    min-height: 10rem;
+
+    .item-title {
+        font-size: 22px;
+        float: left;
+        width: 70%;
+        word-break: break-word;
+    }
+
+    .item-price {
+        float: right;
+        width: 30%;
+        text-align: right;
+        font-size: 22px;
+    }
+
+    .item-meta {
+        float: left;
+        width: 100%;
+        padding-top: .5rem;
+        opacity: .75;
+    }
+}

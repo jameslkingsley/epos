@@ -1,29 +1,17 @@
 <template>
-    <div :class="classes" @click="select">
-        <div class="content" style="padding: 15px 0 10px 0;">
-            <div class="row">
-                <div class="col-xs-5">
-                    <div class="text-left f-18">
-                        {{ item.title }}
-                    </div>
-                </div>
+    <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
+        <span class="item-title">
+            {{ item.title }}
+        </span>
 
-                <div class="col-xs-7">
-                    <div class="numbers">
-                        <p>Price</p>
-                        {{ item.retail_price }}
-                    </div>
-                </div>
-            </div>
+        <span class="item-price">
+            {{ item.retail_price }}
+        </span>
 
-            <div class="footer">
-                <hr />
-                <div class="stats">
-                    {{ item.meta.created_at }} | {{ item.meta.model }}
-                </div>
-            </div>
-        </div>
-    </div>
+        <span class="item-meta">
+            {{ item.meta.created_at }} | {{ item.meta.model }}
+        </span>
+    </md-whiteframe>
 </template>
 
 <script>
@@ -33,7 +21,7 @@
         computed: {
             classes() {
                 return {
-                    'card': true,
+                    'item-wrapper': true,
                     'cursor-pointer': true
                 };
             }

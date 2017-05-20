@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        <dashboard></dashboard>
-    </div>
+    <dashboard-md></dashboard-md>
 @endsection

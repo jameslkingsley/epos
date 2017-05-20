@@ -1,18 +1,25 @@
 <template>
-    <div class="sidebar" data-background-color="white" data-active-color="danger">
-        <div class="sidebar-wrapper">
-            <slot></slot>
+    <md-sidenav md-fixed class="md-left main-sidebar" ref="leftSidenav">
+        <md-toolbar class="md-large">
+            <div class="md-toolbar-container">
+                <h3 class="md-title pull-left">
+                    <clock />
+                </h3>
+            </div>
+        </md-toolbar>
 
-            <ul class="nav">
-                <li :class="classes(category)" v-for="category in categories">
-                    <a href="javascript:void(0)" @click="view(category)">
-                        <i class="ti-panel"></i>
-                        <p>{{ category.name }}</p>
-                    </a>
-                </li>
-            </ul>
+        <div class="main-sidebar-links">
+            <md-list>
+                <md-list-item
+                    v-for="category in categories"
+                    :class="classes(category)"
+                    :key="category.id"
+                    @click.native="view(category)">
+                    {{ category.name }}
+                </md-list-item>
+            </md-list>
         </div>
-    </div>
+    </md-sidenav>
 </template>
 
 <script>

@@ -27,7 +27,7 @@ trait HasAccountant
     /**
      * Gets the VAT amount value.
      *
-     * @return flaot
+     * @return float
      */
     public function getVatAttribute()
     {

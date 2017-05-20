@@ -15,7 +15,7 @@
         computed: {
             day() {
                 return this.time.toLocaleString('en-us', {
-                    weekday: 'short'
+                    weekday: 'long'
                 });
             }
         },

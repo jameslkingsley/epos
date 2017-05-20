@@ -1,11 +1,13 @@
 <template>
     <div>
-        <component
-            v-for="item in items"
-            :key="item._link.id"
-            :item="item"
-            v-bind:is="getComponent(item)">
-        </component>
+        <md-layout md-gutter v-for="chunk in chunked" :key="chunk[0]._link.id">
+            <md-layout v-for="item in chunk" :key="item._link.id">
+                <component
+                    :item="item"
+                    v-bind:is="getComponent(item)">
+                </component>
+            </md-layout>
+        </md-layout>
     </div>
 </template>
 
@@ -14,6 +16,12 @@
         data() {
             return {
                 items: []
+            }
+        },
+
+        computed: {
+            chunked() {
+                return _.chunk(this.items, 4);
             }
         },
 

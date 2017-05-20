@@ -19,7 +19,7 @@
     </head>
 
     <body>
-        <div id="app">
+        <div id="app" v-cloak>
             {{-- @if (auth()->guest())
                 <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('register') }}">Register</a>

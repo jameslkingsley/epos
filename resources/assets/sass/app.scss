@@ -1,8 +1,51 @@
 @import url(https://fonts.googleapis.com/css?family=Pridi:200,300,400,500,600,700);
 @import "variables";
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "paper/paper-dashboard";
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// @import "paper/paper-dashboard";
 @import "mixins/helpers";
 
-@import "overides";
-@import "basket";
+// @import "overides";
+// @import "basket";
+@import "item";
+
+[v-cloak] {
+    display: none;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.md-layout {
+    height: 100%;
+
+    .md-column {
+        height: inherit;
+    }
+}
+
+.main-sidebar.md-sidenav.md-left {
+    .md-sidenav-content {
+        position: fixed !important;
+        pointer-events: auto;
+        transform: none !important;
+        box-shadow: 0 1px 5px rgba(0,0,0,.2), 0 2px 2px rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
+        top: 0;
+
+        .main-sidebar-links {
+            overflow: auto;
+            flex: 1;
+        }
+    }
+}
+
+.page-content {
+    float: left;
+    width: 100%;
+    height: 100%;
+    padding: 25px 25px 25px 330px;
+}

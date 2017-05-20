@@ -1,5 +1,5 @@
 <template>
-    <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
+    <md-whiteframe md-elevation="2" :class="classes" @click.native="select">
         <span class="item-title">
             {{ item.title }}
         </span>

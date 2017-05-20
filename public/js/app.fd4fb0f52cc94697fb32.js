@@ -81,6 +81,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -103,6 +125,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$http.post('/api/basket-items', item).then(function (response) {
                 return _this2.reload();
+            });
+        },
+        emptyBasket: function emptyBasket() {
+            this.$http.delete('/basket').then(function (response) {
+                return Event.fire('basket-reload', response.body);
             });
         }
     },
@@ -325,12 +352,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -18024,7 +18045,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-whiteframe', {
     class: _vm.classes,
     attrs: {
-      "md-elevation": "1"
+      "md-elevation": "2"
     },
     nativeOn: {
       "click": function($event) {
@@ -18147,16 +18168,53 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "basket"
-  }, _vm._l((_vm.basket.items), function(item) {
-    return _c('basket-line', {
-      key: item.id,
+  return _c('md-sidenav', {
+    ref: "rightSidenav",
+    staticClass: "md-right main-sidebar",
+    attrs: {
+      "md-fixed": ""
+    }
+  }, [_c('div', {
+    staticClass: "main-sidebar-links"
+  }, [_c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Description")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v("Price")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.items), function(item, index) {
+    return _c('md-table-row', {
+      key: index
+    }, [_c('md-table-cell', [_vm._v(_vm._s(item.model.title))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
-        "item": item
+        "md-numeric": ""
       }
-    })
-  }))
+    }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(item.model.retail_price))])], 1)
+  }))], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
+    attrs: {
+      "md-icon": "refresh"
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.emptyBasket($event)
+      }
+    }
+  }, [_vm._v("Empty")]), _vm._v(" "), _c('md-bottom-bar-item', {
+    attrs: {
+      "md-icon": "check",
+      "md-active": ""
+    }
+  }, [_vm._v("Checkout")]), _vm._v(" "), _c('md-bottom-bar-item', {
+    attrs: {
+      "md-icon": "print"
+    }
+  }, [_vm._v("Receipt")])], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -18237,7 +18295,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "page-content"
   }, [_c('div', {
     staticClass: "main-content"
-  }, [_c('items')], 1)])], 1)
+  }, [_c('items')], 1)]), _vm._v(" "), _c('basket')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -8,6 +8,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'EPOS') }}</title>
+
+        <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
         <script>

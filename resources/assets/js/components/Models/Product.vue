@@ -1,11 +1,11 @@
 <template>
-    <md-whiteframe md-elevation="2" :class="classes" @click.native="select">
+    <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
         <span class="item-title">
             {{ item.title }}
         </span>
 
         <span class="item-price">
-            {{ item.retail_price }}
+            {{ item.retail_price.toFixed(2) }}
         </span>
 
         <span class="item-meta">

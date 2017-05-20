@@ -14,9 +14,17 @@
                     <md-table-row v-for="(item, index) in basket.items" :key="index">
                         <md-table-cell>{{ item.model.title }}</md-table-cell>
                         <md-table-cell md-numeric>{{ item.qty }}</md-table-cell>
-                        <md-table-cell md-numeric>{{ item.model.retail_price }}</md-table-cell>
+                        <md-table-cell md-numeric>{{ (item.qty * item.model.retail_price).toFixed(2) }}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
+
+                <md-table-header>
+                    <md-table-row>
+                        <md-table-head>&nbsp;</md-table-head>
+                        <md-table-head md-numeric>{{ basket.itemCount }}</md-table-head>
+                        <md-table-head md-numeric>{{ basket.balance }}</md-table-head>
+                    </md-table-row>
+                </md-table-header>
             </md-table>
 
             <md-bottom-bar>

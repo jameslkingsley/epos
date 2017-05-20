@@ -25,9 +25,58 @@ class Basket
 
         if (!is_null($b) && !$new) {
             $this->items = collect($b->items);
+            $this->wakeup();
         }
 
         session()->put('basket', $this);
+    }
+
+    /**
+     * Gets the item count.
+     * Includes each item's quantity.
+     *
+     * @return integer
+     */
+    public function itemCount()
+    {
+        $itemCount = 0;
+
+        $this->items->each(function($item) use(&$itemCount) {
+            $itemCount += $item->qty;
+        });
+
+        return $itemCount;
+    }
+
+    /**
+     * Gets the balance of the basket.
+     *
+     * @return float
+     */
+    public function balance()
+    {
+        $total = 0;
+
+        $this->items->each(function($item) use(&$total) {
+            $total += $item->qty * $item->model()->gross();
+        });
+
+        return number_format($total, 2);
+    }
+
+    /**
+     * Wakes up the basket and sets
+     * the variables up again.
+     *
+     * @return self
+     */
+    public function wakeup()
+    {
+        $this->itemCount = $this->itemCount();
+
+        $this->balance = $this->balance();
+
+        return $this;
     }
 
     /**

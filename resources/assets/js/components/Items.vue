@@ -1,7 +1,7 @@
 <template>
     <div>
-        <md-layout md-gutter v-for="chunk in chunked" :key="chunk[0]._link.id">
-            <md-layout v-for="item in chunk" :key="item._link.id">
+        <md-layout md-gutter v-for="(chunk, index) in chunked" :key="index">
+            <md-layout v-for="(item, index) in chunk" :key="index">
                 <component
                     :item="item"
                     v-bind:is="getComponent(item)">

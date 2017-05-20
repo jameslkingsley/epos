@@ -103,6 +103,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -18010,15 +18018,15 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', _vm._l((_vm.chunked), function(chunk) {
+  return _c('div', _vm._l((_vm.chunked), function(chunk, index) {
     return _c('md-layout', {
-      key: chunk[0]._link.id,
+      key: index,
       attrs: {
         "md-gutter": ""
       }
-    }, _vm._l((chunk), function(item) {
+    }, _vm._l((chunk), function(item, index) {
       return _c('md-layout', {
-        key: item._link.id
+        key: index
       }, [_c(_vm.getComponent(item), {
         tag: "component",
         attrs: {
@@ -18045,7 +18053,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('md-whiteframe', {
     class: _vm.classes,
     attrs: {
-      "md-elevation": "2"
+      "md-elevation": "1"
     },
     nativeOn: {
       "click": function($event) {
@@ -18056,7 +18064,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "item-title"
   }, [_vm._v("\n        " + _vm._s(_vm.item.title) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.retail_price) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        " + _vm._s(_vm.item.retail_price.toFixed(2)) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
   }, [_vm._v("\n        " + _vm._s(_vm.item.meta.created_at) + " | " + _vm._s(_vm.item.meta.model) + "\n    ")])])
 },staticRenderFns: []}
@@ -18195,8 +18203,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(item.model.retail_price))])], 1)
-  }))], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
+    }, [_vm._v(_vm._s((item.qty * item.model.retail_price).toFixed(2)))])], 1)
+  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v(_vm._s(_vm.basket.itemCount))]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v(_vm._s(_vm.basket.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
     attrs: {
       "md-icon": "refresh"
     },

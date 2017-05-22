@@ -27,5 +27,6 @@ Route::resource('/api/basket', 'BasketController', [
 ]);
 
 Route::resource('/api/basket-items', 'BasketItemController');
+Route::resource('/api/payments', 'PaymentController');
 
 Auth::routes();

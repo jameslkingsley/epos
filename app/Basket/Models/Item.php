@@ -35,6 +35,18 @@ class Item extends Model
     }
 
     /**
+     * Gets the price of the model.
+     * Uses the latest price record.
+     * Returns null if no price found.
+     *
+     * @return App\Basket\Models\Price
+     */
+    public function price()
+    {
+        return $this->model()->prices()->first();
+    }
+
+    /**
      * Checks if the given item model
      * is the same type and ID.
      *

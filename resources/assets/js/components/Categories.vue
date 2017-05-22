@@ -51,6 +51,8 @@
                     .then(response => Event.fire('category-items', response.body));
 
                 this.active = category.id;
+
+                Event.fire('checkout', false);
             }
         },
 

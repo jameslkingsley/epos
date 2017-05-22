@@ -4,7 +4,8 @@
 
         <div class="page-content">
             <div class="main-content">
-                <items></items>
+                <items v-show="!checkout"></items>
+                <checkout v-show="checkout"></checkout>
             </div>
         </div>
 
@@ -16,7 +17,8 @@
     export default {
         data() {
             return {
-                app: window.epos.app
+                app: window.epos.app,
+                checkout: false
             }
         },
 
@@ -25,6 +27,10 @@
                 this.$http.delete('/basket')
                     .then(response => Event.fire('basket-reload', response.body));
             }
+        },
+
+        created() {
+            Event.listen('checkout', state => this.checkout = state);
         }
     }
 </script>

@@ -75,6 +75,7 @@ class Product extends Model implements Accountant, ItemModel
     {
         return [
             'created_at' => $this->created_at->diffForHumans(),
+            'currency_symbol' => number()->symbol(), // TODO Use currency from env
             'model' => collect(explode('\\', get_class($this)))->last()
         ];
     }

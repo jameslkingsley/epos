@@ -3,7 +3,6 @@
 namespace App\Basket;
 
 use App\Basket\Models\Item;
-use App\Basket\Support\Number;
 
 class Basket
 {
@@ -88,7 +87,7 @@ class Basket
     {
         $collection = $this->items->map(function($item) {
             return [
-                'percentage' => $item->model()->prices()->first()->vat,
+                'percentage' => $item->price()->vat,
                 'net' => $item->model()->net() * $item->qty,
                 'gross' => $item->model()->gross() * $item->qty
             ];
@@ -105,8 +104,8 @@ class Basket
 
             return [
                 'percentage' => (float)$vat[0]['percentage'],
-                'net' => Number::make($netTotal)->places(),
-                'gross' => Number::make($grossTotal)->places()
+                'net' => number($netTotal)->places(),
+                'gross' => number($grossTotal)->places()
             ];
         });
     }

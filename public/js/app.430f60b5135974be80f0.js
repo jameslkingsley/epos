@@ -157,6 +157,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$http.delete('/basket').then(function (response) {
                 return Event.fire('basket-reload', response.body);
             });
+        },
+        checkout: function checkout() {
+            Event.fire('checkout', true);
         }
     },
 
@@ -259,6 +262,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             this.active = category.id;
+
+            Event.fire('checkout', false);
+        }
+    },
+
+    created: function created() {
+        this.setup();
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Checkout.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            payments: []
+        };
+    },
+
+
+    computed: {
+        chunked: function chunked() {
+            return _.chunk(this.payments, 4);
+        }
+    },
+
+    methods: {
+        setup: function setup() {
+            var _this = this;
+
+            this.$http.get('/api/payments').then(function (response) {
+                return _this.payments = response.body;
+            });
+        },
+        componentExists: function componentExists(name) {
+            return name in this.$options.components;
+        },
+        getComponent: function getComponent(payment) {
+            var comp = 'payments-' + payment.handler.split('\\').pop().toLowerCase();
+            return this.componentExists(comp) ? comp : 'payments-default';
         }
     },
 
@@ -392,11 +454,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            app: window.epos.app
+            app: window.epos.app,
+            checkout: false
         };
     },
 
@@ -407,6 +471,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return Event.fire('basket-reload', response.body);
             });
         }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        Event.listen('checkout', function (state) {
+            return _this.checkout = state;
+        });
     }
 });
 
@@ -557,6 +629,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         select: function select() {
             Event.fire('item-select', this.item);
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/Card.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        classes: function classes() {
+            return {
+                'item-wrapper': true,
+                'cursor-pointer': true
+            };
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/Cash.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: {
+        classes: function classes() {
+            return {
+                'item-wrapper': true,
+                'cursor-pointer': true
+            };
         }
     }
 });
@@ -18082,7 +18214,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "item-title"
   }, [_vm._v("\n        " + _vm._s(_vm.item.title) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.retail_price.toFixed(2)) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        " + _vm._s(_vm.item.meta.currency_symbol) + _vm._s(_vm.item.retail_price.toFixed(2)) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
   }, [_vm._v("\n        " + _vm._s(_vm.item.meta.created_at) + " | " + _vm._s(_vm.item.meta.model) + "\n    ")])])
 },staticRenderFns: []}
@@ -18123,6 +18255,33 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-25e19c3c\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/Cash.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    class: _vm.classes,
+    attrs: {
+      "md-elevation": "1"
+    }
+  }, [_c('span', {
+    staticClass: "item-title"
+  }, [_vm._v("\n        Cash\n    ")]), _vm._v(" "), _c('span', {
+    staticClass: "item-price"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "item-meta"
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-25e19c3c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-267061b8\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Models/Payment.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18134,6 +18293,33 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-267061b8", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-29bc0982\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/Card.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    class: _vm.classes,
+    attrs: {
+      "md-elevation": "1"
+    }
+  }, [_c('span', {
+    staticClass: "item-title"
+  }, [_vm._v("\n        Card\n    ")]), _vm._v(" "), _c('span', {
+    staticClass: "item-price"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "item-meta"
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-29bc0982", module.exports)
   }
 }
 
@@ -18267,6 +18453,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-icon": "check",
       "md-active": ""
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.checkout($event)
+      }
     }
   }, [_vm._v("Checkout")]), _vm._v(" "), _c('md-bottom-bar-item', {
     attrs: {
@@ -18353,7 +18544,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "page-content"
   }, [_c('div', {
     staticClass: "main-content"
-  }, [_c('items')], 1)]), _vm._v(" "), _c('basket')], 1)
+  }, [_c('items', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.checkout),
+      expression: "!checkout"
+    }]
+  }), _vm._v(" "), _c('checkout', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.checkout),
+      expression: "checkout"
+    }]
+  })], 1)]), _vm._v(" "), _c('basket')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -18400,6 +18605,38 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-ae013402", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d5e7c22e\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Checkout.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', _vm._l((_vm.chunked), function(chunk, index) {
+    return _c('md-layout', {
+      key: index,
+      attrs: {
+        "md-gutter": ""
+      }
+    }, _vm._l((chunk), function(payment, index) {
+      return _c('md-layout', {
+        key: index
+      }, [_c(_vm.getComponent(payment), {
+        tag: "component",
+        attrs: {
+          "payment": payment
+        }
+      })], 1)
+    }))
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-d5e7c22e", module.exports)
   }
 }
 
@@ -29766,6 +30003,9 @@ module.exports = function(module) {
 __webpack_require__("./resources/assets/js/bootstrap.js");
 
 // Components
+Vue.component('payments-cash', __webpack_require__("./resources/assets/js/components/Payments/Cash.vue"));
+Vue.component('payments-card', __webpack_require__("./resources/assets/js/components/Payments/Card.vue"));
+Vue.component('checkout', __webpack_require__("./resources/assets/js/components/Checkout.vue"));
 Vue.component('dashboard-md', __webpack_require__("./resources/assets/js/components/DashboardMD.vue"));
 Vue.component('basket-line', __webpack_require__("./resources/assets/js/components/Basket/Line.vue"));
 Vue.component('models-payment', __webpack_require__("./resources/assets/js/components/Models/Payment.vue"));
@@ -29908,6 +30148,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-ae013402", Component.options)
   } else {
     hotAPI.reload("data-v-ae013402", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Checkout.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Checkout.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d5e7c22e\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Checkout.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Checkout.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Checkout.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d5e7c22e", Component.options)
+  } else {
+    hotAPI.reload("data-v-d5e7c22e", Component.options)
   }
 })()}
 
@@ -30153,6 +30428,76 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-20a064e6", Component.options)
   } else {
     hotAPI.reload("data-v-20a064e6", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Payments/Card.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/Card.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-29bc0982\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/Card.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Payments\\Card.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Card.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-29bc0982", Component.options)
+  } else {
+    hotAPI.reload("data-v-29bc0982", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Payments/Cash.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/Cash.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-25e19c3c\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/Cash.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Payments\\Cash.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Cash.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-25e19c3c", Component.options)
+  } else {
+    hotAPI.reload("data-v-25e19c3c", Component.options)
   }
 })()}
 

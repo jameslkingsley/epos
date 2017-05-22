@@ -6,6 +6,11 @@ use Numbers\Number as NumbersPackage;
 
 class Number extends NumbersPackage
 {
+    protected $symbols = [
+        'gbp' => '£',
+        'usd' => '$'
+    ];
+
     /**
      * Gets a string representation of the number.
      *
@@ -37,5 +42,16 @@ class Number extends NumbersPackage
             floor($this->get() * pow(10, $places)) / pow(10, $places),
             $places
         );
+    }
+
+    /**
+     * Gets the symbol for the given currency.
+     * Returns null if not found.
+     *
+     * @return string
+     */
+    public function symbol(string $currency = 'gbp')
+    {
+        return array_key_exists($currency, $this->symbols) ? $this->symbols[$currency] : null;
     }
 }

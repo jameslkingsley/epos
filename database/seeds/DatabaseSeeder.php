@@ -26,5 +26,15 @@ class DatabaseSeeder extends Seeder
                 });
             });
         });
+
+        foreach ([
+            'cash' => 'App\\Basket\\Payments\\Cash',
+            'card' => 'App\\Basket\\Payments\\Card'
+        ] as $key => $value) {
+            App\Basket\Models\Payment::forceCreate([
+                'name' => $key,
+                'handler' => $value
+            ]);
+        }
     }
 }

@@ -47,7 +47,7 @@
 
             <md-bottom-bar>
                 <md-bottom-bar-item md-icon="refresh" @click.native="emptyBasket">Empty</md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="check" md-active>Checkout</md-bottom-bar-item>
+                <md-bottom-bar-item md-icon="check" md-active @click.native="checkout">Checkout</md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="print">Receipt</md-bottom-bar-item>
             </md-bottom-bar>
         </div>
@@ -76,6 +76,10 @@
             emptyBasket() {
                 this.$http.delete('/basket')
                     .then(response => Event.fire('basket-reload', response.body));
+            },
+
+            checkout() {
+                Event.fire('checkout', true);
             }
         },
 

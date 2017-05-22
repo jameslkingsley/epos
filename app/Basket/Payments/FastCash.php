@@ -2,9 +2,10 @@
 
 namespace App\Basket\Payments;
 
+use App\Basket\Basket;
 use App\Basket\Models\Payment;
 
-class Cash extends Payment
+class FastCash extends Cash
 {
     /**
      * Computes the total payment amount.
@@ -13,6 +14,6 @@ class Cash extends Payment
      */
     public function computeAmount()
     {
-        return $this->payment->amount;
+        return -($this->payment->amount == 0 ? $this->basket->itemBalance() : $this->payment->amount);
     }
 }

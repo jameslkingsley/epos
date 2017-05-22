@@ -3,15 +3,23 @@
 namespace App\Basket;
 
 use App\Basket\Models\Item;
+use App\Basket\Models\Payment;
 
 class Basket
 {
     /**
      * Item model collection.
      *
-     * @var ItemCollection
+     * @var Collection
      */
     public $items = [];
+
+    /**
+     * Payment model collection.
+     *
+     * @var Collection
+     */
+    public $payments = [];
 
     /**
      * Constructor method.
@@ -21,10 +29,13 @@ class Basket
     public function __construct($new = false)
     {
         $this->items = collect();
+        $this->payments = collect();
+
         $b = session('basket');
 
         if (!is_null($b) && !$new) {
             $this->items = collect($b->items);
+            $this->payments = collect($b->payments);
             $this->wakeup();
         }
 
@@ -49,11 +60,11 @@ class Basket
     }
 
     /**
-     * Gets the balance of the basket.
+     * Gets the total item balance.
      *
      * @return float
      */
-    public function balance()
+    public function itemBalance()
     {
         $total = 0;
 
@@ -61,7 +72,37 @@ class Basket
             $total += $item->qty * $item->model()->retail_price;
         });
 
-        return number_format($total, 2);
+        return number($total)->places(2);
+    }
+
+    /**
+     * Gets the total payment balance.
+     *
+     * @return float
+     */
+    public function paymentBalance()
+    {
+        $basket = $this;
+        $total = 0;
+
+        $basket->payments->each(function($payment) use(&$total, $basket) {
+            $total += $payment->amount;
+        });
+
+        return number($total)->places(2);
+    }
+
+    /**
+     * Gets the balance of the basket.
+     *
+     * @return float
+     */
+    public function balance()
+    {
+        return number(
+            $this->itemBalance() +
+            $this->paymentBalance()
+        )->places(2);
     }
 
     /**
@@ -111,8 +152,7 @@ class Basket
     }
 
     /**
-     * Resolves the basket instance,
-     * also resolves items to their models.
+     * Resolves the basket instance.
      *
      * @return App\Basket\Basket
      */
@@ -123,6 +163,11 @@ class Basket
         $basket->items->map(function($item) {
             $item->model = $item->model();
             return $item;
+        });
+
+        $basket->payments->map(function($payment) use($basket) {
+            $payment->handler = $payment->getHandler($basket);
+            return $payment;
         });
 
         return $basket;
@@ -156,6 +201,24 @@ class Basket
         } else {
             $basket->items->push($item);
         }
+
+        return $basket;
+    }
+
+    /**
+     * Adds a payment to the basket.
+     *
+     * @return any
+     */
+    public static function pay($payment, $amount = null)
+    {
+        $basket = new self;
+        $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
+
+        $payment->amount = $amount;
+        $payment->compute();
+
+        $basket->payments->push($payment);
 
         return $basket;
     }
@@ -206,5 +269,15 @@ class Basket
     public static function empty()
     {
         return new self(true);
+    }
+
+    /**
+     * Gets the basket instance.
+     *
+     * @return App\Basket\Basket
+     */
+    public static function get()
+    {
+        return new self;
     }
 }

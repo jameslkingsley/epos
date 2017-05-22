@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Basket\Basket;
 use Illuminate\Http\Request;
 use App\Basket\Models\Payment;
 
@@ -54,7 +55,10 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Basket::pay(
+            array_to_object($request->all()),
+            $request->input('amount', null)
+        );
     }
 
     /**

@@ -41,6 +41,6 @@ trait HasAccountant
      */
     public function getRetailPriceAttribute() : float
     {
-        return number_format($this->gross(), 2);
+        return number_format($this->gross, 2);
     }
 }

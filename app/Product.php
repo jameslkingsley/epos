@@ -31,9 +31,7 @@ class Product extends Model implements Accountant, ItemModel
      */
     public function net(Basket $basket = null) : float
     {
-        $price = $this->prices()->first();
-
-        return $price->trade + ($price->markup * $price->trade);
+        return $this->prices()->first()->net();
     }
 
     /**
@@ -44,7 +42,7 @@ class Product extends Model implements Accountant, ItemModel
      */
     public function gross(Basket $basket = null) : float
     {
-        return $this->net() + $this->vat();
+        return $this->prices()->first()->gross();
     }
 
     /**
@@ -54,9 +52,7 @@ class Product extends Model implements Accountant, ItemModel
      */
     public function vat(Basket $basket = null) : float
     {
-        $price = $this->prices()->first();
-
-        return $price->trade * $price->vat;
+        return $this->prices()->first()->vat();
     }
 
     /**

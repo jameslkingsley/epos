@@ -38,8 +38,8 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Basket\Models\Price::class, function (Faker\Generator $faker) {
     return [
-        'trade' => $faker->randomFloat(2, 0, 20),
+        'trade' => $faker->numberBetween(20, 500),
         'markup' => $faker->randomFloat(2, 0, 1),
-        'vat' => $faker->randomFloat(2, 0, 0.2)
+        'vat' => $faker->randomElement([0, 0.05, 0.1, 0.2, 0.25])
     ];
 });

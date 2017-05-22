@@ -111,6 +111,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -18204,15 +18222,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": ""
       }
     }, [_vm._v(_vm._s((item.qty * item.model.retail_price).toFixed(2)))])], 1)
-  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
+  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', {
+    staticClass: "text-primary"
+  }, [_c('md-table-head', [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
+    staticClass: "text-primary",
     attrs: {
       "md-numeric": ""
     }
   }, [_vm._v(_vm._s(_vm.basket.itemCount))]), _vm._v(" "), _c('md-table-head', {
+    staticClass: "text-primary",
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
+  }, [_vm._v(_vm._s(_vm.basket.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("VAT Breakdown")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.vatBreakdown), function(vat, key) {
+    return _c('md-table-row', {
+      key: key
+    }, [_c('md-table-cell', [_vm._v(_vm._s(key) + "%")]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm.basket.vatBreakdown[key].net))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm.basket.vatBreakdown[key].gross))])], 1)
+  }))], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
     attrs: {
       "md-icon": "refresh"
     },

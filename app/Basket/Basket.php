@@ -3,6 +3,7 @@
 namespace App\Basket;
 
 use App\Basket\Models\Item;
+use App\Basket\Support\Number;
 
 class Basket
 {
@@ -58,7 +59,7 @@ class Basket
         $total = 0;
 
         $this->items->each(function($item) use(&$total) {
-            $total += $item->qty * $item->model()->gross();
+            $total += $item->qty * $item->model()->retail_price;
         });
 
         return number_format($total, 2);
@@ -73,10 +74,41 @@ class Basket
     public function wakeup()
     {
         $this->itemCount = $this->itemCount();
-
         $this->balance = $this->balance();
-
+        $this->vatBreakdown = $this->vatBreakdown();
         return $this;
+    }
+
+    /**
+     * Gets the VAT breakdown.
+     *
+     * @return array
+     */
+    public function vatBreakdown()
+    {
+        $collection = $this->items->map(function($item) {
+            return [
+                'percentage' => $item->model()->prices()->first()->vat,
+                'net' => $item->model()->net() * $item->qty,
+                'gross' => $item->model()->gross() * $item->qty
+            ];
+        })->groupBy('percentage');
+
+        return $collection->map(function($vat, $key) {
+            $netTotal = 0;
+            $grossTotal = 0;
+
+            foreach ($vat as $key => $value) {
+                $netTotal += $value['net'];
+                $grossTotal += $value['gross'];
+            }
+
+            return [
+                'percentage' => (float)$vat[0]['percentage'],
+                'net' => Number::make($netTotal)->places(),
+                'gross' => Number::make($grossTotal)->places()
+            ];
+        });
     }
 
     /**

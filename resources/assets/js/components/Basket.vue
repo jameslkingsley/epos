@@ -19,12 +19,30 @@
                 </md-table-body>
 
                 <md-table-header>
-                    <md-table-row>
+                    <md-table-row class="text-primary">
                         <md-table-head>&nbsp;</md-table-head>
-                        <md-table-head md-numeric>{{ basket.itemCount }}</md-table-head>
-                        <md-table-head md-numeric>{{ basket.balance }}</md-table-head>
+                        <md-table-head md-numeric class="text-primary">{{ basket.itemCount }}</md-table-head>
+                        <md-table-head md-numeric class="text-primary">{{ basket.balance }}</md-table-head>
                     </md-table-row>
                 </md-table-header>
+            </md-table>
+
+            <md-table>
+                <md-table-header>
+                    <md-table-row>
+                        <md-table-head>VAT Breakdown</md-table-head>
+                        <md-table-head md-numeric>Net</md-table-head>
+                        <md-table-head md-numeric>Gross</md-table-head>
+                    </md-table-row>
+                </md-table-header>
+
+                <md-table-body>
+                    <md-table-row v-for="(vat, key) in basket.vatBreakdown" :key="key">
+                        <md-table-cell>{{ key }}%</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.vatBreakdown[key].net }}</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.vatBreakdown[key].gross }}</md-table-cell>
+                    </md-table-row>
+                </md-table-body>
             </md-table>
 
             <md-bottom-bar>

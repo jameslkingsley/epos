@@ -16,7 +16,7 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
             $table->morphs('model');
-            $table->decimal('trade', 10, 2);
+            $table->bigInteger('trade');
             $table->decimal('markup', 10, 2)->default(0.40);
             $table->decimal('vat', 10, 2)->default(0.20);
             $table->string('currency', 10)->default('gbp');

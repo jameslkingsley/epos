@@ -1,8 +1,8 @@
 
-basket->items->add(item)
-             ->has(item)
+basket->items->add(item) // OK
+             ->has(item) // OK
              ->remove(item, qty)
-             ->update(item, closure)
+             ->update(item, closure) // OK
              ->item->update(data)
                    ->call(closure)
 

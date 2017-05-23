@@ -2,9 +2,7 @@
 
 namespace App\Basket;
 
-use App\Basket\Models\Item;
 use Jenssegers\Model\Model;
-use App\Basket\Models\Payment;
 use App\Basket\Models\Summary;
 use App\Basket\Collections\ItemCollection;
 use App\Basket\Collections\PaymentCollection;
@@ -16,17 +14,19 @@ class Basket extends Model
      *
      * @var integer
      */
-    const Mode_Default = 0;
-    const Mode_Refund = 1;
-    const Mode_Staff = 2;
-    const Mode_Debug = 4;
+    const MDefault = 0;
+    const MRefund = 1;
+    const MStaff = 2;
+    const MDebug = 4;
 
     /**
      * Appended attributes.
      *
      * @var array
      */
-    protected $appends = ['items', 'payments', 'summaries'];
+    protected $appends = [
+        'items', 'payments', 'summaries'
+    ];
 
     /**
      * Constructor method.
@@ -40,7 +40,9 @@ class Basket extends Model
         if (!is_null($basket) && !$new) {
             $this->items = $basket->items;
             $this->payments = $basket->payments;
-            // $this->wakeup();
+        } else if ($new) {
+            $this->items = [];
+            $this->payments = [];
         }
 
         session()->put('basket', $this);
@@ -104,42 +106,6 @@ class Basket extends Model
     public function setSummariesAttribute($summaries)
     {
         $this->attributes['summaries'] = new Summary($summaries);
-    }
-
-    /**
-     * Wakes up the basket and sets
-     * the variables up again.
-     *
-     * @return self
-     */
-    public function wakeup()
-    {
-        $this->itemCount = $this->itemCount();
-        $this->balance = $this->balance();
-        $this->vatBreakdown = $this->vatBreakdown();
-        return $this;
-    }
-
-    /**
-     * Resolves the basket instance.
-     *
-     * @return App\Basket\Basket
-     */
-    public static function resolvex()
-    {
-        $basket = new self;
-
-        $basket->items->map(function($item) {
-            $item->model = $item->model();
-            return $item;
-        });
-
-        $basket->payments->map(function($payment) use($basket) {
-            $payment->handler = $payment->getHandler($basket);
-            return $payment;
-        });
-
-        return $basket;
     }
 
     /**

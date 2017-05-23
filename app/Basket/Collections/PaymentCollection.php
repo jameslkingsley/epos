@@ -2,10 +2,23 @@
 
 namespace App\Basket\Collections;
 
+use App\Basket\Models\Payment;
 use Illuminate\Database\Eloquent\Collection;
 
 class PaymentCollection extends Collection
 {
+    /**
+     * Constructor method.
+     *
+     * @return any
+     */
+    public function __construct($payments)
+    {
+        foreach ($payments as $payment) {
+            $this->push($payment);
+        }
+    }
+
     /**
      * Gets the balance of all payments.
      *
@@ -27,9 +40,12 @@ class PaymentCollection extends Collection
      *
      * @return self
      */
-    public function add($payment)
+    public function add($payment, $amount)
     {
         $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
+
+        // Compute the amount via the handler incase it needs to be mutated
+        $payment->amount = $payment->handler()->amount($amount);
 
         if ($this->alreadyHas($payment)) {
             // Already has item

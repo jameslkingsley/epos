@@ -2,9 +2,6 @@
 
 namespace App\Basket\Payments;
 
-use App\Basket\Basket;
-use App\Basket\Models\Payment;
-
 class FastCash extends Cash
 {
     /**
@@ -12,8 +9,8 @@ class FastCash extends Cash
      *
      * @return float
      */
-    public function computeAmount()
+    public function amount($amount)
     {
-        return -($this->payment->amount == 0 ? $this->basket->itemBalance() : $this->payment->amount);
+        return $amount ? $amount : basket()->items->balance()->get(); // TODO Change to just outstanding overall balance
     }
 }

@@ -335,7 +335,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return name in this.$options.components;
         },
         getComponent: function getComponent(payment) {
-            var comp = 'payments-' + payment.handler.split('\\').pop().toLowerCase();
+            var comp = 'payments-' + payment.handler_class.split('\\').pop().toLowerCase();
             return this.componentExists(comp) ? comp : 'payments-default';
         }
     },
@@ -18270,7 +18270,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "item-title"
   }, [_vm._v("\n        " + _vm._s(_vm.item.title) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.meta.currency_symbol) + _vm._s(_vm.item.retail_price.toFixed(2)) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        " + _vm._s(_vm.item.meta.currency_symbol) + _vm._s(_vm.item.retail_price) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
   }, [_vm._v("\n        " + _vm._s(_vm.item.meta.created_at) + " | " + _vm._s(_vm.item.meta.model) + "\n    ")])])
 },staticRenderFns: []}
@@ -18455,7 +18455,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Price")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.items), function(item, index) {
     return _c('md-table-row', {
       key: index
-    }, [_c('md-table-cell', [_vm._v(_vm._s(item.model.title))]), _vm._v(" "), _c('md-table-cell', {
+    }, [_c('md-table-cell', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
@@ -18463,7 +18463,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s((item.qty * item.model.retail_price).toFixed(2)))])], 1)
+    }, [_vm._v(_vm._s(item.amount))])], 1)
   })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Payment Type")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-numeric": ""
@@ -18479,7 +18479,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(payment.amount.toFixed(2)))])], 1)
+    }, [_vm._v(_vm._s(payment.amount))])], 1)
   })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', {
     staticClass: "text-primary"
   }, [_c('md-table-head', [_vm._v("Summary")]), _vm._v(" "), _c('md-table-head', {

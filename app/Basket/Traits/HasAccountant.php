@@ -36,10 +36,11 @@ trait HasAccountant
 
     /**
      * Gets the retail price for the model.
+     * Includes the currency symbol.
      *
-     * @return float
+     * @return string
      */
-    public function getRetailPriceAttribute() : float
+    public function getRetailPriceAttribute() : string
     {
         return number($this->gross)->places(2);
     }

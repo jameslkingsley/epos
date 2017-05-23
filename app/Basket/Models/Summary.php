@@ -54,8 +54,8 @@ class Summary extends Model
         $percentages = $this->basket->items->map(function($item) {
             return [
                 'percentage' => $item->price()->vat,
-                'net' => $item->model()->net() * $item->qty,
-                'gross' => $item->model()->gross() * $item->qty
+                'net' => $item->model->net() * $item->qty,
+                'gross' => $item->model->gross() * $item->qty
             ];
         })->groupBy('percentage');
 

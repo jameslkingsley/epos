@@ -55,7 +55,8 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        Basket::pay(
+        \Log::info(basket()->payments);
+        return basket()->payments->add(
             array_to_object($request->all()),
             $request->input('amount', null)
         );

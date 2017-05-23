@@ -3,9 +3,17 @@
 namespace App\Basket\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Basket\Collections\PaymentCollection;
 
 class Payment extends Model
 {
+    /**
+     * The appendable attributes.
+     *
+     * @var array
+     */
+    protected $appends = ['amount', 'handler_class'];
+
     /**
      * Amount of the payment.
      *
@@ -14,55 +22,23 @@ class Payment extends Model
     public $amount = 0;
 
     /**
-     * Payment instance.
-     *
-     * @var App\Basket\Models\Payment
-     */
-    protected $payment;
-
-    /**
-     * Basket instance.
-     *
-     * @var App\Basket\Basket
-     */
-    protected $basket;
-
-    /**
-     * The appendable attributes.
-     *
-     * @var array
-     */
-    protected $appends = ['amount'];
-
-    /**
-     * Constructor method.
+     * Gets the handler instance for the payment.
      *
      * @return any
      */
-    public function __construct($payment = null, $basket = null)
+    public function getHandlerAttribute($handler)
     {
-        $this->payment = $payment;
-        $this->basket = $basket;
+        return new $handler;
     }
 
     /**
      * Gets the handler class for the payment.
      *
-     * @return any
+     * @return string
      */
-    public function getHandler($basket = null)
+    public function getHandlerClassAttribute()
     {
-        return new $this->handler($this, $basket);
-    }
-
-    /**
-     * Computes the payment via its handler.
-     *
-     * @return self
-     */
-    public function compute()
-    {
-        $this->amount = $this->getHandler($basket)->computeAmount();
+        return get_class($this->handler);
     }
 
     /**
@@ -84,5 +60,16 @@ class Payment extends Model
     public function isSameAs(Payment $payment)
     {
         return $this->id == $payment->id;
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param array $models
+     * @return App\Basket\PaymentCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new PaymentCollection($models);
     }
 }

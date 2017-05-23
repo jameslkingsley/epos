@@ -52,6 +52,18 @@ class Number extends NumbersPackage
      */
     public function symbol(string $currency = 'gbp')
     {
+        // TODO Use currency from environment
         return array_key_exists($currency, $this->symbols) ? $this->symbols[$currency] : null;
+    }
+
+    /**
+     * Gets the string representation of the number.
+     * Includes currency symbol.
+     *
+     * @return string
+     */
+    public function display()
+    {
+        return "{$this->symbol()}{$this->places(2)}";
     }
 }

@@ -29,7 +29,7 @@ class ItemCollection extends Collection
     public function resolve()
     {
         return $this->map(function($item) {
-            $model = $item->model();
+            $model = $item->model;
 
             // Set the model link to be able
             // to use the model type/id in Vue
@@ -66,7 +66,7 @@ class ItemCollection extends Collection
         $total = 0;
 
         $this->each(function($item) use(&$total) {
-            $total += $item->qty * $item->model()->retail_price;
+            $total += $item->qty * $item->model->retail_price;
         });
 
         return number($total);

@@ -5,7 +5,7 @@
         </span>
 
         <span class="item-price">
-            {{ item.meta.currency_symbol }}{{ item.retail_price.toFixed(2) }}
+            {{ item.meta.currency_symbol }}{{ item.retail_price }}
         </span>
 
         <span class="item-meta">

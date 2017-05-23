@@ -1,5 +1,6 @@
 <?php
 
+use App\Basket\Basket;
 use App\Basket\Support\Number;
 
 /**
@@ -20,4 +21,14 @@ function array_to_object($array)
 function number($number = 0)
 {
     return Number::make($number);
+}
+
+/**
+ * Gets the basket model instance.
+ *
+ * @return App\Basket\Basket
+ */
+function basket()
+{
+    return new Basket;
 }

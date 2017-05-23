@@ -74,4 +74,15 @@ class Payment extends Model
     {
         return $this->amount;
     }
+
+    /**
+     * Checks if the given payment model
+     * is the same type and ID.
+     *
+     * @return boolean
+     */
+    public function isSameAs(Payment $payment)
+    {
+        return $this->id == $payment->id;
+    }
 }

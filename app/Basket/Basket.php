@@ -3,23 +3,30 @@
 namespace App\Basket;
 
 use App\Basket\Models\Item;
+use Jenssegers\Model\Model;
 use App\Basket\Models\Payment;
+use App\Basket\Models\Summary;
+use App\Basket\Collections\ItemCollection;
+use App\Basket\Collections\PaymentCollection;
 
-class Basket
+class Basket extends Model
 {
     /**
-     * Item model collection.
+     * Basket mode constants.
      *
-     * @var Collection
+     * @var integer
      */
-    public $items = [];
+    const Mode_Default = 0;
+    const Mode_Refund = 1;
+    const Mode_Staff = 2;
+    const Mode_Debug = 4;
 
     /**
-     * Payment model collection.
+     * Appended attributes.
      *
-     * @var Collection
+     * @var array
      */
-    public $payments = [];
+    protected $appends = ['items', 'payments', 'summaries'];
 
     /**
      * Constructor method.
@@ -28,81 +35,75 @@ class Basket
      */
     public function __construct($new = false)
     {
-        $this->items = collect();
-        $this->payments = collect();
+        $basket = session('basket');
 
-        $b = session('basket');
-
-        if (!is_null($b) && !$new) {
-            $this->items = collect($b->items);
-            $this->payments = collect($b->payments);
-            $this->wakeup();
+        if (!is_null($basket) && !$new) {
+            $this->items = $basket->items;
+            $this->payments = $basket->payments;
+            // $this->wakeup();
         }
 
         session()->put('basket', $this);
     }
 
     /**
-     * Gets the item count.
-     * Includes each item's quantity.
+     * Gets the basket items.
      *
-     * @return integer
+     * @return App\Basket\Collections\ItemCollection
      */
-    public function itemCount()
+    public function getItemsAttribute($items)
     {
-        $itemCount = 0;
-
-        $this->items->each(function($item) use(&$itemCount) {
-            $itemCount += $item->qty;
-        });
-
-        return $itemCount;
+        return $this->attributes['items'];
     }
 
     /**
-     * Gets the total item balance.
+     * Gets the basket payments.
      *
-     * @return float
+     * @return App\Basket\Collections\PaymentCollection
      */
-    public function itemBalance()
+    public function getPaymentsAttribute($payments)
     {
-        $total = 0;
-
-        $this->items->each(function($item) use(&$total) {
-            $total += $item->qty * $item->model()->retail_price;
-        });
-
-        return number($total)->places(2);
+        return $this->attributes['payments'];
     }
 
     /**
-     * Gets the total payment balance.
+     * Gets the basket summaries.
      *
-     * @return float
+     * @return App\Basket\Models\Summary
      */
-    public function paymentBalance()
+    public function getSummariesAttribute()
     {
-        $basket = $this;
-        $total = 0;
-
-        $basket->payments->each(function($payment) use(&$total, $basket) {
-            $total += $payment->amount;
-        });
-
-        return number($total)->places(2);
+        return new Summary($this);
     }
 
     /**
-     * Gets the balance of the basket.
+     * Sets the basket items.
      *
-     * @return float
+     * @return void
      */
-    public function balance()
+    public function setItemsAttribute($items)
     {
-        return number(
-            $this->itemBalance() +
-            $this->paymentBalance()
-        )->places(2);
+        $this->attributes['items'] = new ItemCollection($items);
+    }
+
+    /**
+     * Sets the basket payments.
+     *
+     * @return void
+     */
+    public function setPaymentsAttribute($payments)
+    {
+        $this->attributes['payments'] = new PaymentCollection($payments);
+    }
+
+    /**
+     * Sets the basket summaries.
+     *
+     * @return void
+     */
+    public function setSummariesAttribute($summaries)
+    {
+        $this->attributes['summaries'] = new Summary($summaries);
     }
 
     /**
@@ -120,43 +121,11 @@ class Basket
     }
 
     /**
-     * Gets the VAT breakdown.
-     *
-     * @return array
-     */
-    public function vatBreakdown()
-    {
-        $collection = $this->items->map(function($item) {
-            return [
-                'percentage' => $item->price()->vat,
-                'net' => $item->model()->net() * $item->qty,
-                'gross' => $item->model()->gross() * $item->qty
-            ];
-        })->groupBy('percentage');
-
-        return $collection->map(function($vat, $key) {
-            $netTotal = 0;
-            $grossTotal = 0;
-
-            foreach ($vat as $key => $value) {
-                $netTotal += $value['net'];
-                $grossTotal += $value['gross'];
-            }
-
-            return [
-                'percentage' => (float)$vat[0]['percentage'],
-                'net' => number($netTotal)->places(),
-                'gross' => number($grossTotal)->places()
-            ];
-        });
-    }
-
-    /**
      * Resolves the basket instance.
      *
      * @return App\Basket\Basket
      */
-    public static function resolve()
+    public static function resolvex()
     {
         $basket = new self;
 
@@ -171,93 +140,6 @@ class Basket
         });
 
         return $basket;
-    }
-
-    /**
-     * Resolves an item link to its model object.
-     *
-     * @return Item
-     */
-    public static function resolveItem($item)
-    {
-        return Item::findOrFail($item->_link->id);
-    }
-
-    /**
-     * Adds the given item to the basket.
-     *
-     * @return self
-     */
-    public static function add($item)
-    {
-        $basket = new self;
-        $item = $basket->resolveItem($item);
-
-        if ($basket->has($item)) {
-            // Already has item
-            $basket->update($item, function(&$item) {
-                $item->qty++;
-            });
-        } else {
-            $basket->items->push($item);
-        }
-
-        return $basket;
-    }
-
-    /**
-     * Adds a payment to the basket.
-     *
-     * @return any
-     */
-    public static function pay($payment, $amount = null)
-    {
-        $basket = new self;
-        $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
-
-        $payment->amount = $amount;
-        $payment->compute();
-
-        $basket->payments->push($payment);
-
-        return $basket;
-    }
-
-    /**
-     * Groups the items by model type.
-     *
-     * @return Collection
-     */
-    public function groupedItems()
-    {
-        return $this->items->groupBy('model_type');
-    }
-
-    /**
-     * Checks if the given item is in the basket.
-     * Checks the model type and ID.
-     *
-     * @return boolean
-     */
-    public function has($item)
-    {
-        return $this->items->contains(function($i) use($item) {
-            return $i->isSameAs($item);
-        });
-    }
-
-    /**
-     * Updates the given basket item with the closure.
-     *
-     * @return any
-     */
-    public function update(Item $item, $closure)
-    {
-        $this->items->each(function(&$i) use($item, $closure) {
-            if ($i->isSameAs($item)) {
-                $closure($i);
-            }
-        });
     }
 
     /**

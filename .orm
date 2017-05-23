@@ -1,0 +1,19 @@
+
+basket->items->add(item)
+             ->has(item)
+             ->remove(item, qty)
+             ->update(item, closure)
+             ->item->update(data)
+                   ->call(closure)
+
+basket->payments->add(payment)
+                ->has(payment)
+                ->remove(payment, amount)
+                ->payment->update(data)
+                         ->call(closure)
+
+basket->summaries->balance()
+                 ->vat()
+                 ->deals()
+
+basket->empty()

@@ -15,9 +15,7 @@ class BasketController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            Basket::resolve()
-        );
+        return response()->json(basket());
     }
 
     /**

@@ -11,6 +11,6 @@ class FastCash extends Payment
      */
     public function amount($amount)
     {
-        return basket()->items->balance()->inverted(); // TODO Change to just outstanding overall balance
+        return number(basket()->summaries->balance)->inverted();
     }
 }

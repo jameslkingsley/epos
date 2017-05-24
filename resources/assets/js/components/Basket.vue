@@ -19,6 +19,16 @@
                 </md-table-body>
 
                 <md-table-header>
+                    <md-table-row class="text-primary">
+                        <md-table-head>Summary</md-table-head>
+                        <md-table-head md-numeric class="text-primary">&nbsp;</md-table-head>
+                        <md-table-head md-numeric class="text-primary">{{ basket.summaries.balance_normal }}</md-table-head>
+                    </md-table-row>
+                </md-table-header>
+            </md-table>
+
+            <md-table>
+                <md-table-header>
                     <md-table-row>
                         <md-table-head>Payment</md-table-head>
                         <md-table-head md-numeric>&nbsp;</md-table-head>
@@ -33,14 +43,6 @@
                         <md-table-cell md-numeric>{{ payment.amount_normal }}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
-
-                <md-table-header>
-                    <md-table-row class="text-primary">
-                        <md-table-head>Summary</md-table-head>
-                        <md-table-head md-numeric class="text-primary">&nbsp;</md-table-head>
-                        <md-table-head md-numeric class="text-primary">{{ basket.summaries.balance }}</md-table-head>
-                    </md-table-row>
-                </md-table-header>
             </md-table>
 
             <md-table>

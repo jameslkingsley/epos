@@ -145,6 +145,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -18464,7 +18466,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": ""
       }
     }, [_vm._v(_vm._s(item.amount))])], 1)
-  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Payment")]), _vm._v(" "), _c('md-table-head', {
+  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', {
+    staticClass: "text-primary"
+  }, [_c('md-table-head', [_vm._v("Summary")]), _vm._v(" "), _c('md-table-head', {
+    staticClass: "text-primary",
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
+    staticClass: "text-primary",
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v(_vm._s(_vm.basket.summaries.balance_normal))])], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Payment")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-numeric": ""
     }
@@ -18480,19 +18494,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": ""
       }
     }, [_vm._v(_vm._s(payment.amount_normal))])], 1)
-  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', {
-    staticClass: "text-primary"
-  }, [_c('md-table-head', [_vm._v("Summary")]), _vm._v(" "), _c('md-table-head', {
-    staticClass: "text-primary",
-    attrs: {
-      "md-numeric": ""
-    }
-  }, [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
-    staticClass: "text-primary",
-    attrs: {
-      "md-numeric": ""
-    }
-  }, [_vm._v(_vm._s(_vm.basket.summaries.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("VAT Breakdown")]), _vm._v(" "), _c('md-table-head', {
+  }))], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("VAT Breakdown")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-numeric": ""
     }

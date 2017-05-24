@@ -4,6 +4,7 @@ namespace App\Basket\Models;
 
 use App\Basket\Basket;
 use Jenssegers\Model\Model;
+use App\Basket\Models\Balance;
 
 class Summary extends Model
 {
@@ -32,16 +33,13 @@ class Summary extends Model
     }
 
     /**
-     * Gets the balance of the basket.
+     * Gets the basket balance instance.
      *
-     * @return float
+     * @return App\Basket\Models\Balance
      */
     public function getBalanceAttribute()
     {
-        return number(
-            $this->basket->items->balance()->get() +
-            $this->basket->payments->balance()->get()
-        )->normal()->places(2);
+        return new Balance($this->basket);
     }
 
     /**

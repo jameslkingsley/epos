@@ -2,14 +2,34 @@
 
 namespace App\Basket\Support;
 
-use Numbers\Number as NumbersPackage;
-
-class Number extends NumbersPackage
+class Number
 {
+    /**
+     * The number.
+     *
+     * @var int|float
+     */
+    protected $number;
+
+    /**
+     * Currency symbols map.
+     *
+     * @var array
+     */
     protected $symbols = [
         'gbp' => '£',
         'usd' => '$'
     ];
+
+    /**
+     * Constructor method.
+     *
+     * @return any
+     */
+    public function __construct($number = 0)
+    {
+        $this->number = $number;
+    }
 
     /**
      * Gets a string representation of the number.
@@ -18,7 +38,7 @@ class Number extends NumbersPackage
      */
     public function __toString()
     {
-        return (string)$this->get();
+        return (string)$this->number;
     }
 
     /**
@@ -28,7 +48,7 @@ class Number extends NumbersPackage
      */
     public static function make($number)
     {
-        return static::n($number);
+        return new static($number);
     }
 
     /**
@@ -39,7 +59,7 @@ class Number extends NumbersPackage
     public function places(int $places = 2)
     {
         return number_format(
-            floor($this->get() * pow(10, $places)) / pow(10, $places),
+            floor($this->number * pow(10, $places)) / pow(10, $places),
             $places
         );
     }
@@ -64,20 +84,18 @@ class Number extends NumbersPackage
      */
     public function display()
     {
-        return "{$this->symbol()}{$this->places(2)}";
+        return $this->symbol() . $this->places(2);
     }
 
     /**
      * Gets the normalised version of the number.
      * Converts pences to pounds.
      *
-     * @return float
+     * @return self
      */
     public function normal()
     {
-        $this->apply(function($number) {
-            return $number / 100;
-        });
+        $this->number = $this->number / 100;
 
         return $this;
     }
@@ -85,10 +103,74 @@ class Number extends NumbersPackage
     /**
      * Gets the inverted value.
      *
-     * @return float
+     * @return int|float
      */
     public function inverted()
     {
-        return -$this->get();
+        return -$this->number;
+    }
+
+    /**
+     * Sets the number to its floor.
+     *
+     * @return self
+     */
+    public function floor()
+    {
+        $this->number = floor($this->number);
+
+        return $this;
+    }
+
+    /**
+     * Sets the number to its ceiling.
+     *
+     * @return self
+     */
+    public function ceil()
+    {
+        $this->number = ceil($this->number);
+
+        return $this;
+    }
+
+    /**
+     * Apply a function to the underlying number
+     *
+     * @param callable $callable
+     * @return $this
+     */
+    public function apply(callable $closure)
+    {
+        $this->number = call_user_func($closure, $this->number);
+
+        return $this;
+    }
+
+    /**
+     * Gets the number.
+     *
+     * @return int|float
+     */
+    public function get()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Sums the given number instance arguments.
+     * Arguments are dynamic.
+     *
+     * @return self
+     */
+    public function sum()
+    {
+        $total = 0;
+
+        foreach (func_get_args() as $n) {
+            $total += $n->get();
+        }
+
+        return static::make($total);
     }
 }

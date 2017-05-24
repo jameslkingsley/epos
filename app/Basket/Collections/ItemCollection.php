@@ -20,26 +20,6 @@ class ItemCollection extends Collection
     }
 
     /**
-     * Resolves all items to their models.
-     * Models can run a resolution method
-     * to attach any extra properties they need.
-     *
-     * @return ItemCollection
-     */
-    public function resolve()
-    {
-        return $this->map(function($item) {
-            $model = $item->model;
-
-            // Set the model link to be able
-            // to use the model type/id in Vue
-            $model->_link = $item;
-
-            return $model;
-        });
-    }
-
-    /**
      * Gets the count of all items.
      * Factors in each item's quantity.
      *
@@ -66,7 +46,7 @@ class ItemCollection extends Collection
         $total = 0;
 
         $this->each(function($item) use(&$total) {
-            $total += $item->qty * $item->model->retail_price;
+            $total += $item->qty * $item->model->gross;
         });
 
         return number($total);
@@ -94,7 +74,6 @@ class ItemCollection extends Collection
         $item = ($item instanceof Item) ? $item : Item::findOrFail($item->id);
 
         if ($this->alreadyHas($item)) {
-            // Already has item
             $this->update($item, function(&$item) {
                 $item->qty++;
             });

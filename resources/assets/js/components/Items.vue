@@ -31,7 +31,7 @@
             },
 
             getComponent(item) {
-                let model = 'models-' + item._link.model_type.split('\\').pop().toLowerCase();
+                let model = 'models-' + item.model_type.split('\\').pop().toLowerCase();
                 return this.componentExists(model) ? model : 'item';
             }
         },

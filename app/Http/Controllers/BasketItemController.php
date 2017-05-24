@@ -37,7 +37,7 @@ class BasketItemController extends Controller
     public function store(Request $request)
     {
         return basket()->items->add(
-            array_to_object($request->_link)
+            array_to_object($request->all())
         );
     }
 

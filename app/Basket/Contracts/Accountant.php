@@ -3,6 +3,7 @@
 namespace App\Basket\Contracts;
 
 use App\Basket;
+use App\Basket\Support\Number;
 
 interface Accountant
 {
@@ -10,22 +11,22 @@ interface Accountant
      * Gets the net amount.
      * Excludes VAT.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function net(Basket $basket = null) : float;
+    public function net() : Number;
 
     /**
      * Gets the gross amount.
      * Includes VAT.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function gross(Basket $basket = null) : float;
+    public function gross() : Number;
 
     /**
      * Gets the VAT amount.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function vat(Basket $basket = null) : float;
+    public function vat() : Number;
 }

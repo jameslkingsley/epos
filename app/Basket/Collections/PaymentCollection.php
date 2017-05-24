@@ -3,6 +3,8 @@
 namespace App\Basket\Collections;
 
 use App\Basket\Models\Payment;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Eloquent\Collection;
 
 class PaymentCollection extends Collection
@@ -40,23 +42,24 @@ class PaymentCollection extends Collection
      *
      * @return self
      */
-    public function add($payment, $amount)
+    public function add($payment)
     {
-        $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
+        return basket()->update(function($basket) use($payment) {
+            $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
 
-        // Compute the amount via the handler incase it needs to be mutated
-        $payment->amount = $payment->handler()->amount($amount);
+            // Compute the amount via the provider incase it needs to be mutated
+            $payment->amount = $payment->provider->amount($payment->amount);
 
-        if ($this->alreadyHas($payment)) {
-            // Already has item
-            $this->update($payment, function(&$p) use($payment) {
-                $p->amount += $payment->amount;
-            });
-        } else {
-            $this->push($payment);
-        }
+            if ($basket->payments->alreadyHas($payment)) {
+                $basket->payments->update($payment, function(&$p) use($payment) {
+                    $p->amount += $payment->amount;
+                });
+            } else {
+                $basket->payments->push($payment);
+            }
 
-        return $this;
+            return $basket;
+        });
     }
 
     /**

@@ -66,4 +66,29 @@ class Number extends NumbersPackage
     {
         return "{$this->symbol()}{$this->places(2)}";
     }
+
+    /**
+     * Gets the normalised version of the number.
+     * Converts pences to pounds.
+     *
+     * @return float
+     */
+    public function normal()
+    {
+        $this->apply(function($number) {
+            return $number / 100;
+        });
+
+        return $this;
+    }
+
+    /**
+     * Gets the inverted value.
+     *
+     * @return float
+     */
+    public function inverted()
+    {
+        return -$this->get();
+    }
 }

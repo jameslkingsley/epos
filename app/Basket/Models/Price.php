@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Price extends Model
 {
-    protected $divisor = 100;
-
     /**
      * Gets the resolved model.
      *
@@ -19,42 +17,32 @@ class Price extends Model
     }
 
     /**
-     * Gets the trade price divided by the divisor.
-     *
-     * @return float
-     */
-    public function tradeDiv()
-    {
-        return $this->trade / $this->divisor;
-    }
-
-    /**
      * Gets the net amount.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
     public function net()
     {
-        return $this->tradeDiv() + ($this->markup * $this->tradeDiv());
+        return number($this->trade * ($this->markup + 1));
     }
 
     /**
      * Gets the gross amount.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
     public function gross()
     {
-        return $this->net() + $this->vat();
+        return number($this->net()->get() + $this->vat()->get());
     }
 
     /**
      * Gets the VAT amount.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
     public function vat()
     {
-        return $this->tradeDiv() * $this->vat;
+        return number($this->trade * $this->vat);
     }
 }

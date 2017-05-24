@@ -81,6 +81,6 @@ class BasketController extends Controller
      */
     public function empty()
     {
-        Basket::empty();
+        basket()->empty();
     }
 }

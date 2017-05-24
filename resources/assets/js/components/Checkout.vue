@@ -36,7 +36,7 @@
             },
 
             getComponent(payment) {
-                let comp = 'payments-' + payment.handler_class.split('\\').pop().toLowerCase();
+                let comp = 'payments-' + payment.handler.split('\\').pop().toLowerCase();
                 return this.componentExists(comp) ? comp : 'payments-default';
             }
         },

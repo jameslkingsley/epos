@@ -29,20 +29,25 @@ class Basket extends Model
     ];
 
     /**
+     * Attributes that will be woken up when reconstructed.
+     *
+     * @var array
+     */
+    protected $wakeup = [
+        'items', 'payments'
+    ];
+
+    /**
      * Constructor method.
      *
      * @return any
      */
-    public function __construct($new = false)
+    public function __construct(bool $new = false)
     {
-        $basket = session('basket');
+        $basket = session('basket', null);
 
-        if (!is_null($basket) && !$new) {
-            $this->items = $basket->items;
-            $this->payments = $basket->payments;
-        } else if ($new) {
-            $this->items = [];
-            $this->payments = [];
+        foreach ($this->wakeup as $attr) {
+            $this->$attr = ($basket && !$new) ? $basket->$attr : [];
         }
 
         session()->put('basket', $this);
@@ -106,6 +111,20 @@ class Basket extends Model
     public function setSummariesAttribute($summaries)
     {
         $this->attributes['summaries'] = new Summary($summaries);
+    }
+
+    /**
+     * Updates the basket in a single instance scope.
+     *
+     * @return self
+     */
+    public function update(callable $closure)
+    {
+        $basket = $this;
+
+        session()->put('basket', $closure($basket));
+
+        return $basket;
     }
 
     /**

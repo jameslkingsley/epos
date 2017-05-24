@@ -7,31 +7,31 @@ trait HasAccountant
     /**
      * Gets the net amount value.
      *
-     * @return flaot
+     * @return integer
      */
     public function getNetAttribute()
     {
-        return $this->net();
+        return $this->net()->get();
     }
 
     /**
      * Gets the gross amount value.
      *
-     * @return flaot
+     * @return integer
      */
     public function getGrossAttribute()
     {
-        return $this->gross();
+        return $this->gross()->get();
     }
 
     /**
      * Gets the VAT amount value.
      *
-     * @return float
+     * @return integer
      */
     public function getVatAttribute()
     {
-        return $this->vat();
+        return $this->vat()->get();
     }
 
     /**
@@ -42,6 +42,6 @@ trait HasAccountant
      */
     public function getRetailPriceAttribute() : string
     {
-        return number($this->gross)->places(2);
+        return number($this->gross)->normal()->places(2);
     }
 }

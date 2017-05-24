@@ -75,7 +75,7 @@ class Item extends Model
      */
     public function getAmountAttribute()
     {
-        return number($this->qty * $this->model->gross)->display();
+        return number($this->qty * $this->model->gross)->normal()->display();
     }
 
     /**

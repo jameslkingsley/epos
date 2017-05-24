@@ -2,7 +2,7 @@
 
 namespace App\Basket\Payments;
 
-class Cash
+class Cash extends Payment
 {
     //
 }

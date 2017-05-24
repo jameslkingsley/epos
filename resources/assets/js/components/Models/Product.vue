@@ -5,11 +5,11 @@
         </span>
 
         <span class="item-price">
-            {{ item.meta.currency_symbol }}{{ item.retail_price }}
+            {{ item.amount }}
         </span>
 
         <span class="item-meta">
-            {{ item.meta.created_at }} | {{ item.meta.model }}
+            {{ item.model.meta.created_at }} | {{ item.model.meta.model }}
         </span>
     </md-whiteframe>
 </template>

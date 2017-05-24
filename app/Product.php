@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Basket\Support\Number;
 use App\Basket\Traits\HasPrices;
 use App\Basket\Contracts\ItemModel;
 use App\Basket\Contracts\Accountant;
@@ -27,9 +28,9 @@ class Product extends Model implements Accountant, ItemModel
      * Gets the net amount.
      * Excludes VAT.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function net(Basket $basket = null) : float
+    public function net() : Number
     {
         return $this->prices()->first()->net();
     }
@@ -38,9 +39,9 @@ class Product extends Model implements Accountant, ItemModel
      * Gets the gross amount.
      * Includes VAT.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function gross(Basket $basket = null) : float
+    public function gross() : Number
     {
         return $this->prices()->first()->gross();
     }
@@ -48,9 +49,9 @@ class Product extends Model implements Accountant, ItemModel
     /**
      * Gets the VAT amount.
      *
-     * @return float
+     * @return App\Basket\Support\Number
      */
-    public function vat(Basket $basket = null) : float
+    public function vat() : Number
     {
         return $this->prices()->first()->vat();
     }

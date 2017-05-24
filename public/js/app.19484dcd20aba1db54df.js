@@ -335,7 +335,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return name in this.$options.components;
         },
         getComponent: function getComponent(payment) {
-            var comp = 'payments-' + payment.handler_class.split('\\').pop().toLowerCase();
+            var comp = 'payments-' + payment.handler.split('\\').pop().toLowerCase();
             return this.componentExists(comp) ? comp : 'payments-default';
         }
     },
@@ -577,7 +577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return name in this.$options.components;
         },
         getComponent: function getComponent(item) {
-            var model = 'models-' + item._link.model_type.split('\\').pop().toLowerCase();
+            var model = 'models-' + item.model_type.split('\\').pop().toLowerCase();
             return this.componentExists(model) ? model : 'item';
         }
     },
@@ -18270,9 +18270,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "item-title"
   }, [_vm._v("\n        " + _vm._s(_vm.item.title) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.meta.currency_symbol) + _vm._s(_vm.item.retail_price) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        " + _vm._s(_vm.item.amount) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.meta.created_at) + " | " + _vm._s(_vm.item.meta.model) + "\n    ")])])
+  }, [_vm._v("\n        " + _vm._s(_vm.item.model.meta.created_at) + " | " + _vm._s(_vm.item.model.meta.model) + "\n    ")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -18390,12 +18390,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     staticClass: "basket-line-title",
     domProps: {
-      "textContent": _vm._s(_vm.item.model.title)
+      "textContent": _vm._s(_vm.item.title)
     }
   }), _vm._v(" "), _c('span', {
     staticClass: "basket-line-price",
     domProps: {
-      "textContent": _vm._s(_vm.item.model.retail_price)
+      "textContent": _vm._s(_vm.item.amount)
     }
   }), _vm._v(" "), _c('span', {
     staticClass: "basket-line-qty",
@@ -18464,7 +18464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": ""
       }
     }, [_vm._v(_vm._s(item.amount))])], 1)
-  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Payment Type")]), _vm._v(" "), _c('md-table-head', {
+  })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Payment")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-numeric": ""
     }
@@ -18479,7 +18479,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(payment.amount))])], 1)
+    }, [_vm._v(_vm._s(payment.amount_normal))])], 1)
   })), _vm._v(" "), _c('md-table-header', [_c('md-table-row', {
     staticClass: "text-primary"
   }, [_c('md-table-head', [_vm._v("Summary")]), _vm._v(" "), _c('md-table-head', {
@@ -18487,12 +18487,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.itemCount))]), _vm._v(" "), _c('md-table-head', {
+  }, [_vm._v(" ")]), _vm._v(" "), _c('md-table-head', {
     staticClass: "text-primary",
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("VAT Breakdown")]), _vm._v(" "), _c('md-table-head', {
+  }, [_vm._v(_vm._s(_vm.basket.summaries.balance))])], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("VAT Breakdown")]), _vm._v(" "), _c('md-table-head', {
     attrs: {
       "md-numeric": ""
     }
@@ -18500,18 +18500,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.vatBreakdown), function(vat, key) {
+  }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.summaries.vat), function(vat, key) {
     return _c('md-table-row', {
       key: key
     }, [_c('md-table-cell', [_vm._v(_vm._s(key) + "%")]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(_vm.basket.vatBreakdown[key].net))]), _vm._v(" "), _c('md-table-cell', {
+    }, [_vm._v(_vm._s(_vm.basket.summaries.vat[key].net))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(_vm.basket.vatBreakdown[key].gross))])], 1)
+    }, [_vm._v(_vm._s(_vm.basket.summaries.vat[key].gross))])], 1)
   }))], 1), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
     attrs: {
       "md-icon": "refresh"

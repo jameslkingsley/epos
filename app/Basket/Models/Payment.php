@@ -12,7 +12,7 @@ class Payment extends Model
      *
      * @var array
      */
-    protected $appends = ['amount', 'handler_class'];
+    protected $appends = ['amount', 'provider', 'amount_normal'];
 
     /**
      * Amount of the payment.
@@ -26,19 +26,9 @@ class Payment extends Model
      *
      * @return any
      */
-    public function getHandlerAttribute($handler)
+    public function getProviderAttribute()
     {
-        return new $handler;
-    }
-
-    /**
-     * Gets the handler class for the payment.
-     *
-     * @return string
-     */
-    public function getHandlerClassAttribute()
-    {
-        return get_class($this->handler);
+        return $this->handler::make();
     }
 
     /**
@@ -49,6 +39,20 @@ class Payment extends Model
     public function getAmountAttribute()
     {
         return $this->amount;
+    }
+
+    /**
+     * Gets the amount normal value.
+     * Removes the inverted sign,
+     * and normalizes number.
+     *
+     * Includes the currency symbol.
+     *
+     * @return float
+     */
+    public function getAmountNormalAttribute()
+    {
+        return number(-$this->amount)->normal()->display();
     }
 
     /**

@@ -41,7 +41,7 @@ class Summary extends Model
         return number(
             $this->basket->items->balance()->get() +
             $this->basket->payments->balance()->get()
-        )->places(2);
+        )->normal()->places(2);
     }
 
     /**
@@ -54,8 +54,8 @@ class Summary extends Model
         $percentages = $this->basket->items->map(function($item) {
             return [
                 'percentage' => $item->price()->vat,
-                'net' => $item->model->net() * $item->qty,
-                'gross' => $item->model->gross() * $item->qty
+                'net' => $item->model->net * $item->qty,
+                'gross' => $item->model->gross * $item->qty
             ];
         })->groupBy('percentage');
 
@@ -70,8 +70,8 @@ class Summary extends Model
 
             return [
                 'percentage' => (float)$vat[0]['percentage'],
-                'net' => number($netTotal)->places(),
-                'gross' => number($grossTotal)->places()
+                'net' => number($netTotal)->normal()->places(),
+                'gross' => number($grossTotal)->normal()->places()
             ];
         });
     }

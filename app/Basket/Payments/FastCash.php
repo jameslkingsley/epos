@@ -2,7 +2,7 @@
 
 namespace App\Basket\Payments;
 
-class FastCash extends Cash
+class FastCash extends Payment
 {
     /**
      * Computes the total payment amount.
@@ -11,6 +11,6 @@ class FastCash extends Cash
      */
     public function amount($amount)
     {
-        return $amount ? $amount : basket()->items->balance()->get(); // TODO Change to just outstanding overall balance
+        return basket()->items->balance()->inverted(); // TODO Change to just outstanding overall balance
     }
 }

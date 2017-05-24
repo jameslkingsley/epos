@@ -20,7 +20,7 @@
 
                 <md-table-header>
                     <md-table-row>
-                        <md-table-head>Payment Type</md-table-head>
+                        <md-table-head>Payment</md-table-head>
                         <md-table-head md-numeric>&nbsp;</md-table-head>
                         <md-table-head md-numeric>Amount</md-table-head>
                     </md-table-row>
@@ -30,15 +30,15 @@
                     <md-table-row v-for="(payment, index) in basket.payments" :key="index">
                         <md-table-cell>{{ payment.name }}</md-table-cell>
                         <md-table-cell>&nbsp;</md-table-cell>
-                        <md-table-cell md-numeric>{{ payment.amount }}</md-table-cell>
+                        <md-table-cell md-numeric>{{ payment.amount_normal }}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
 
                 <md-table-header>
                     <md-table-row class="text-primary">
                         <md-table-head>Summary</md-table-head>
-                        <md-table-head md-numeric class="text-primary">{{ basket.itemCount }}</md-table-head>
-                        <md-table-head md-numeric class="text-primary">{{ basket.balance }}</md-table-head>
+                        <md-table-head md-numeric class="text-primary">&nbsp;</md-table-head>
+                        <md-table-head md-numeric class="text-primary">{{ basket.summaries.balance }}</md-table-head>
                     </md-table-row>
                 </md-table-header>
             </md-table>
@@ -53,10 +53,10 @@
                 </md-table-header>
 
                 <md-table-body>
-                    <md-table-row v-for="(vat, key) in basket.vatBreakdown" :key="key">
+                    <md-table-row v-for="(vat, key) in basket.summaries.vat" :key="key">
                         <md-table-cell>{{ key }}%</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.vatBreakdown[key].net }}</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.vatBreakdown[key].gross }}</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.summaries.vat[key].net }}</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.summaries.vat[key].gross }}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
             </md-table>

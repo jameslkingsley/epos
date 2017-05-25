@@ -135,6 +135,19 @@ class Number
     }
 
     /**
+     * Gets to the nearest integer.
+     * Doesn't actually round anything.
+     *
+     * @return self
+     */
+    public function round()
+    {
+        $this->number = intval($this->number);
+
+        return $this;
+    }
+
+    /**
      * Apply a function to the underlying number
      *
      * @param callable $callable

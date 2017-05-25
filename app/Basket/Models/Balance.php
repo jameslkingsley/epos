@@ -59,7 +59,7 @@ class Balance extends Model
      */
     public function dueToCustomer()
     {
-        return number(0); // TODO
+        return number($this->dueFromCustomer()->inverted());
     }
 
     /**

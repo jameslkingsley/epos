@@ -1,85 +1,10 @@
 <template>
     <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav" v-if="loaded">
         <div class="main-sidebar-links">
-            <md-table>
-                <md-table-header>
-                    <md-table-row>
-                        <md-table-head>Description</md-table-head>
-                        <md-table-head md-numeric>Qty</md-table-head>
-                        <md-table-head md-numeric>Price</md-table-head>
-                    </md-table-row>
-                </md-table-header>
-
-                <md-table-body>
-                    <md-table-row v-for="(item, index) in basket.items" :key="index">
-                        <md-table-cell>{{ item.title }}</md-table-cell>
-                        <md-table-cell md-numeric>{{ item.qty }}</md-table-cell>
-                        <md-table-cell md-numeric>{{ item.amount }}</md-table-cell>
-                    </md-table-row>
-                </md-table-body>
-            </md-table>
-
-            <md-table>
-                <md-table-header>
-                    <md-table-row>
-                        <md-table-head>Summary</md-table-head>
-                        <md-table-head md-numeric>Amount</md-table-head>
-                    </md-table-row>
-                </md-table-header>
-
-                <md-table-body>
-                    <md-table-row>
-                        <md-table-cell>Items</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.summaries.balance.items }}</md-table-cell>
-                    </md-table-row>
-
-                    <md-table-row>
-                        <md-table-cell>Due From Customer</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.summaries.balance.due_from_customer }}</md-table-cell>
-                    </md-table-row>
-
-                    <md-table-row>
-                        <md-table-cell>Due To Customer</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.summaries.balance.due_to_customer }}</md-table-cell>
-                    </md-table-row>
-                </md-table-body>
-            </md-table>
-
-            <md-table>
-                <md-table-header>
-                    <md-table-row>
-                        <md-table-head>Payment</md-table-head>
-                        <md-table-head md-numeric>&nbsp;</md-table-head>
-                        <md-table-head md-numeric>Amount</md-table-head>
-                    </md-table-row>
-                </md-table-header>
-
-                <md-table-body>
-                    <md-table-row v-for="(payment, index) in basket.payments" :key="index">
-                        <md-table-cell>{{ payment.name }}</md-table-cell>
-                        <md-table-cell>&nbsp;</md-table-cell>
-                        <md-table-cell md-numeric>{{ payment.amount_normal }}</md-table-cell>
-                    </md-table-row>
-                </md-table-body>
-            </md-table>
-
-            <md-table>
-                <md-table-header>
-                    <md-table-row>
-                        <md-table-head>VAT Breakdown</md-table-head>
-                        <md-table-head md-numeric>Net</md-table-head>
-                        <md-table-head md-numeric>Gross</md-table-head>
-                    </md-table-row>
-                </md-table-header>
-
-                <md-table-body>
-                    <md-table-row v-for="(vat, key) in basket.summaries.vat" :key="key">
-                        <md-table-cell>{{ key }}%</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.summaries.vat[key].net }}</md-table-cell>
-                        <md-table-cell md-numeric>{{ basket.summaries.vat[key].gross }}</md-table-cell>
-                    </md-table-row>
-                </md-table-body>
-            </md-table>
+            <basket-items :basket="basket" />
+            <basket-summary :basket="basket" />
+            <basket-payments :basket="basket" />
+            <basket-vat :basket="basket" />
 
             <md-bottom-bar>
                 <md-bottom-bar-item md-icon="refresh" @click.native="emptyBasket">Empty</md-bottom-bar-item>

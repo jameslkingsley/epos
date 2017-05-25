@@ -23,7 +23,7 @@ class Price extends Model
      */
     public function net()
     {
-        return number($this->trade * ($this->markup + 1));
+        return number($this->trade * ($this->markup + 1))->round();
     }
 
     /**
@@ -33,7 +33,10 @@ class Price extends Model
      */
     public function gross()
     {
-        return number($this->net()->get() + $this->vat()->get());
+        return number()->sum(
+            number($this->trade * ($this->markup + 1)),
+            number($this->trade * $this->vat)
+        )->round();
     }
 
     /**
@@ -43,6 +46,6 @@ class Price extends Model
      */
     public function vat()
     {
-        return number($this->trade * $this->vat);
+        return number($this->trade * $this->vat)->round();
     }
 }

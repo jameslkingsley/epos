@@ -11,6 +11,6 @@ class FastCash extends Payment
      */
     public function amount($amount)
     {
-        return number(basket()->summaries->balance->due_from_customer)->inverted();
+        return basket()->summaries->balance->dueFromCustomer()->inverted();
     }
 }

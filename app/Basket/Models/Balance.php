@@ -23,7 +23,9 @@ class Balance extends Model
      * @var array
      */
     protected $appends = [
-        'due_from_customer', 'due_to_customer'
+        'due_from_customer',
+        'due_to_customer',
+        'items'
     ];
 
     /**
@@ -58,5 +60,15 @@ class Balance extends Model
     public function dueToCustomer()
     {
         return number(0); // TODO
+    }
+
+    /**
+     * Gets the balance for just items.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function items()
+    {
+        return $this->basket->items->balance();
     }
 }

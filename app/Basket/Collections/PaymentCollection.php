@@ -38,6 +38,22 @@ class PaymentCollection extends Collection
     }
 
     /**
+     * Resolves the payment model while keeping dynamic properties.
+     *
+     * @return App\Basket\Models\Payment
+     */
+    public function resolve($payment, array $props = [])
+    {
+        $model = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
+
+        foreach ($props as $key => $value) {
+            $model->$key = $value;
+        }
+
+        return $model;
+    }
+
+    /**
      * Adds a payment to the collection.
      *
      * @return self
@@ -45,7 +61,9 @@ class PaymentCollection extends Collection
     public function add($payment)
     {
         return basket()->update(function($basket) use($payment) {
-            $payment = ($payment instanceof Payment) ? $payment : Payment::findOrFail($payment->id);
+            $payment = $this->resolve($payment, [
+                'amount' => $payment->amount
+            ]);
 
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);

@@ -1,5 +1,5 @@
 <template>
-    <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav">
+    <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav" v-if="loaded">
         <div class="main-sidebar-links">
             <md-table>
                 <md-table-header>
@@ -17,14 +17,32 @@
                         <md-table-cell md-numeric>{{ item.amount }}</md-table-cell>
                     </md-table-row>
                 </md-table-body>
+            </md-table>
 
+            <md-table>
                 <md-table-header>
-                    <md-table-row class="text-primary">
+                    <md-table-row>
                         <md-table-head>Summary</md-table-head>
-                        <md-table-head md-numeric class="text-primary">&nbsp;</md-table-head>
-                        <md-table-head md-numeric class="text-primary">{{ basket.summaries.balance_normal }}</md-table-head>
+                        <md-table-head md-numeric>Amount</md-table-head>
                     </md-table-row>
                 </md-table-header>
+
+                <md-table-body>
+                    <md-table-row>
+                        <md-table-cell>Items</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.summaries.balance.items }}</md-table-cell>
+                    </md-table-row>
+
+                    <md-table-row>
+                        <md-table-cell>Due From Customer</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.summaries.balance.due_from_customer }}</md-table-cell>
+                    </md-table-row>
+
+                    <md-table-row>
+                        <md-table-cell>Due To Customer</md-table-cell>
+                        <md-table-cell md-numeric>{{ basket.summaries.balance.due_to_customer }}</md-table-cell>
+                    </md-table-row>
+                </md-table-body>
             </md-table>
 
             <md-table>
@@ -76,14 +94,18 @@
     export default {
         data() {
             return {
-                basket: {}
+                basket: {},
+                loaded: false
             };
         },
 
         methods: {
             reload() {
                 this.$http.get('/api/basket')
-                    .then(response => this.basket = response.body);
+                    .then(response => {
+                        this.basket = response.body;
+                        this.loaded = true;
+                    });
             },
 
             selected(item) {
@@ -101,7 +123,7 @@
             }
         },
 
-        created() {
+        mounted() {
             this.reload();
 
             Event.listen(

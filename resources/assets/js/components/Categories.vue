@@ -1,14 +1,6 @@
 <template>
     <md-sidenav md-fixed class="md-left main-sidebar" ref="leftSidenav">
-        <md-toolbar class="md-large">
-            <div class="md-toolbar-container">
-                <h3 class="md-title pull-left">
-                    <clock />
-                </h3>
-            </div>
-        </md-toolbar>
-
-        <div class="main-sidebar-links">
+        <div class="main-sidebar-links" style="background: white">
             <md-list>
                 <md-list-item
                     v-for="category in categories"

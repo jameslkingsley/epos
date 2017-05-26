@@ -3,16 +3,17 @@ window._ = require('lodash');
 window.Vue = require('vue');
 require('vue-resource');
 
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
 var VueMaterial = require('vue-material');
 require('vue-material/dist/vue-material.css');
 Vue.use(VueMaterial);
 
-// Vue.material.registerTheme('default', {
-//     primary: 'blue',
-//     accent: 'red',
-//     warn: 'red',
-//     background: 'white'
-// });
+Vue.material.registerTheme('default', {
+    primary: 'indigo',
+    accent: 'indigo'
+});
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';

@@ -4,6 +4,7 @@ namespace App\Basket;
 
 use Jenssegers\Model\Model;
 use App\Basket\Models\Summary;
+use App\Events\TransactionStarted;
 use App\Basket\Collections\ItemCollection;
 use App\Basket\Collections\PaymentCollection;
 
@@ -38,12 +39,22 @@ class Basket extends Model
     ];
 
     /**
+     * Dynamic events to fire for single-instance scopes.
+     *
+     * @var array
+     */
+    protected $events = [];
+
+    /**
      * Constructor method.
      *
      * @return any
      */
     public function __construct(bool $new = false)
     {
+        // Empty the events, make it a collection
+        $this->events = collect([]);
+
         $basket = session('basket', null);
 
         foreach ($this->wakeup as $attr) {
@@ -51,6 +62,10 @@ class Basket extends Model
         }
 
         session()->put('basket', $this);
+
+        if ($new) {
+            event(new TransactionStarted($this));
+        }
     }
 
     /**
@@ -114,6 +129,21 @@ class Basket extends Model
     }
 
     /**
+     * Adds an event to the basket.
+     *
+     * @return self
+     */
+    public function withEvent(string $name, $args)
+    {
+        $this->events->push([
+            'name' => $name,
+            'args' => $args
+        ]);
+
+        return $this;
+    }
+
+    /**
      * Updates the basket in a single instance scope.
      *
      * @return self
@@ -123,6 +153,11 @@ class Basket extends Model
         $basket = $this;
 
         session()->put('basket', $closure($basket));
+
+        // Call any dynamic events added to the basket
+        $this->events->each(function($event) {
+            event(new $event['name']($event['args']));
+        });
 
         return $basket;
     }

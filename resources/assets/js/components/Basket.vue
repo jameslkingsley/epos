@@ -20,12 +20,15 @@
         data() {
             return {
                 basket: {},
-                loaded: false
+                loaded: false,
+                softReload: false
             };
         },
 
         methods: {
             reload() {
+                if (this.softReload) return;
+
                 this.$http.get('/api/basket')
                     .then(response => {
                         this.basket = response.body;
@@ -60,6 +63,18 @@
                 'basket-reload',
                 () => this.reload()
             );
+
+            Echo.channel('basket')
+                .listen('TransactionStarted', (e) => {
+                    this.$material.setCurrentTheme('default');
+                    this.softReload = false;
+                    console.log(e);
+                })
+                .listen('TransactionCompleted', (e) => {
+                    this.$material.setCurrentTheme('success');
+                    this.softReload = true;
+                    console.log(e);
+                });
         }
     }
 </script>

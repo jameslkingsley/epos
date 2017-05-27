@@ -2,6 +2,7 @@
 
 namespace App\Basket\Collections;
 
+use App\Events\PaymentAdded;
 use App\Basket\Models\Payment;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
@@ -76,7 +77,8 @@ class PaymentCollection extends Collection
                 $basket->payments->push($payment);
             }
 
-            return $basket;
+            // Return the updated basket, with the payment added event
+            return $basket->withEvent(PaymentAdded::class, $payment);
         });
     }
 

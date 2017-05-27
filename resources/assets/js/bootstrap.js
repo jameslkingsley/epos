@@ -10,9 +10,16 @@ var VueMaterial = require('vue-material');
 require('vue-material/dist/vue-material.css');
 Vue.use(VueMaterial);
 
-Vue.material.registerTheme('default', {
-    primary: 'indigo',
-    accent: 'indigo'
+Vue.material.registerTheme({
+    default: {
+        primary: 'indigo',
+        accent: 'indigo'
+    },
+
+    success: {
+        primary: 'light-green',
+        accent: 'light-green'
+    }
 });
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
@@ -21,3 +28,13 @@ Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 require('./support/event.js');
 require('./support/errors.js');
 require('./support/form.js');
+
+import Echo from 'laravel-echo'
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '648cf3562bf2244772cf',
+    cluster: 'eu'
+});

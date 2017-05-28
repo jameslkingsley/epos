@@ -9,4 +9,11 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication,
         DatabaseMigrations;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->basket = basket();
+    }
 }

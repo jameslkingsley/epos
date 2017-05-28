@@ -85,6 +85,27 @@ class ItemCollection extends Collection
     }
 
     /**
+     * Removes the given item from the collection.
+     *
+     * @return self
+     */
+    public function remove(Item $item, int $qty = -1)
+    {
+        $this->items = $this->map(function($i) use($item, $qty) {
+            if ($i->isSameAs($item)) {
+                if ($qty === -1 || $i->qty <= 1) {
+                    return null;
+                }
+
+                $i->qty -= $qty;
+                return $i;
+            }
+        })->reject(function($i) {
+            return is_null($i);
+        })->all();
+    }
+
+    /**
      * Updates the given item via the closure.
      *
      * @return self

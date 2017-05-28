@@ -24,8 +24,7 @@
 
         methods: {
             handle() {
-                this.$http.post('/api/payments', this.payment)
-                    .then(response => Event.fire('basket-reload'));
+                this.$http.post('/api/payments', this.payment);
             }
         }
     }

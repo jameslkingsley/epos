@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Basket;
+use App\Events\BasketReload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -36,9 +37,11 @@ class BasketItemController extends Controller
      */
     public function store(Request $request)
     {
-        return basket()->items->add(
+        basket()->items->add(
             array_to_object($request->all())
         );
+
+        event(new BasketReload);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Basket;
+use App\Events\BasketReload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -82,5 +83,7 @@ class BasketController extends Controller
     public function empty()
     {
         basket()->empty();
+
+        event(new BasketReload);
     }
 }

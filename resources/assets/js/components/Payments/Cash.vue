@@ -30,8 +30,7 @@
                     let payment = this.payment;
                     payment.amount = Number(amount) * 100;
 
-                    this.$http.post('/api/payments', payment)
-                        .then(response => Event.fire('basket-reload'));
+                    this.$http.post('/api/payments', payment);
                 }
             }
         }

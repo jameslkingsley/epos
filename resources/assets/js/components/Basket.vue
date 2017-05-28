@@ -20,30 +20,17 @@
         data() {
             return {
                 basket: {},
-                loaded: false,
-                softReload: false
+                loaded: false
             };
         },
 
         methods: {
-            reload() {
-                if (this.softReload) return;
-
-                this.$http.get('/api/basket')
-                    .then(response => {
-                        this.basket = response.body;
-                        this.loaded = true;
-                    });
-            },
-
             selected(item) {
-                this.$http.post('/api/basket-items', item)
-                    .then(response => this.reload());
+                this.$http.post('/api/basket-items', item);
             },
 
             emptyBasket() {
-                this.$http.delete('/basket')
-                    .then(response => Event.fire('basket-reload', response.body));
+                this.$http.delete('/basket');
             },
 
             checkout() {
@@ -52,27 +39,24 @@
         },
 
         mounted() {
-            this.reload();
-
             Event.listen(
                 'item-select',
                 item => this.selected(item)
             );
 
-            Event.listen(
-                'basket-reload',
-                () => this.reload()
-            );
-
             Echo.channel('basket')
+                .listen('BasketReload', (e) => {
+                    this.basket = e.basket;
+                    this.loaded = true;
+                    console.log(e);
+                })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');
-                    this.softReload = false;
                     console.log(e);
                 })
                 .listen('TransactionCompleted', (e) => {
                     this.$material.setCurrentTheme('success');
-                    this.softReload = true;
+                    this.basket = e.basket;
                     console.log(e);
                 });
         }

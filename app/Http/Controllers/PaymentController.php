@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Basket;
+use App\Events\BasketReload;
 use Illuminate\Http\Request;
 use App\Basket\Models\Payment;
 
@@ -55,9 +56,11 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        return basket()->payments->add(
+        basket()->payments->add(
             array_to_object($request->all())
         );
+
+        event(new BasketReload);
     }
 
     /**

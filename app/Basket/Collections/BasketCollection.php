@@ -2,7 +2,7 @@
 
 namespace App\Basket\Collections;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Basket\Collections\Collection;
 
 class BasketCollection extends Collection
 {

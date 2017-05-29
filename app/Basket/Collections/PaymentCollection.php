@@ -5,8 +5,8 @@ namespace App\Basket\Collections;
 use App\Events\PaymentAdded;
 use App\Basket\Models\Payment;
 use Illuminate\Support\Facades\Log;
+use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Database\Eloquent\Collection;
 
 class PaymentCollection extends Collection
 {

@@ -21,6 +21,16 @@ class ItemTest extends TestCase
     }
 
     /** @test */
+    public function can_add_many_items_to_basket()
+    {
+        $item = Item::first();
+
+        $this->basket->items->addMany($item, 10);
+
+        $this->assertEquals(10, $this->basket->items->count());
+    }
+
+    /** @test */
     public function can_remove_one_item_from_basket()
     {
         $item = Item::first();
@@ -36,10 +46,7 @@ class ItemTest extends TestCase
     {
         $item = Item::first();
 
-        for ($n = 0; $n != 5; $n++) {
-            $this->basket->items->add($item);
-        }
-
+        $this->basket->items->addMany($item, 5);
         $this->basket->items->remove($item, 3);
 
         $this->assertEquals(2, $this->basket->items->count());

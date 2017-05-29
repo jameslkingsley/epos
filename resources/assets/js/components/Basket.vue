@@ -27,7 +27,7 @@
         methods: {
             selected(item) {
                 this.$material.setCurrentTheme('default');
-                this.$http.post('/api/basket-items', item);
+                this.$http.post('/api/items', item);
             },
 
             emptyBasket() {

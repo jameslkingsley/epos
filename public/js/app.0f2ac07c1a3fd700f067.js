@@ -103,7 +103,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         selected: function selected(item) {
             this.$material.setCurrentTheme('default');
-            this.$http.post('/api/basket-items', item);
+            this.$http.post('/api/items', item);
         },
         emptyBasket: function emptyBasket() {
             this.$http.delete('/api/basket');
@@ -165,9 +165,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['basket']
+    props: ['basket'],
+
+    data: function data() {
+        return {
+            options: {
+                product: [{ text: 'Add One', action: function action(item, http) {
+                        Event.fire('item-select', item);
+                    }
+                }, { text: 'Add Many', action: function action(item, http) {
+                        var count = prompt('Enter Count', '1');
+
+                        if (count != null && count > 0) {
+                            http.post('/api/items/add-many/' + count, item);
+                        }
+                    }
+                }, { text: 'Remove One', action: function action(item, http) {
+                        http.delete('/api/items/' + item.id + '/1');
+                    }
+                }, { text: 'Remove All', action: function action(item, http) {
+                        http.delete('/api/items/' + item.id);
+                    }
+                }]
+            },
+
+            activeOption: {
+                model: [],
+                args: {}
+            }
+        };
+    },
+
+
+    computed: {
+        hasActiveOption: function hasActiveOption() {
+            return _.keys(this.activeOption).length > 0;
+        }
+    },
+
+    methods: {
+        showOptions: function showOptions(item, index) {
+            var model = item.model_type.split('\\').pop().toLowerCase();
+            this.activeOption.model = this.options[model];
+            this.activeOption.args = item;
+            this.$refs.itemOptions.open();
+        }
+    }
 });
 
 /***/ }),
@@ -23481,9 +23540,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v("Price")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.items), function(item, index) {
+  }, [_vm._v("Price")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((_vm.basket.items), function(item, index) {
     return _c('md-table-row', {
-      key: index
+      key: index,
+      nativeOn: {
+        "click": function($event) {
+          _vm.showOptions(item, index)
+        }
+      }
     }, [_c('md-table-cell', [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
@@ -23493,7 +23557,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": ""
       }
     }, [_vm._v(_vm._s(item.amount))])], 1)
-  }))], 1)
+  }), _vm._v(" "), _c('md-dialog', {
+    ref: "itemOptions"
+  }, [_c('md-dialog-title', [_vm._v("Actions")]), _vm._v(" "), _c('md-dialog-content', _vm._l((_vm.activeOption.model), function(item, index) {
+    return _c('md-button', {
+      key: index,
+      staticClass: "md-raised md-primary",
+      nativeOn: {
+        "click": function($event) {
+          item.action(_vm.activeOption.args, _vm.$http)
+        }
+      }
+    }, [_vm._v("\n                    " + _vm._s(item.text) + "\n                ")])
+  })), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+    staticClass: "md-primary",
+    nativeOn: {
+      "click": function($event) {
+        _vm.$refs.itemOptions.close($event)
+      }
+    }
+  }, [_vm._v("Close")])], 1)], 1)], 2)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

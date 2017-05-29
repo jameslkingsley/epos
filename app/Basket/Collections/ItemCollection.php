@@ -3,7 +3,7 @@
 namespace App\Basket\Collections;
 
 use App\Basket\Models\Item;
-use Illuminate\Database\Eloquent\Collection;
+use App\Basket\Collections\Collection;
 
 class ItemCollection extends Collection
 {
@@ -65,13 +65,29 @@ class ItemCollection extends Collection
     }
 
     /**
+     * Resolves the item model while keeping dynamic properties.
+     *
+     * @return App\Basket\Models\Item
+     */
+    public function resolve($item, array $props = [])
+    {
+        $model = ($item instanceof Item) ? $item : Item::findOrFail($item->id);
+
+        foreach ($props as $key => $value) {
+            $model->$key = $value;
+        }
+
+        return $model;
+    }
+
+    /**
      * Adds an item to the collection.
      *
      * @return self
      */
     public function add($item)
     {
-        $item = ($item instanceof Item) ? $item : Item::findOrFail($item->id);
+        $item = $this->resolve($item);
 
         if ($this->has($item)) {
             $this->update($item, function(&$item) {

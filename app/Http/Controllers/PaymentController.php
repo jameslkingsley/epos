@@ -62,9 +62,7 @@ class PaymentController extends Controller
 
         // Reload the basket if the transaction
         // isn't yet completed
-        if (!basket()->transactionCompleted()) {
-            basket()->reload();
-        }
+        basket()->reloadIfOpen();
     }
 
     /**

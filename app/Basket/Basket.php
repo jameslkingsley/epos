@@ -178,7 +178,7 @@ class Basket extends Model
      */
     public function transactionCompleted()
     {
-        return $this->summaries->balance->due_from_customer <= 0;
+        return $this->summaries->balance->dueFromCustomer()->get() <= 0;
     }
 
     /**
@@ -210,5 +210,21 @@ class Basket extends Model
     public function reload()
     {
         event(new BasketReload($this));
+
+        return $this;
+    }
+
+    /**
+     * Reloads the basket if the transaction is still open.
+     *
+     * @return self
+     */
+    public function reloadIfOpen()
+    {
+        if (!$this->transactionCompleted()) {
+            $this->reload();
+        }
+
+        return $this;
     }
 }

@@ -26,7 +26,10 @@ Route::resource('/api/basket', 'BasketController', [
     'except' => 'destroy'
 ]);
 
-Route::resource('/api/basket-items', 'BasketItemController');
+Route::delete('/api/items/{item}/{qty}', 'ItemController@destroy');
+Route::post('/api/items/add-many/{count}', 'ItemController@addMany');
+Route::resource('/api/items', 'ItemController');
+
 Route::resource('/api/payments', 'PaymentController');
 
 Auth::routes();

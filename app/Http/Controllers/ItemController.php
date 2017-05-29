@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Basket\Basket;
+use App\Basket\Models\Item;
 use App\Events\BasketReload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class BasketItemController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -39,6 +40,21 @@ class BasketItemController extends Controller
     {
         basket()->items->add(
             array_to_object($request->all())
+        );
+
+        basket()->reload();
+    }
+
+    /**
+     * Adds many items to the basket.
+     *
+     * @return any
+     */
+    public function addMany(Request $request, int $count = 1)
+    {
+        basket()->items->addMany(
+            array_to_object($request->all()),
+            $count
         );
 
         basket()->reload();
@@ -84,8 +100,10 @@ class BasketItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, Item $item, int $qty = -1)
     {
-        //
+        basket()->items->remove($item, $qty);
+
+        basket()->reload();
     }
 }

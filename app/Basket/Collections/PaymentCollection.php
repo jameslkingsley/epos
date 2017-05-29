@@ -11,12 +11,21 @@ use Illuminate\Database\Eloquent\Collection;
 class PaymentCollection extends Collection
 {
     /**
+     * Basket instance.
+     *
+     * @var App\Basket\Basket
+     */
+    protected $basket;
+
+    /**
      * Constructor method.
      *
      * @return any
      */
-    public function __construct($payments)
+    public function __construct($payments, $basket = null)
     {
+        $this->basket = $basket;
+
         foreach ($payments as $payment) {
             $this->push($payment);
         }
@@ -61,7 +70,7 @@ class PaymentCollection extends Collection
      */
     public function add($payment)
     {
-        return basket()->update(function($basket) use($payment) {
+        return $this->basket->update(function($basket) use($payment) {
             $payment = $this->resolve($payment, [
                 'amount' => $payment->amount
             ]);
@@ -69,7 +78,7 @@ class PaymentCollection extends Collection
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);
 
-            if ($basket->payments->alreadyHas($payment)) {
+            if ($basket->payments->has($payment)) {
                 $basket->payments->update($payment, function(&$p) use($payment) {
                     $p->amount += $payment->amount;
                 });
@@ -80,6 +89,30 @@ class PaymentCollection extends Collection
             // Return the updated basket, with the payment added event
             return $basket->withEvent(PaymentAdded::class, $payment);
         });
+    }
+
+    /**
+     * Removes the given payment from the collection.
+     *
+     * @return self
+     */
+    public function remove(Payment $payment)
+    {
+        $this->items = $this->reject(function($p) use($payment) {
+            return $p->isSameAs($payment);
+        })->all();
+    }
+
+    /**
+     * Removes all payments from the basket.
+     *
+     * @return self
+     */
+    public function empty()
+    {
+        $this->items = [];
+
+        return $this;
     }
 
     /**
@@ -103,7 +136,7 @@ class PaymentCollection extends Collection
      *
      * @return boolean
      */
-    public function alreadyHas(Payment $payment)
+    public function has($payment)
     {
         return $this->contains(function($p) use($payment) {
             return $p->isSameAs($payment);

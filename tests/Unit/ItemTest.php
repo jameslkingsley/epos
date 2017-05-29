@@ -17,7 +17,7 @@ class ItemTest extends TestCase
 
         $this->basket->items->add($item);
 
-        $this->assertTrue($this->basket->items->alreadyHas($item));
+        $this->assertTrue($this->basket->items->has($item));
     }
 
     /** @test */
@@ -74,7 +74,7 @@ class ItemTest extends TestCase
 
         $this->basket->items->add($item);
 
-        $this->assertTrue($this->basket->items->alreadyHas($item));
+        $this->assertTrue($this->basket->items->has($item));
     }
 
     /** @test */

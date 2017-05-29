@@ -57,7 +57,7 @@ class ItemCollection extends Collection
      *
      * @return boolean
      */
-    public function alreadyHas(Item $item)
+    public function has($item)
     {
         return $this->contains(function($i) use($item) {
             return $i->isSameAs($item);
@@ -73,7 +73,7 @@ class ItemCollection extends Collection
     {
         $item = ($item instanceof Item) ? $item : Item::findOrFail($item->id);
 
-        if ($this->alreadyHas($item)) {
+        if ($this->has($item)) {
             $this->update($item, function(&$item) {
                 $item->qty++;
             });

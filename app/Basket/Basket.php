@@ -115,7 +115,7 @@ class Basket extends Model
      */
     public function setPaymentsAttribute($payments)
     {
-        $this->attributes['payments'] = new PaymentCollection($payments);
+        $this->attributes['payments'] = new PaymentCollection($payments, $this);
     }
 
     /**
@@ -150,12 +150,12 @@ class Basket extends Model
      */
     public function update(callable $closure)
     {
-        $basket = $this;
+        $basket = $closure($this);
 
-        session()->put('basket', $closure($basket));
+        session()->put('basket', $basket);
 
         // Call any dynamic events added to the basket
-        $this->events->each(function($event) {
+        $basket->events->each(function($event) {
             event(new $event['name']($event['args']));
         });
 

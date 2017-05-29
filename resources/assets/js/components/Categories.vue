@@ -40,11 +40,11 @@
 
             view(category) {
                 this.$http.get('/api/categories/' + category.id)
-                    .then(response => Event.fire('category-items', response.body));
-
-                this.active = category.id;
-
-                Event.fire('checkout', false);
+                    .then(response => {
+                        Event.fire('category-items', response.body)
+                        Event.fire('checkout', false);
+                        this.active = category.id;
+                    });
             }
         },
 

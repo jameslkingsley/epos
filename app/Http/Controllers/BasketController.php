@@ -16,7 +16,7 @@ class BasketController extends Controller
      */
     public function index()
     {
-        return response()->json(basket());
+        basket()->reload();
     }
 
     /**
@@ -82,8 +82,8 @@ class BasketController extends Controller
      */
     public function empty()
     {
-        basket()->empty();
-
-        event(new BasketReload);
+        basket()
+            ->empty()
+            ->reload();
     }
 }

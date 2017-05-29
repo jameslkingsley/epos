@@ -28,7 +28,7 @@ class TransactionCompletionStatus
     {
         $basket = basket();
 
-        if ($basket->summaries->balance->due_from_customer <= 0) {
+        if ($basket->transactionCompleted()) {
             event(new TransactionCompleted($basket));
         }
     }

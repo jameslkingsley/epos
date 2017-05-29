@@ -17,8 +17,8 @@ Vue.material.registerTheme({
     },
 
     success: {
-        primary: 'light-green',
-        accent: 'light-green'
+        primary: 'green',
+        accent: 'green'
     }
 });
 

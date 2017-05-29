@@ -3,9 +3,11 @@
 namespace App\Basket;
 
 use Jenssegers\Model\Model;
+use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\TransactionStarted;
 use App\Basket\Collections\ItemCollection;
+use Illuminate\Database\Eloquent\Collection;
 use App\Basket\Collections\PaymentCollection;
 
 class Basket extends Model
@@ -19,6 +21,13 @@ class Basket extends Model
     const MRefund = 1;
     const MStaff = 2;
     const MDebug = 4;
+
+    /**
+     * Basket flag constants.
+     *
+     * @var integer
+     */
+    const SkipTransactionStartedEvent = true;
 
     /**
      * Appended attributes.
@@ -50,7 +59,7 @@ class Basket extends Model
      *
      * @return any
      */
-    public function __construct(bool $new = false)
+    public function __construct(bool $new = false, bool $skip_event = false)
     {
         // Empty the events, make it a collection
         $this->events = collect([]);
@@ -63,7 +72,7 @@ class Basket extends Model
 
         session()->put('basket', $this);
 
-        if ($new) {
+        if ($new && !$skip_event) {
             event(new TransactionStarted($this));
         }
     }
@@ -163,14 +172,24 @@ class Basket extends Model
     }
 
     /**
+     * Checks whether the transaction is completed.
+     *
+     * @return boolean
+     */
+    public function transactionCompleted()
+    {
+        return $this->summaries->balance->due_from_customer <= 0;
+    }
+
+    /**
      * Empties the basket in the session.
      * Creates a new basket, in session.
      *
      * @return App\Basket\Basket
      */
-    public static function empty()
+    public static function empty(bool $skip_event = false)
     {
-        return new self(true);
+        return new self(true, $skip_event);
     }
 
     /**
@@ -181,5 +200,15 @@ class Basket extends Model
     public static function get()
     {
         return new self;
+    }
+
+    /**
+     * Raises the reload basket event.
+     *
+     * @return self
+     */
+    public function reload()
+    {
+        event(new BasketReload($this));
     }
 }

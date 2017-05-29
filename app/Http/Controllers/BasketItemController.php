@@ -41,7 +41,7 @@ class BasketItemController extends Controller
             array_to_object($request->all())
         );
 
-        event(new BasketReload);
+        basket()->reload();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Basket\Basket;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -26,9 +27,9 @@ class BasketReload implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Basket $basket = null)
     {
-        $this->basket = basket();
+        $this->basket = is_null($basket) ? basket() : $basket;
     }
 
     /**

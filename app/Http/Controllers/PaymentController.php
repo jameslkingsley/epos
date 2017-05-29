@@ -60,7 +60,11 @@ class PaymentController extends Controller
             array_to_object($request->all())
         );
 
-        event(new BasketReload);
+        // Reload the basket if the transaction
+        // isn't yet completed
+        if (!basket()->transactionCompleted()) {
+            basket()->reload();
+        }
     }
 
     /**

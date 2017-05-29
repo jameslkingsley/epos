@@ -26,15 +26,20 @@
 
         methods: {
             selected(item) {
+                this.$material.setCurrentTheme('default');
                 this.$http.post('/api/basket-items', item);
             },
 
             emptyBasket() {
-                this.$http.delete('/basket');
+                this.$http.delete('/api/basket');
             },
 
             checkout() {
                 Event.fire('checkout', true);
+            },
+
+            reloadBasket() {
+                this.$http.get('/api/basket');
             }
         },
 
@@ -48,17 +53,18 @@
                 .listen('BasketReload', (e) => {
                     this.basket = e.basket;
                     this.loaded = true;
-                    console.log(e);
                 })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');
-                    console.log(e);
                 })
                 .listen('TransactionCompleted', (e) => {
                     this.$material.setCurrentTheme('success');
                     this.basket = e.basket;
-                    console.log(e);
                 });
+        },
+
+        created() {
+            this.reloadBasket();
         }
     }
 </script>

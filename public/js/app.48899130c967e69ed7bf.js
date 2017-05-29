@@ -95,62 +95,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             basket: {},
-            loaded: false,
-            softReload: false
+            loaded: false
         };
     },
 
 
     methods: {
-        reload: function reload() {
-            var _this = this;
-
-            if (this.softReload) return;
-
-            this.$http.get('/api/basket').then(function (response) {
-                _this.basket = response.body;
-                _this.loaded = true;
-            });
-        },
         selected: function selected(item) {
-            var _this2 = this;
-
-            this.$http.post('/api/basket-items', item).then(function (response) {
-                return _this2.reload();
-            });
+            this.$material.setCurrentTheme('default');
+            this.$http.post('/api/basket-items', item);
         },
         emptyBasket: function emptyBasket() {
-            this.$http.delete('/basket').then(function (response) {
-                return Event.fire('basket-reload', response.body);
-            });
+            this.$http.delete('/api/basket');
         },
         checkout: function checkout() {
             Event.fire('checkout', true);
+        },
+        reloadBasket: function reloadBasket() {
+            this.$http.get('/api/basket');
         }
     },
 
     mounted: function mounted() {
-        var _this3 = this;
-
-        this.reload();
+        var _this = this;
 
         Event.listen('item-select', function (item) {
-            return _this3.selected(item);
+            return _this.selected(item);
         });
 
-        Event.listen('basket-reload', function () {
-            return _this3.reload();
-        });
-
-        Echo.channel('basket').listen('TransactionStarted', function (e) {
-            _this3.$material.setCurrentTheme('default');
-            _this3.softReload = false;
-            console.log(e);
+        Echo.channel('basket').listen('BasketReload', function (e) {
+            _this.basket = e.basket;
+            _this.loaded = true;
+        }).listen('TransactionStarted', function (e) {
+            _this.$material.setCurrentTheme('default');
         }).listen('TransactionCompleted', function (e) {
-            _this3.$material.setCurrentTheme('success');
-            _this3.softReload = true;
-            console.log(e);
+            _this.$material.setCurrentTheme('success');
+            _this.basket = e.basket;
         });
+    },
+    created: function created() {
+        this.reloadBasket();
     }
 });
 
@@ -338,13 +322,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         view: function view(category) {
+            var _this2 = this;
+
             this.$http.get('/api/categories/' + category.id).then(function (response) {
-                return Event.fire('category-items', response.body);
+                Event.fire('category-items', response.body);
+                Event.fire('checkout', false);
+                _this2.active = category.id;
             });
-
-            this.active = category.id;
-
-            Event.fire('checkout', false);
         }
     },
 
@@ -693,9 +677,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var payment = this.payment;
                 payment.amount = Number(amount) * 100;
 
-                this.$http.post('/api/payments', payment).then(function (response) {
-                    return Event.fire('basket-reload');
-                });
+                this.$http.post('/api/payments', payment);
             }
         }
     }
@@ -740,9 +722,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var payment = this.payment;
                 payment.amount = Number(amount) * 100;
 
-                this.$http.post('/api/payments', payment).then(function (response) {
-                    return Event.fire('basket-reload');
-                });
+                this.$http.post('/api/payments', payment);
             }
         }
     }
@@ -781,9 +761,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         handle: function handle() {
-            this.$http.post('/api/payments', this.payment).then(function (response) {
-                return Event.fire('basket-reload');
-            });
+            this.$http.post('/api/payments', this.payment);
         }
     }
 });
@@ -37829,8 +37807,8 @@ Vue.material.registerTheme({
     },
 
     success: {
-        primary: 'light-green',
-        accent: 'light-green'
+        primary: 'green',
+        accent: 'green'
     }
 });
 

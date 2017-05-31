@@ -164,6 +164,8 @@ class ItemCollection extends Collection
                 $i->qty -= $qty;
                 return $i;
             }
+
+            return $i;
         })->reject(function($i) {
             return is_null($i);
         })->all();

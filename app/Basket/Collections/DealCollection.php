@@ -56,7 +56,7 @@ class DealCollection extends Collection
 
             if ($basket->deals->has($deal)) {
                 $basket->deals->update($deal, function(&$deal) {
-                    $deal->qty++;
+                    //
                 });
             } else {
                 $basket->deals->push($deal);
@@ -92,5 +92,21 @@ class DealCollection extends Collection
         return $this->contains(function($d) use($deal) {
             return $d->isSameAs($deal);
         });
+    }
+
+    /**
+     * Gets the total balance of all deals.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function balance()
+    {
+        $total = 0;
+
+        $this->each(function($deal) use(&$total) {
+            $total += $deal->handler->discount()->get();
+        });
+
+        return number($total);
     }
 }

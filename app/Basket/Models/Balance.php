@@ -48,7 +48,8 @@ class Balance extends Model
     {
         return number()->sum(
             $this->basket->items->balance(),
-            $this->basket->payments->balance()
+            $this->basket->payments->balance(),
+            $this->basket->deals->balance()
         );
     }
 
@@ -59,7 +60,7 @@ class Balance extends Model
      */
     public function dueToCustomer()
     {
-        return number($this->dueFromCustomer()->inverted());
+        return $this->dueFromCustomer()->inverted();
     }
 
     /**

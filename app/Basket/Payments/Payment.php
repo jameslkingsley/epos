@@ -26,6 +26,6 @@ abstract class Payment
      */
     public function amount($amount)
     {
-        return number($amount)->inverted();
+        return number($amount)->inverted()->get();
     }
 }

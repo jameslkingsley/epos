@@ -14,7 +14,8 @@ class Deal extends Model
      * @var array
      */
     protected $appends = [
-        'handler', 'discount'
+        'handler', 'discount',
+        'products'
     ];
 
     /**
@@ -35,6 +36,16 @@ class Deal extends Model
     public function getDiscountAttribute()
     {
         return $this->handler->discount()->normal()->display();
+    }
+
+    /**
+     * Gets the items resolved to their models.
+     *
+     * @return any
+     */
+    public function getProductsAttribute()
+    {
+        return $this->items->resolved();
     }
 
     /**

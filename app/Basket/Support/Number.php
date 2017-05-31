@@ -107,7 +107,9 @@ class Number
      */
     public function inverted()
     {
-        return -$this->number;
+        $this->number = -$this->number;
+
+        return $this;
     }
 
     /**
@@ -179,11 +181,41 @@ class Number
     public function sum()
     {
         $total = 0;
+        $elements = func_get_args();
 
-        foreach (func_get_args() as $n) {
+        if (is_array(func_get_args()[0])) {
+            $elements = func_get_args()[0];
+        }
+
+        foreach ($elements as $n) {
             $total += $n->get();
         }
 
         return static::make($total);
+    }
+
+    /**
+     * Applies a percentage cut of the number.
+     * Always rounds down.
+     *
+     * @return self
+     */
+    public function cut(float $cut)
+    {
+        $this->number = floor($this->number * $cut);
+
+        return $this;
+    }
+
+    /**
+     * Multiplies the number by the given number.
+     *
+     * @return self
+     */
+    public function times($coef)
+    {
+        $this->number = $this->number * $coef;
+
+        return $this;
     }
 }

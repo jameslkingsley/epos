@@ -3,9 +3,12 @@
 namespace App\Basket\Payments;
 
 use App\Basket\Basket;
+use App\Basket\Traits\HasConstraints;
 
 abstract class Payment
 {
+    use HasConstraints;
+
     /**
      * Makes a new instance.
      *

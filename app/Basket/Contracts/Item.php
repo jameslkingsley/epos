@@ -2,7 +2,7 @@
 
 namespace App\Basket\Contracts;
 
-interface ItemModel
+interface Item
 {
     /**
      * Gets the display title for the model.

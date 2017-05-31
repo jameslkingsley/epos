@@ -4,7 +4,9 @@ namespace App\Basket\Collections;
 
 use App\Events\PaymentAdded;
 use App\Basket\Models\Payment;
+use App\Events\BasketException;
 use Illuminate\Support\Facades\Log;
+use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
 
@@ -64,6 +66,22 @@ class PaymentCollection extends Collection
     }
 
     /**
+     * Validates the payment to check if it can be added.
+     *
+     * @throws App\Events\BasketException
+     * @return void
+     */
+    public function validate(Payment $payment)
+    {
+        try {
+            $payment->provider->canBeAdded($this->basket);
+        } catch(Exception $e) {
+            event(new BasketException($e->getMessage()));
+            exit;
+        }
+    }
+
+    /**
      * Adds a payment to the collection.
      *
      * @return self
@@ -71,9 +89,13 @@ class PaymentCollection extends Collection
     public function add($payment)
     {
         return $this->basket->update(function($basket) use($payment) {
-            $payment = $this->resolve($payment, [
+            $payment = $basket->payments->resolve($payment, [
                 'amount' => $payment->amount
             ]);
+
+            // Validate the payment
+            // If invalid, will exit
+            $basket->payments->validate($payment);
 
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);

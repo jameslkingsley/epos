@@ -2,18 +2,30 @@
 
 namespace App\Basket\Collections;
 
+use App\Events\ItemAdded;
 use App\Basket\Models\Item;
+use App\Events\BasketException;
+use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
 
 class ItemCollection extends Collection
 {
     /**
+     * Basket instance.
+     *
+     * @var App\Basket\Basket
+     */
+    protected $basket;
+
+    /**
      * Constructor method.
      *
      * @return any
      */
-    public function __construct($items)
+    public function __construct($items, $basket = null)
     {
+        $this->basket = $basket;
+
         foreach ($items as $item) {
             $this->push($item);
         }
@@ -65,6 +77,20 @@ class ItemCollection extends Collection
     }
 
     /**
+     * Checks if the collection has one of the given items.
+     *
+     * @return boolean
+     */
+    public function hasOneOf($items)
+    {
+        return $this->contains(function($i) use($items) {
+            return $items->contains(function($ii) use($i) {
+                return $ii->isSameAs($i);
+            });
+        });
+    }
+
+    /**
      * Resolves the item model while keeping dynamic properties.
      *
      * @return App\Basket\Models\Item
@@ -81,6 +107,22 @@ class ItemCollection extends Collection
     }
 
     /**
+     * Validates the item to check if it can be added.
+     *
+     * @throws App\Events\BasketException
+     * @return void
+     */
+    public function validate(Item $item)
+    {
+        try {
+            $item->model->canBeAdded($this->basket);
+        } catch(Exception $e) {
+            event(new BasketException($e->getMessage()));
+            exit;
+        }
+    }
+
+    /**
      * Adds an item to the collection.
      *
      * @return self
@@ -89,6 +131,10 @@ class ItemCollection extends Collection
     {
         $item = $this->resolve($item);
 
+        // Validate the item
+        // If invalid, will exit
+        $this->validate($item);
+
         if ($this->has($item)) {
             $this->update($item, function(&$item) {
                 $item->qty++;
@@ -96,6 +142,8 @@ class ItemCollection extends Collection
         } else {
             $this->push($item);
         }
+
+        event(new ItemAdded($item));
 
         return $this;
     }

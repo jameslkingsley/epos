@@ -68,11 +68,59 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Alert.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            vertical: 'top',
+            horizontal: 'center',
+            duration: 3000,
+            text: ''
+        };
+    },
+
+
+    computed: {
+        position: function position() {
+            return this.vertical + ' ' + this.horizontal;
+        }
+    },
+
+    methods: {
+        open: function open() {
+            this.$refs.snackbar.open();
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        Event.listen('alert', function (text) {
+            _this.text = text;
+            _this.open();
+        });
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Basket.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -126,6 +174,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Echo.channel('basket').listen('BasketReload', function (e) {
             _this.basket = e.basket;
             _this.loaded = true;
+        }).listen('BasketException', function (e) {
+            Event.fire('alert', e.message);
         }).listen('TransactionStarted', function (e) {
             _this.$material.setCurrentTheme('default');
         }).listen('TransactionCompleted', function (e) {
@@ -136,6 +186,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.reloadBasket();
     }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Basket/Deals.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['basket']
 });
 
 /***/ }),
@@ -898,6 +978,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -23528,6 +23610,32 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2a4b2fc9\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Alert.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-snackbar', {
+    ref: "snackbar",
+    attrs: {
+      "md-position": _vm.position,
+      "md-duration": _vm.duration
+    }
+  }, [_c('span', {
+    domProps: {
+      "textContent": _vm._s(_vm.text)
+    }
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2a4b2fc9", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-387f8dba\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Basket/Items.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23696,6 +23804,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "basket": _vm.basket
     }
+  }), _vm._v(" "), _c('basket-deals', {
+    attrs: {
+      "basket": _vm.basket
+    }
   }), _vm._v(" "), _c('basket-vat', {
     attrs: {
       "basket": _vm.basket
@@ -23785,13 +23897,41 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-67a9fc01\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Basket/Deals.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Deal")]), _vm._v(" "), _c('md-table-head', {
+    attrs: {
+      "md-numeric": ""
+    }
+  }, [_vm._v("Discount")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.basket.deals), function(deal, index) {
+    return _c('md-table-row', {
+      key: index
+    }, [_c('md-table-cell', [_vm._v(_vm._s(deal.name))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(deal.discount))])], 1)
+  }))], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-67a9fc01", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-760cfcc8\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Till.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_c('md-toolbar', {
+  }, [_c('alert'), _vm._v(" "), _c('md-toolbar', {
     staticClass: "md-dense"
   }, [_c('nav-till'), _vm._v(" "), _c('h2', {
     staticClass: "md-title",
@@ -37840,6 +37980,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // Components
+Vue.component('basket-deals', __webpack_require__("./resources/assets/js/components/Basket/Deals.vue"));
+Vue.component('alert', __webpack_require__("./resources/assets/js/components/Alert.vue"));
 Vue.component('nav-till', __webpack_require__("./resources/assets/js/components/Nav/Till.vue"));
 Vue.component('basket-items', __webpack_require__("./resources/assets/js/components/Basket/Items.vue"));
 Vue.component('basket-vat', __webpack_require__("./resources/assets/js/components/Basket/VAT.vue"));
@@ -37914,6 +38056,41 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Alert.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Alert.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-2a4b2fc9\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Alert.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Alert.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Alert.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2a4b2fc9", Component.options)
+  } else {
+    hotAPI.reload("data-v-2a4b2fc9", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Basket.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -37941,6 +38118,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-4acd5bae", Component.options)
   } else {
     hotAPI.reload("data-v-4acd5bae", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Basket/Deals.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Basket/Deals.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-67a9fc01\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Basket/Deals.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Basket\\Deals.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Deals.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-67a9fc01", Component.options)
+  } else {
+    hotAPI.reload("data-v-67a9fc01", Component.options)
   }
 })()}
 

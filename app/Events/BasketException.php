@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Events\BasketChanged;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,27 +10,25 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PaymentAdded implements ShouldBroadcast
+class BasketException implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Payment instance.
+     * The message that will be broadcasted.
      *
-     * @var App\Basket\Payments\Payment
+     * @var string
      */
-    public $payment;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($payment)
+    public function __construct(string $message = '')
     {
-        $this->payment = $payment;
-
-        event(new BasketChanged);
+        $this->message = $message;
     }
 
     /**

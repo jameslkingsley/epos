@@ -11,25 +11,25 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PaymentAdded implements ShouldBroadcast
+class ItemAdded
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Payment instance.
+     * Item instance.
      *
-     * @var App\Basket\Payments\Payment
+     * @var App\Basket\Models\Item
      */
-    public $payment;
+    protected $item;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($payment)
+    public function __construct($item)
     {
-        $this->payment = $payment;
+        $this->item = $item;
 
         event(new BasketChanged);
     }
@@ -41,6 +41,6 @@ class PaymentAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('basket');
+        return new PrivateChannel('channel-name');
     }
 }

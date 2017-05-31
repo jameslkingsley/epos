@@ -2,10 +2,12 @@
 
 namespace App\Basket;
 
+use App\Basket\Models\Deal;
 use Jenssegers\Model\Model;
 use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\TransactionStarted;
+use App\Basket\Collections\DealCollection;
 use App\Basket\Collections\ItemCollection;
 use Illuminate\Database\Eloquent\Collection;
 use App\Basket\Collections\PaymentCollection;
@@ -35,7 +37,8 @@ class Basket extends Model
      * @var array
      */
     protected $appends = [
-        'items', 'payments', 'summaries'
+        'items', 'payments',
+        'summaries', 'deals'
     ];
 
     /**
@@ -44,7 +47,7 @@ class Basket extends Model
      * @var array
      */
     protected $wakeup = [
-        'items', 'payments'
+        'items', 'payments', 'deals'
     ];
 
     /**
@@ -98,6 +101,16 @@ class Basket extends Model
     }
 
     /**
+     * Gets the basket deals.
+     *
+     * @return App\Basket\Collections\DealCollection
+     */
+    public function getDealsAttribute($deals)
+    {
+        return $this->attributes['deals'];
+    }
+
+    /**
      * Gets the basket summaries.
      *
      * @return App\Basket\Models\Summary
@@ -114,7 +127,7 @@ class Basket extends Model
      */
     public function setItemsAttribute($items)
     {
-        $this->attributes['items'] = new ItemCollection($items);
+        $this->attributes['items'] = new ItemCollection($items, $this);
     }
 
     /**
@@ -125,6 +138,16 @@ class Basket extends Model
     public function setPaymentsAttribute($payments)
     {
         $this->attributes['payments'] = new PaymentCollection($payments, $this);
+    }
+
+    /**
+     * Sets the basket deals.
+     *
+     * @return void
+     */
+    public function setDealsAttribute($deals)
+    {
+        $this->attributes['deals'] = new DealCollection($deals, $this);
     }
 
     /**
@@ -223,6 +246,25 @@ class Basket extends Model
     {
         if (!$this->transactionCompleted()) {
             $this->reload();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Checks for any deals that are eligible for adding.
+     * Runs every time the basket is changed.
+     *
+     * @return self
+     */
+    public function checkForDeals()
+    {
+        $deals = Deal::inDate();
+
+        foreach ($deals as $deal) {
+            if ($deal->handler->eligible()) {
+                $this->deals->add($deal);
+            }            
         }
 
         return $this;

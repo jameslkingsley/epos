@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TransactionCompleted' => [
             'App\Listeners\TransactionCompletionDispatcher',
         ],
+        'App\Events\BasketChanged' => [
+            'App\Listeners\DealWatcher'
+        ]
     ];
 
     /**

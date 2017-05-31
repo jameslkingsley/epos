@@ -4,6 +4,7 @@
             <basket-items :basket="basket" />
             <basket-summary :basket="basket" />
             <basket-payments :basket="basket" />
+            <basket-deals :basket="basket" />
             <basket-vat :basket="basket" />
 
             <md-bottom-bar>
@@ -53,6 +54,9 @@
                 .listen('BasketReload', (e) => {
                     this.basket = e.basket;
                     this.loaded = true;
+                })
+                .listen('BasketException', (e) => {
+                    Event.fire('alert', e.message);
                 })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');

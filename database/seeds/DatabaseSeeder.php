@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,12 +29,24 @@ class DatabaseSeeder extends Seeder
         });
 
         foreach ([
-            'cash' => 'App\\Basket\\Payments\\Cash',
-            'card' => 'App\\Basket\\Payments\\Card'
+            'Cash' => 'App\\Basket\\Payments\\Cash',
+            'Card' => 'App\\Basket\\Payments\\Card',
+            'Fast Cash' => 'App\\Basket\\Payments\\FastCash'
         ] as $key => $value) {
             App\Basket\Models\Payment::forceCreate([
                 'name' => $key,
                 'handler' => $value
+            ]);
+        }
+
+        foreach ([
+            'Buy One Get One Free' => 'App\\Basket\\Deals\\BuyOneGetOneFree'
+        ] as $key => $value) {
+            App\Basket\Models\Deal::forceCreate([
+                'name' => $key,
+                'handler_class' => $value,
+                'starts_at' => Carbon::create(2000, 1, 1, 12, 0, 0),
+                'ends_at' => Carbon::create(3000, 1, 1, 12, 0, 0)
             ]);
         }
     }

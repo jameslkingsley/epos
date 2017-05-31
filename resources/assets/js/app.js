@@ -2,6 +2,8 @@ import './bootstrap';
 import router from './routes';
 
 // Components
+Vue.component('basket-deals', require('./components/Basket/Deals.vue'));
+Vue.component('alert', require('./components/Alert.vue'));
 Vue.component('nav-till', require('./components/Nav/Till.vue'));
 Vue.component('basket-items', require('./components/Basket/Items.vue'));
 Vue.component('basket-vat', require('./components/Basket/VAT.vue'));

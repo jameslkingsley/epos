@@ -2,17 +2,19 @@
 
 namespace App;
 
+use App\Basket\Contracts\Item;
 use App\Basket\Support\Number;
 use App\Basket\Traits\HasPrices;
-use App\Basket\Contracts\ItemModel;
 use App\Basket\Contracts\Accountant;
 use App\Basket\Traits\HasAccountant;
+use App\Basket\Traits\HasConstraints;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model implements Accountant, ItemModel
+class Product extends Model implements Accountant, Item
 {
     use HasPrices,
-        HasAccountant;
+        HasAccountant,
+        HasConstraints;
 
     /**
      * The appended attributes.

@@ -1,5 +1,7 @@
 <template>
     <div class="container">
+        <alert />
+
         <md-toolbar class="md-dense">
             <nav-till />
 

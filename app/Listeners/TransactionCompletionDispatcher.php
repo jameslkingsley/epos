@@ -27,6 +27,10 @@ class TransactionCompletionDispatcher
      */
     public function handle(TransactionCompleted $event)
     {
+        // Close the basket transaction
+        // and commits it to storage.
+        basket()->commit();
+
         // Empty the basket ready for a new transaction
         // Skips the new basket event, to prevent
         // overwriting basket view on front-end

@@ -7,6 +7,7 @@ use Jenssegers\Model\Model;
 use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\TransactionStarted;
+use App\Basket\Models\TransactionHeader;
 use App\Basket\Collections\DealCollection;
 use App\Basket\Collections\ItemCollection;
 use Illuminate\Database\Eloquent\Collection;
@@ -51,11 +52,34 @@ class Basket extends Model
     ];
 
     /**
+     * Attributes that will be committed to storage.
+     *
+     * @var array
+     */
+    protected $committed = [
+        'items', 'payments', 'deals'
+    ];
+
+    /**
      * Dynamic events to fire for single-instance scopes.
      *
      * @var array
      */
     protected $events = [];
+
+    /**
+     * Starting cash float in pence.
+     *
+     * @var integer
+     */
+    public $cash_float;
+
+    /**
+     * Basket mode.
+     *
+     * @var integer
+     */
+    public $mode;
 
     /**
      * Constructor method.
@@ -72,6 +96,10 @@ class Basket extends Model
         foreach ($this->wakeup as $attr) {
             $this->$attr = ($basket && !$new) ? $basket->$attr : [];
         }
+
+        // Static basket attributes
+        $this->cash_float = config('basket.cash_float');
+        $this->mode = static::MDefault; // TODO Set by constructor
 
         session()->put('basket', $this);
 
@@ -260,11 +288,31 @@ class Basket extends Model
     public function checkForDeals()
     {
         $deals = Deal::inDate();
+        $this->deals = [];
 
         foreach ($deals as $deal) {
             if ($deal->handler->eligible()) {
                 $this->deals->add($deal);
             }            
+        }
+
+        return $this;
+    }
+
+    /**
+     * Closes the transaction and commits it to storage.
+     *
+     * @return self
+     */
+    public function commit()
+    {
+        $header = TransactionHeader::create([
+            'mode' => $this->mode,
+            'change_given' => $this->summaries->balance->dueToCustomer()->get()
+        ]);
+
+        foreach ($this->committed as $attr) {
+            $this->$attr->commit($header);
         }
 
         return $this;

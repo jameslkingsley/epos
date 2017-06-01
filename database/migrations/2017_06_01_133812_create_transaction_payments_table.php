@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransactionItemsTable extends Migration
+class CreateTransactionPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTransactionItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_items', function (Blueprint $table) {
+        Schema::create('transaction_payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->morphs('model');
-            $table->integer('qty')->default(1);
-            $table->bigInteger('net')->default(0);
-            $table->bigInteger('gross')->default(0);
-            $table->bigInteger('vat')->default(0);
+            $table->bigInteger('amount')->default(0);
+            $table->integer('payment_id')->unsigned();
+            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('restrict');
             $table->integer('transaction_header_id')->unsigned();
             $table->foreign('transaction_header_id')->references('id')->on('transaction_headers')->onDelete('cascade');
             $table->timestamps();
@@ -33,6 +31,6 @@ class CreateTransactionItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_items');
+        Schema::dropIfExists('transaction_payments');
     }
 }

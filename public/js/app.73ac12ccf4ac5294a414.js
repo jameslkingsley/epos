@@ -1032,6 +1032,96 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Transactions.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            headers: []
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        this.$http.get('/api/transactions').then(function (response) {
+            _this.headers = response.body;
+        });
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-material/dist/vue-material.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23796,7 +23886,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "basket": _vm.basket
     }
-  }), _vm._v(" "), _c('basket-summary', {
+  }), _vm._v(" "), _c('basket-deals', {
     attrs: {
       "basket": _vm.basket
     }
@@ -23804,7 +23894,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "basket": _vm.basket
     }
-  }), _vm._v(" "), _c('basket-deals', {
+  }), _vm._v(" "), _c('basket-summary', {
     attrs: {
       "basket": _vm.basket
     }
@@ -24105,6 +24195,107 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-d5e7c22e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e1cfad88\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('md-toolbar', {
+    staticClass: "md-dense"
+  }, [_c('nav-till'), _vm._v(" "), _c('h2', {
+    staticClass: "md-title",
+    staticStyle: {
+      "flex": "1"
+    }
+  }, [_vm._v("\n            Transactions\n        ")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "page-content"
+  }, [_c('div', {
+    staticClass: "main-content"
+  }, _vm._l((_vm.headers), function(header, index) {
+    return _c('md-table', {
+      key: index
+    }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Transaction")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Gross")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Discount")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', [_vm._v("\n                            " + _vm._s(header.created_at) + " —\n                            " + _vm._s(header.items.length) + " Items ·\n                            " + _vm._s(header.deals.length) + " Deals ·\n                            " + _vm._s(header.payments.length) + " Payments\n                        ")]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(header.net))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(header.vat))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(header.gross))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(header.discount))])], 1)], 1), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Item")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((header.items), function(item, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                            " + _vm._s(item.model.title) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.net))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.vat))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.gross))])], 1)
+    }))], 1)
+  }))])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e1cfad88", module.exports)
   }
 }
 
@@ -38703,6 +38894,9 @@ module.exports = Component.exports
     }, {
         path: '/admin',
         component: __webpack_require__("./resources/assets/js/views/Admin.vue")
+    }, {
+        path: '/transactions',
+        component: __webpack_require__("./resources/assets/js/views/Transactions.vue")
     }]
 }));
 
@@ -39089,6 +39283,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-760cfcc8", Component.options)
   } else {
     hotAPI.reload("data-v-760cfcc8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/views/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Transactions.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e1cfad88\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Transactions.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\views\\Transactions.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Transactions.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e1cfad88", Component.options)
+  } else {
+    hotAPI.reload("data-v-e1cfad88", Component.options)
   }
 })()}
 

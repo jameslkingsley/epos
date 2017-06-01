@@ -2,13 +2,16 @@
 
 namespace App\Basket\Collections;
 
+use App\Basket\Basket;
 use App\Events\PaymentAdded;
 use App\Basket\Models\Payment;
+use App\Events\PaymentRemoved;
 use App\Events\BasketException;
 use Illuminate\Support\Facades\Log;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
+use App\Basket\Models\TransactionHeader;
 
 class PaymentCollection extends Collection
 {
@@ -71,10 +74,10 @@ class PaymentCollection extends Collection
      * @throws App\Events\BasketException
      * @return void
      */
-    public function validate(Payment $payment)
+    public function validate(Payment $payment, Basket $basket)
     {
         try {
-            $payment->provider->canBeAdded($this->basket);
+            $payment->provider->canBeAdded($basket);
         } catch(Exception $e) {
             event(new BasketException($e->getMessage()));
             exit;
@@ -95,7 +98,7 @@ class PaymentCollection extends Collection
 
             // Validate the payment
             // If invalid, will exit
-            $basket->payments->validate($payment);
+            $basket->payments->validate($payment, $basket);
 
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);
@@ -123,6 +126,8 @@ class PaymentCollection extends Collection
         $this->items = $this->reject(function($p) use($payment) {
             return $p->isSameAs($payment);
         })->all();
+
+        event(new PaymentRemoved($payment));
     }
 
     /**
@@ -163,5 +168,22 @@ class PaymentCollection extends Collection
         return $this->contains(function($p) use($payment) {
             return $p->isSameAs($payment);
         });
+    }
+
+    /**
+     * Commits the payments to transaction header payments.
+     *
+     * @return self
+     */
+    public function commit(TransactionHeader $header)
+    {
+        $this->each(function($payment) use($header) {
+            $header->payments()->create([
+                'amount' => $payment->amount,
+                'payment_id' => $payment->id
+            ]);
+        });
+
+        return $this;
     }
 }

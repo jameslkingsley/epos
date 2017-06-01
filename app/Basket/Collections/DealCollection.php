@@ -4,6 +4,7 @@ namespace App\Basket\Collections;
 
 use App\Basket\Models\Deal;
 use App\Basket\Collections\Collection;
+use App\Basket\Models\TransactionHeader;
 
 class DealCollection extends Collection
 {
@@ -108,5 +109,22 @@ class DealCollection extends Collection
         });
 
         return number($total);
+    }
+
+    /**
+     * Commits the deals to transaction header deals.
+     *
+     * @return self
+     */
+    public function commit(TransactionHeader $header)
+    {
+        $this->each(function($deal) use($header) {
+            $header->deals()->create([
+                'discount' => $deal->handler->discount()->get(),
+                'deal_id' => $deal->id
+            ]);
+        });
+
+        return $this;
     }
 }

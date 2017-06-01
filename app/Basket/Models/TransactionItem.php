@@ -4,16 +4,47 @@ namespace App\Basket\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Basket\Models\TransactionHeader;
+use App\Basket\Traits\BelongsToTransactionHeader;
+use App\Basket\Collections\TransactionItemCollection;
 
 class TransactionItem extends Model
 {
+    use BelongsToTransactionHeader;
+
     /**
-     * Gets the header of the item.
+     * Appended attributes.
      *
-     * @return App\Basket\Models\TransactionHeader
+     * @var array
      */
-    public function header()
+    protected $appends = [
+        'model'
+    ];
+
+    /**
+     * Guarded fields.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * Gets the model instance.
+     *
+     * @return any
+     */
+    public function getModelAttribute()
     {
-        return $this->belongsTo(TransactionHeader::class);
+        return $this->model_type::findOrFail($this->model_id);
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param array $models
+     * @return App\Basket\Collections\TransactionItemCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new TransactionItemCollection($models);
     }
 }

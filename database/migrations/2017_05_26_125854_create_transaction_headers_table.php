@@ -17,6 +17,8 @@ class CreateTransactionHeadersTable extends Migration
         Schema::create('transaction_headers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('mode')->default(Basket::MDefault);
+            $table->bigInteger('cash_float')->default(config('basket.cash_float'));
+            $table->bigInteger('change_given')->default(0);
             $table->timestamps();
         });
     }

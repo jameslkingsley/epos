@@ -2,9 +2,9 @@
     <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav" v-if="loaded">
         <div class="main-sidebar-links">
             <basket-items :basket="basket" />
-            <basket-summary :basket="basket" />
-            <basket-payments :basket="basket" />
             <basket-deals :basket="basket" />
+            <basket-payments :basket="basket" />
+            <basket-summary :basket="basket" />
             <basket-vat :basket="basket" />
 
             <md-bottom-bar>

@@ -4,9 +4,11 @@ namespace App\Basket\Collections;
 
 use App\Events\ItemAdded;
 use App\Basket\Models\Item;
+use App\Events\ItemRemoved;
 use App\Events\BasketException;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
+use App\Basket\Models\TransactionHeader;
 
 class ItemCollection extends Collection
 {
@@ -169,6 +171,8 @@ class ItemCollection extends Collection
         })->reject(function($i) {
             return is_null($i);
         })->all();
+
+        event(new ItemRemoved($item));
     }
 
     /**
@@ -195,5 +199,26 @@ class ItemCollection extends Collection
     public function grouped(string $column = 'model_type')
     {
         return $this->groupBy($column);
+    }
+
+    /**
+     * Commits the items to transaction header items.
+     *
+     * @return self
+     */
+    public function commit(TransactionHeader $header)
+    {
+        $this->each(function($item) use($header) {
+            $header->items()->create([
+                'model_id' => $item->model_id,
+                'model_type' => $item->model_type,
+                'qty' => $item->qty,
+                'net' => $item->model->net,
+                'gross' => $item->model->gross,
+                'vat' => $item->model->vat
+            ]);
+        });
+
+        return $this;
     }
 }

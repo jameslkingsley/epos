@@ -15,7 +15,7 @@ class Item extends Model
      *
      * @var array
      */
-    protected $appends = ['qty', 'amount', 'title', 'model'];
+    protected $appends = ['qty', 'model'];
 
     /**
      * Adhoc quantity value.
@@ -66,26 +66,6 @@ class Item extends Model
     public function getQtyAttribute()
     {
         return $this->qty;
-    }
-
-    /**
-     * Gets the amount value as string.
-     *
-     * @return string
-     */
-    public function getAmountAttribute()
-    {
-        return number($this->qty * $this->model->gross)->normal()->display();
-    }
-
-    /**
-     * Gets the title of the item.
-     *
-     * @return string
-     */
-    public function getTitleAttribute()
-    {
-        return $this->model->title;
     }
 
     /**

@@ -2,6 +2,7 @@ import './bootstrap';
 import router from './routes';
 
 // Components
+Vue.component('pill', require('./components/Pill.vue'));
 Vue.component('basket-deals', require('./components/Basket/Deals.vue'));
 Vue.component('alert', require('./components/Alert.vue'));
 Vue.component('nav-till', require('./components/Nav/Till.vue'));
@@ -20,6 +21,15 @@ Vue.component('items', require('./components/Items.vue'));
 Vue.component('categories', require('./components/Categories.vue'));
 Vue.component('basket', require('./components/Basket.vue'));
 Vue.component('item', require('./components/Item.vue'));
+
+Vue.filter('currency', (value) => {
+    let langage = (navigator.language || navigator.browserLanguage).split('-')[0];
+
+    return (value / 100).toLocaleString(langage, {
+        style: 'currency',
+        currency: epos.app.currency
+    });
+});
 
 const app = new Vue({
     el: '#app',

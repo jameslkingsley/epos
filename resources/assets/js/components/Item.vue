@@ -1,12 +1,8 @@
 <template>
     <div :class="classes" @click="select">
-        <span class="item-title">{{ item.title }}</span>
-
-        <span class="item-price">{{ item.retail_price }}</span>
-
-        <span class="item-meta">
-            {{ item.meta.created_at }} | {{ item.meta.model }}
-        </span>
+        <span class="item-title">{{ item.model_type }} : {{ item.model_id }}</span>
+        <span class="item-price"></span>
+        <span class="item-meta"></span>
     </div>
 </template>
 

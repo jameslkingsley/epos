@@ -1,0 +1,38 @@
+.pill {
+    font-style: normal;
+    background: $body-bg;
+    padding: 0 .5rem;
+    border-radius: 5rem;
+    margin: 0.25rem;
+    font-size: 14px;
+    line-height: 30px;
+    height: 30px;
+    font-weight: 500;
+    min-width: 75px;
+    justify-content: center;
+
+    &.primary {
+        background: $brand-primary !important;
+        color: white;
+    }
+
+    &.info {
+        background: $brand-info !important;
+        color: white;
+    }
+
+    &.success {
+        background: $brand-success !important;
+        color: white;
+    }
+
+    &.warning {
+        background: $brand-warning !important;
+        color: white;
+    }
+
+    &.danger {
+        background: $brand-danger !important;
+        color: white;
+    }
+}

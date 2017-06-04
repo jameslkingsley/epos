@@ -2,19 +2,12 @@
 
 namespace App;
 
-use App\Basket\Contracts\Item;
-use App\Basket\Support\Number;
-use App\Basket\Traits\HasPrices;
-use App\Basket\Contracts\Accountant;
-use App\Basket\Traits\HasAccountant;
-use App\Basket\Traits\HasConstraints;
+use App\Basket\Traits\IsItem;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model implements Accountant, Item
+class Product extends Model
 {
-    use HasPrices,
-        HasAccountant,
-        HasConstraints;
+    use IsItem;
 
     /**
      * The appended attributes.
@@ -22,51 +15,8 @@ class Product extends Model implements Accountant, Item
      * @var array
      */
     protected $appends = [
-        'net', 'gross', 'vat',
-        'title', 'retail_price', 'meta'
+        'net', 'gross', 'vat', 'meta'
     ];
-
-    /**
-     * Gets the net amount.
-     * Excludes VAT.
-     *
-     * @return App\Basket\Support\Number
-     */
-    public function net() : Number
-    {
-        return $this->prices()->first()->net();
-    }
-
-    /**
-     * Gets the gross amount.
-     * Includes VAT.
-     *
-     * @return App\Basket\Support\Number
-     */
-    public function gross() : Number
-    {
-        return $this->prices()->first()->gross();
-    }
-
-    /**
-     * Gets the VAT amount.
-     *
-     * @return App\Basket\Support\Number
-     */
-    public function vat() : Number
-    {
-        return $this->prices()->first()->vat();
-    }
-
-    /**
-     * Gets the display title for the model.
-     *
-     * @return string
-     */
-    public function getTitleAttribute() : string
-    {
-        return $this->name;
-    }
 
     /**
      * Gets any meta info for the model.
@@ -74,11 +24,10 @@ class Product extends Model implements Accountant, Item
      *
      * @return array
      */
-    public function getMetaAttribute() : array
+    public function getMetaAttribute()
     {
         return [
             'created_at' => $this->created_at->diffForHumans(),
-            'currency_symbol' => number()->symbol(), // TODO Use currency from env
             'model' => collect(explode('\\', get_class($this)))->last()
         ];
     }

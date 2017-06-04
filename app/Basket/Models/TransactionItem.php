@@ -17,7 +17,10 @@ class TransactionItem extends Model
      * @var array
      */
     protected $appends = [
-        'model'
+        'model',
+        'net_total',
+        'vat_total',
+        'gross_total'
     ];
 
     /**
@@ -35,6 +38,36 @@ class TransactionItem extends Model
     public function getModelAttribute()
     {
         return $this->model_type::findOrFail($this->model_id);
+    }
+
+    /**
+     * Gets the total net amount.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function getNetTotalAttribute()
+    {
+        return number($this->qty * $this->net)->normal()->display();
+    }
+
+    /**
+     * Gets the total VAT amount.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function getVatTotalAttribute()
+    {
+        return number($this->qty * $this->vat)->normal()->display();
+    }
+
+    /**
+     * Gets the total gross amount.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function getGrossTotalAttribute()
+    {
+        return number($this->qty * $this->gross)->normal()->display();
     }
 
     /**

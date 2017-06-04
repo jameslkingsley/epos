@@ -68,7 +68,7 @@
         },
 
         created() {
-            this.reloadBasket();
+            setTimeout(this.reloadBasket, 250);
         }
     }
 </script>

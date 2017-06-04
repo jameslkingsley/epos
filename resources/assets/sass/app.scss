@@ -7,6 +7,7 @@
 // @import "overides";
 // @import "basket";
 @import "item";
+@import "pill";
 
 body {
     overflow-y: scroll;
@@ -88,6 +89,10 @@ body {
     }
 }
 
+.md-list-expand-container .md-table {
+    margin: 0 !important;
+}
+
 .container > .md-toolbar {
     position: fixed;
     left: 0;
@@ -125,5 +130,19 @@ body {
             font-weight: 500;
             text-decoration: none !important;
         }
+    }
+}
+
+.flex {
+    display: flex;
+
+    &.push-left {
+        margin-left: auto;
+    }
+
+    &.f1 { flex: 1; }
+
+    &.align-right {
+        justify-content: flex-end;
     }
 }

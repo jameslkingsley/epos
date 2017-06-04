@@ -12,13 +12,9 @@ class TransactionItemCollection extends Collection
      */
     public function net()
     {
-        $total = 0;
-
-        $this->each(function($item) use(&$total) {
-            $total += $item->net * $item->qty;
-        });
-
-        return number($total);
+        return number($this->sum(function($item) {
+            return $item->net * $item->qty;
+        }));
     }
 
     /**
@@ -29,13 +25,9 @@ class TransactionItemCollection extends Collection
      */
     public function gross()
     {
-        $total = 0;
-
-        $this->each(function($item) use(&$total) {
-            $total += $item->gross * $item->qty;
-        });
-
-        return number($total);
+        return number($this->sum(function($item) {
+            return $item->gross * $item->qty;
+        }));
     }
 
     /**
@@ -46,12 +38,8 @@ class TransactionItemCollection extends Collection
      */
     public function vat()
     {
-        $total = 0;
-
-        $this->each(function($item) use(&$total) {
-            $total += $item->vat * $item->qty;
-        });
-
-        return number($total);
+        return number($this->sum(function($item) {
+            return $item->vat * $item->qty;
+        }));
     }
 }

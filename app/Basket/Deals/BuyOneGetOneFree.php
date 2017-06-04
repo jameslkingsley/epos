@@ -13,7 +13,7 @@ class BuyOneGetOneFree extends Deal
      */
     public function concerns()
     {
-        $dealItems = $this->deal->products;
+        $dealItems = $this->deal->products();
 
         return $this->basket->items->reject(function($item) use($dealItems) {
             return ! $dealItems->contains($item);

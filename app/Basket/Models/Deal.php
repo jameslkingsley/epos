@@ -14,8 +14,7 @@ class Deal extends Model
      * @var array
      */
     protected $appends = [
-        'handler', 'discount',
-        'products'
+        'handler', 'discount'
     ];
 
     /**
@@ -43,7 +42,7 @@ class Deal extends Model
      *
      * @return any
      */
-    public function getProductsAttribute()
+    public function products()
     {
         return $this->items->resolved();
     }

@@ -23,7 +23,11 @@ class TransactionHeader extends Model
      */
     protected $appends = [
         'net', 'gross',
-        'vat', 'discount'
+        'vat', 'discount',
+        'due_from_customer',
+        'due_to_customer',
+        'timestamp',
+        'payment_total'
     ];
 
     /**
@@ -87,6 +91,39 @@ class TransactionHeader extends Model
     }
 
     /**
+     * Gets the total amount due from the customer.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function dueFromCustomer()
+    {
+        return number()->sum(
+            $this->items->gross(),
+            $this->deals->total()
+        );
+    }
+
+    /**
+     * Gets the total amount due to the customer.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function dueToCustomer()
+    {
+        return number($this->change_given);
+    }
+
+    /**
+     * Gets the payment total given by the customer.
+     *
+     * @return App\Basket\Support\Number
+     */
+    public function paymentTotal()
+    {
+        return $this->payments->total();
+    }
+
+    /**
      * Gets the total discount amount of the transaction.
      *
      * @return App\Basket\Support\Number
@@ -134,5 +171,45 @@ class TransactionHeader extends Model
     public function getDiscountAttribute()
     {
         return $this->discount()->normal()->display();
+    }
+
+    /**
+     * Gets the attributable version.
+     *
+     * @return any
+     */
+    public function getDueFromCustomerAttribute()
+    {
+        return $this->dueFromCustomer()->normal()->display();
+    }
+
+    /**
+     * Gets the attributable version.
+     *
+     * @return any
+     */
+    public function getDueToCustomerAttribute()
+    {
+        return $this->dueToCustomer()->normal()->display();
+    }
+
+    /**
+     * Gets the attributable version.
+     *
+     * @return any
+     */
+    public function getPaymentTotalAttribute()
+    {
+        return $this->paymentTotal()->inverted()->normal()->display();
+    }
+
+    /**
+     * Gets the attributable version.
+     *
+     * @return any
+     */
+    public function getTimestampAttribute()
+    {
+        return $this->created_at->diffForHumans();
     }
 }

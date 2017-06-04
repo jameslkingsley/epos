@@ -32,7 +32,7 @@ class TransactionController extends Controller
     public function index()
     {
         return response()->json(
-            $this->transaction->with('items', 'payments', 'deals')->get()
+            $this->transaction->with('items', 'payments', 'deals')->orderBy('created_at', 'desc')->get()
         );
     }
 

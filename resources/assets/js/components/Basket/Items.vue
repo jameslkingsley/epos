@@ -10,9 +10,9 @@
 
         <md-table-body>
             <md-table-row v-for="(item, index) in basket.items" :key="index" @click.native="showOptions(item, index)">
-                <md-table-cell>{{ item.title }}</md-table-cell>
+                <md-table-cell>{{ item.model.name }}</md-table-cell>
                 <md-table-cell md-numeric>{{ item.qty }}</md-table-cell>
-                <md-table-cell md-numeric>{{ item.amount }}</md-table-cell>
+                <md-table-cell md-numeric>{{ item.qty * item.model.gross | currency }}</md-table-cell>
             </md-table-row>
 
             <md-dialog ref="itemOptions">

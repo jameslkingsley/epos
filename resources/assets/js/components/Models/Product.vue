@@ -1,7 +1,7 @@
 <template>
     <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
         <span class="item-title">
-            {{ item.model.name }}
+            ({{ item.id }}) {{ item.model.name }}
         </span>
 
         <span class="item-price">

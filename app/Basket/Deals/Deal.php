@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Basket\Deals\Handlers;
+namespace App\Basket\Deals;
 
-use App\Basket\Models\Deal;
+use App\Basket\Models\Deal as DealModel;
 use App\Basket\Traits\AutoAttributes;
 
-abstract class Handler
+abstract class Deal
 {
     use AutoAttributes;
 
@@ -28,7 +28,7 @@ abstract class Handler
      *
      * @return any
      */
-    public function __construct(Deal $deal)
+    public function __construct(DealModel $deal)
     {
         $this->deal = $deal;
         $this->basket = basket();
@@ -39,7 +39,7 @@ abstract class Handler
      *
      * @return any
      */
-    public static function make(Deal $deal)
+    public static function make(DealModel $deal)
     {
         return new static($deal);
     }

@@ -22,8 +22,10 @@ class TransactionHeader extends Model
      * @var array
      */
     protected $appends = [
-        'net', 'gross',
-        'vat', 'discount',
+        'net',
+        'gross',
+        'vat',
+        'discount',
         'due_from_customer',
         'due_to_customer',
         'timestamp',
@@ -140,7 +142,7 @@ class TransactionHeader extends Model
      */
     public function getNetAttribute()
     {
-        return $this->net()->normal()->display();
+        return $this->net()->get();
     }
 
     /**
@@ -150,7 +152,7 @@ class TransactionHeader extends Model
      */
     public function getGrossAttribute()
     {
-        return $this->gross()->normal()->display();
+        return $this->gross()->get();
     }
 
     /**
@@ -160,7 +162,7 @@ class TransactionHeader extends Model
      */
     public function getVatAttribute()
     {
-        return $this->vat()->normal()->display();
+        return $this->vat()->get();
     }
 
     /**
@@ -170,7 +172,7 @@ class TransactionHeader extends Model
      */
     public function getDiscountAttribute()
     {
-        return $this->discount()->normal()->display();
+        return $this->discount()->get();
     }
 
     /**
@@ -180,7 +182,7 @@ class TransactionHeader extends Model
      */
     public function getDueFromCustomerAttribute()
     {
-        return $this->dueFromCustomer()->normal()->display();
+        return $this->dueFromCustomer()->get();
     }
 
     /**
@@ -190,7 +192,7 @@ class TransactionHeader extends Model
      */
     public function getDueToCustomerAttribute()
     {
-        return $this->dueToCustomer()->normal()->display();
+        return $this->dueToCustomer()->get();
     }
 
     /**
@@ -200,7 +202,7 @@ class TransactionHeader extends Model
      */
     public function getPaymentTotalAttribute()
     {
-        return $this->paymentTotal()->inverted()->normal()->display();
+        return $this->paymentTotal()->inverted()->get();
     }
 
     /**

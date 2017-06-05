@@ -18,7 +18,7 @@ trait AutoAttributes
         $value = $this->$method($params);
 
         if ($value instanceof Number) {
-            return $value->normal()->display();
+            return $value->get();
         }
 
         return $value;

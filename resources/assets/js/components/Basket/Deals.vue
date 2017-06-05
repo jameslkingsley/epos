@@ -10,7 +10,7 @@
         <md-table-body>
             <md-table-row v-for="(deal, index) in basket.deals" :key="index">
                 <md-table-cell>{{ deal.name }}</md-table-cell>
-                <md-table-cell md-numeric>{{ deal.discount }}</md-table-cell>
+                <md-table-cell md-numeric>{{ deal.discount | currency }}</md-table-cell>
             </md-table-row>
         </md-table-body>
     </md-table>

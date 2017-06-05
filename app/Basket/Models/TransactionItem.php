@@ -47,7 +47,7 @@ class TransactionItem extends Model
      */
     public function getNetTotalAttribute()
     {
-        return number($this->qty * $this->net)->normal()->display();
+        return number($this->qty * $this->net)->get();
     }
 
     /**
@@ -57,7 +57,7 @@ class TransactionItem extends Model
      */
     public function getVatTotalAttribute()
     {
-        return number($this->qty * $this->vat)->normal()->display();
+        return number($this->qty * $this->vat)->get();
     }
 
     /**
@@ -67,7 +67,7 @@ class TransactionItem extends Model
      */
     public function getGrossTotalAttribute()
     {
-        return number($this->qty * $this->gross)->normal()->display();
+        return number($this->qty * $this->gross)->get();
     }
 
     /**

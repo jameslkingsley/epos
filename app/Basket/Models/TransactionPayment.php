@@ -56,7 +56,7 @@ class TransactionPayment extends Model
      */
     public function getAmountTotalAttribute()
     {
-        return number($this->amount)->normal()->display();
+        return number($this->amount)->get();
     }
 
     /**

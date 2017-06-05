@@ -23637,7 +23637,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "item-title"
-  }, [_vm._v("\n        " + _vm._s(_vm.item.model.name) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        (" + _vm._s(_vm.item.id) + ") " + _vm._s(_vm.item.model.name) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
   }, [_vm._v("\n        " + _vm._s(_vm._f("currency")(_vm.item.model.gross)) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
@@ -23858,15 +23858,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.summaries.balance.items))])], 1), _vm._v(" "), _c('md-table-row', [_c('md-table-cell', [_vm._v("Due From Customer")]), _vm._v(" "), _c('md-table-cell', {
+  }, [_vm._v(_vm._s(_vm._f("currency")(_vm.basket.summaries.balance.items)))])], 1), _vm._v(" "), _c('md-table-row', [_c('md-table-cell', [_vm._v("Due From Customer")]), _vm._v(" "), _c('md-table-cell', {
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.summaries.balance.due_from_customer))])], 1), _vm._v(" "), _c('md-table-row', [_c('md-table-cell', [_vm._v("Due To Customer")]), _vm._v(" "), _c('md-table-cell', {
+  }, [_vm._v(_vm._s(_vm._f("currency")(_vm.basket.summaries.balance.due_from_customer)))])], 1), _vm._v(" "), _c('md-table-row', [_c('md-table-cell', [_vm._v("Due To Customer")]), _vm._v(" "), _c('md-table-cell', {
     attrs: {
       "md-numeric": ""
     }
-  }, [_vm._v(_vm._s(_vm.basket.summaries.balance.due_to_customer))])], 1)], 1)], 1)
+  }, [_vm._v(_vm._s(_vm._f("currency")(_vm.basket.summaries.balance.due_to_customer)))])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -23897,11 +23897,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(_vm.basket.summaries.vat[key].net))]), _vm._v(" "), _c('md-table-cell', {
+    }, [_vm._v(_vm._s(_vm._f("currency")(_vm.basket.summaries.vat[key].net)))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(_vm.basket.summaries.vat[key].gross))])], 1)
+    }, [_vm._v(_vm._s(_vm._f("currency")(_vm.basket.summaries.vat[key].gross)))])], 1)
   }))], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -24062,7 +24062,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(deal.discount))])], 1)
+    }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount)))])], 1)
   }))], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -24293,7 +24293,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "right": "",
         "primary": ""
       }
-    }, [_vm._v("\n                                " + _vm._s(header.due_from_customer) + "\n                            ")])], 1), _vm._v(" "), _c('md-list-expand', [_c('md-table', {
+    }, [_vm._v("\n                                " + _vm._s(_vm._f("currency")(header.due_from_customer)) + "\n                            ")])], 1), _vm._v(" "), _c('md-list-expand', [_c('md-table', {
       on: {
         "sort": _vm.sort
       }
@@ -24320,7 +24320,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((header.items), function(item, index) {
       return _c('md-table-row', {
         key: index
-      }, [_c('md-table-cell', [_vm._v("\n                                            ITEM — " + _vm._s(item.model.title) + "\n                                        ")]), _vm._v(" "), _c('md-table-cell', {
+      }, [_c('md-table-cell', [_vm._v("\n                                            ITEM — " + _vm._s(item.model.name) + "\n                                        ")]), _vm._v(" "), _c('md-table-cell', {
         attrs: {
           "md-numeric": ""
         }
@@ -24328,15 +24328,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         attrs: {
           "md-numeric": ""
         }
-      }, [_vm._v(_vm._s(item.net_total))]), _vm._v(" "), _c('md-table-cell', {
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.net_total)))]), _vm._v(" "), _c('md-table-cell', {
         attrs: {
           "md-numeric": ""
         }
-      }, [_vm._v(_vm._s(item.vat_total))]), _vm._v(" "), _c('md-table-cell', {
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.vat_total)))]), _vm._v(" "), _c('md-table-cell', {
         attrs: {
           "md-numeric": ""
         }
-      }, [_vm._v(_vm._s(item.gross_total))])], 1)
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.gross_total)))])], 1)
     }), _vm._v(" "), _vm._l((header.deals), function(deal, index) {
       return _c('md-table-row', {
         key: index
@@ -24345,7 +24345,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "md-numeric": "",
           "colspan": "4"
         }
-      }, [_vm._v(_vm._s(deal.discount_total))])], 1)
+      }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount_total)))])], 1)
     }), _vm._v(" "), _vm._l((header.payments), function(payment, index) {
       return _c('md-table-row', {
         key: index
@@ -24354,7 +24354,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "md-numeric": "",
           "colspan": "4"
         }
-      }, [_vm._v(_vm._s(payment.amount_total))])], 1)
+      }, [_vm._v(_vm._s(_vm._f("currency")(payment.amount_total)))])], 1)
     })], 2), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
       attrs: {
         "width": "100",
@@ -24376,15 +24376,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "md-numeric": "",
         "colspan": "3"
       }
-    }, [_vm._v(_vm._s(header.due_from_customer))]), _vm._v(" "), _c('md-table-cell', {
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(header.payment_total))]), _vm._v(" "), _c('md-table-cell', {
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.payment_total)))]), _vm._v(" "), _c('md-table-cell', {
       attrs: {
         "md-numeric": ""
       }
-    }, [_vm._v(_vm._s(header.due_to_customer))])], 1)], 1)], 1)], 1)], 1)
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_to_customer)))])], 1)], 1)], 1)], 1)], 1)
   }))], 1)], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true

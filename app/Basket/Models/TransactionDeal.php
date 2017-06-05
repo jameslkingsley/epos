@@ -56,7 +56,7 @@ class TransactionDeal extends Model
      */
     public function getDiscountTotalAttribute()
     {
-        return number($this->discount)->normal()->display();
+        return number($this->discount)->get();
     }
 
     /**

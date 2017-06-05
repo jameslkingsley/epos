@@ -2,8 +2,6 @@
 
 namespace App\Basket\Deals;
 
-use App\Basket\Deals\Handlers\Handler as Deal;
-
 class BuyOneGetOneFree extends Deal
 {
     /**

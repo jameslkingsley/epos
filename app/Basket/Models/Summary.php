@@ -68,8 +68,8 @@ class Summary extends Model
 
             return [
                 'percentage' => (float)$vat[0]['percentage'],
-                'net' => number($netTotal)->normal()->places(),
-                'gross' => number($grossTotal)->normal()->places()
+                'net' => number($netTotal)->get(),
+                'gross' => number($grossTotal)->get()
             ];
         });
     }

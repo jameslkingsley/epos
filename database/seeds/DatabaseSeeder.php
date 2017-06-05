@@ -12,15 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Basket\Models\Category::class, 15)->create()->each(function($category) {
-            factory(App\Product::class, 50)->create()->each(function($product) use(&$category) {
+        factory(App\Basket\Models\Category::class, 6)->create()->each(function($category) {
+            factory(App\Product::class, 16)->create()->each(function($product) use(&$category) {
                 $item = App\Basket\Models\Item::forceCreate([
                     'model_id' => $product->id,
                     'model_type' => get_class($product),
                     'category_id' => $category->id
                 ]);
 
-                factory(App\Basket\Models\Price::class, 5)->make()->each(function($price) use(&$product) {
+                factory(App\Basket\Models\Price::class, 4)->make()->each(function($price) use(&$product) {
                     $price->model_type = get_class($product);
                     $price->model_id = $product->id;
                     $price->save();
@@ -42,12 +42,18 @@ class DatabaseSeeder extends Seeder
         foreach ([
             'Buy One Get One Free' => 'App\\Basket\\Deals\\BuyOneGetOneFree'
         ] as $key => $value) {
-            App\Basket\Models\Deal::forceCreate([
+            $deal = App\Basket\Models\Deal::forceCreate([
                 'name' => $key,
                 'handler_class' => $value,
                 'starts_at' => Carbon::create(2000, 1, 1, 12, 0, 0),
                 'ends_at' => Carbon::create(3000, 1, 1, 12, 0, 0)
             ]);
+
+            foreach (range(1, 5) as $index) {
+                $deal->items()->create([
+                    'item_id' => App\Basket\Models\Item::inRandomOrder()->first()->id
+                ]);
+            }
         }
     }
 }

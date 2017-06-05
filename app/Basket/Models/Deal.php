@@ -34,7 +34,7 @@ class Deal extends Model
      */
     public function getDiscountAttribute()
     {
-        return $this->handler->discount()->normal()->display();
+        return $this->handler->discount()->get();
     }
 
     /**

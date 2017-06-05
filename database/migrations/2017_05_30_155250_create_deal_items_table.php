@@ -19,7 +19,6 @@ class CreateDealItemsTable extends Migration
             $table->foreign('deal_id')->references('id')->on('deals')->onDelete('cascade');
             $table->integer('item_id')->unsigned();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
-            $table->string('handler_class');
             $table->timestamps();
         });
     }

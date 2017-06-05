@@ -10,17 +10,17 @@
         <md-table-body>
             <md-table-row>
                 <md-table-cell>Items</md-table-cell>
-                <md-table-cell md-numeric>{{ basket.summaries.balance.items }}</md-table-cell>
+                <md-table-cell md-numeric>{{ basket.summaries.balance.items | currency }}</md-table-cell>
             </md-table-row>
 
             <md-table-row>
                 <md-table-cell>Due From Customer</md-table-cell>
-                <md-table-cell md-numeric>{{ basket.summaries.balance.due_from_customer }}</md-table-cell>
+                <md-table-cell md-numeric>{{ basket.summaries.balance.due_from_customer | currency }}</md-table-cell>
             </md-table-row>
 
             <md-table-row>
                 <md-table-cell>Due To Customer</md-table-cell>
-                <md-table-cell md-numeric>{{ basket.summaries.balance.due_to_customer }}</md-table-cell>
+                <md-table-cell md-numeric>{{ basket.summaries.balance.due_to_customer | currency }}</md-table-cell>
             </md-table-row>
         </md-table-body>
     </md-table>

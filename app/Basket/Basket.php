@@ -6,6 +6,7 @@ use App\Basket\Models\Deal;
 use Jenssegers\Model\Model;
 use App\Events\BasketReload;
 use App\Basket\Models\Summary;
+use App\Events\BasketException;
 use App\Events\TransactionStarted;
 use Illuminate\Support\Facades\Session;
 use App\Basket\Models\TransactionHeader;
@@ -357,6 +358,20 @@ class Basket extends Model
         foreach ($this->committed as $attr) {
             $this->$attr->commit($header);
         }
+
+        return $this;
+    }
+
+    /**
+     * Raises the basket exception event.
+     *
+     * @return self
+     */
+    public function exception($message)
+    {
+        if (is_null($message)) return $this;
+
+        event(new BasketException($message));
 
         return $this;
     }

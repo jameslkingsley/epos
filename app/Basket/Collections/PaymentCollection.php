@@ -6,12 +6,12 @@ use App\Basket\Basket;
 use App\Events\PaymentAdded;
 use App\Basket\Models\Payment;
 use App\Events\PaymentRemoved;
-use App\Events\BasketException;
 use Illuminate\Support\Facades\Log;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
 use App\Basket\Models\TransactionHeader;
+use App\Basket\Constraints\PaymentConstraint;
 
 class PaymentCollection extends Collection
 {
@@ -23,6 +23,13 @@ class PaymentCollection extends Collection
     protected $basket;
 
     /**
+     * Constraint instance.
+     *
+     * @var App\Basket\Constraints\PaymentConstraint
+     */
+    protected $constraint;
+
+    /**
      * Constructor method.
      *
      * @return any
@@ -30,6 +37,7 @@ class PaymentCollection extends Collection
     public function __construct($payments, $basket = null)
     {
         $this->basket = $basket;
+        $this->constraint = new PaymentConstraint;
 
         foreach ($payments as $payment) {
             $this->push($payment);
@@ -69,22 +77,6 @@ class PaymentCollection extends Collection
     }
 
     /**
-     * Validates the payment to check if it can be added.
-     *
-     * @throws App\Events\BasketException
-     * @return void
-     */
-    public function validate(Payment $payment, Basket $basket)
-    {
-        try {
-            $payment->provider->canBeAdded($basket);
-        } catch(Exception $e) {
-            event(new BasketException($e->getMessage()));
-            exit;
-        }
-    }
-
-    /**
      * Adds a payment to the collection.
      *
      * @return self
@@ -96,9 +88,11 @@ class PaymentCollection extends Collection
                 'amount' => $payment->amount
             ]);
 
-            // Validate the payment
-            // If invalid, will exit
-            $basket->payments->validate($payment, $basket);
+            // Validate the payment, if invalid, will exit
+            if (! $this->constraint->passes($basket, $payment)) {
+                $basket->exception($this->constraint->reason());
+                exit;
+            }
 
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);

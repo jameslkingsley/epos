@@ -9,6 +9,7 @@ use App\Events\BasketException;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Collections\Collection;
 use App\Basket\Models\TransactionHeader;
+use App\Basket\Constraints\ItemConstraint;
 
 class ItemCollection extends Collection
 {
@@ -20,6 +21,13 @@ class ItemCollection extends Collection
     protected $basket;
 
     /**
+     * Constraint instance.
+     *
+     * @var App\Basket\Constraints\ItemConstraint
+     */
+    protected $constraint;
+
+    /**
      * Constructor method.
      *
      * @return any
@@ -27,6 +35,7 @@ class ItemCollection extends Collection
     public function __construct($items, $basket = null)
     {
         $this->basket = $basket;
+        $this->constraint = new ItemConstraint;
 
         foreach ($items as $item) {
             $this->push($item);
@@ -109,22 +118,6 @@ class ItemCollection extends Collection
     }
 
     /**
-     * Validates the item to check if it can be added.
-     *
-     * @throws App\Events\BasketException
-     * @return void
-     */
-    public function validate(Item $item)
-    {
-        try {
-            $item->model->canBeAdded($this->basket);
-        } catch(Exception $e) {
-            event(new BasketException($e->getMessage()));
-            exit;
-        }
-    }
-
-    /**
      * Adds an item to the collection.
      *
      * @return self
@@ -133,9 +126,11 @@ class ItemCollection extends Collection
     {
         $item = $this->resolve($item);
 
-        // Validate the item
-        // If invalid, will exit
-        $this->validate($item);
+        // Validate the item, if invalid, will exit
+        if (! $this->constraint->passes($this->basket, $item)) {
+            $this->basket->exception($this->constraint->reason());
+            exit;
+        }
 
         if ($this->has($item)) {
             $this->update($item, function(&$item) {

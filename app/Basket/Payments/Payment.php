@@ -3,12 +3,9 @@
 namespace App\Basket\Payments;
 
 use App\Basket\Basket;
-use App\Basket\Traits\HasConstraints;
 
 abstract class Payment
 {
-    use HasConstraints;
-
     /**
      * Makes a new instance.
      *
@@ -27,16 +24,5 @@ abstract class Payment
     public function amount($amount)
     {
         return number($amount)->inverted()->get();
-    }
-
-    /**
-     * Checks whether the item can be added to the basket.
-     * If true the item can be added.
-     *
-     * @return boolean
-     */
-    public function canBeAdded(Basket $basket)
-    {
-        return $basket->summaries->balance->dueFromCustomer()->get() > 0;
     }
 }

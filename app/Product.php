@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Basket\Traits\IsItem;
+use App\Basket\Traits\HasPrices;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use IsItem;
+    use HasPrices;
 
     /**
      * The appended attributes.

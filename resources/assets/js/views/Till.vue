@@ -8,6 +8,22 @@
             <h2 class="md-title" style="flex: 1">
                 <clock />
             </h2>
+
+            <md-menu md-direction="bottom left">
+                <md-button md-menu-trigger class="md-icon-button">
+                    <md-icon>filter_list</md-icon>
+                </md-button>
+
+                <md-menu-content>
+                    <md-menu-item v-for="(mode, name) in basket.modes" @click.native="changeMode(mode)">
+                        {{ name }}
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+
+            <md-button class="md-icon-button" @click.native="destroyBasket">
+                <md-icon>delete</md-icon>
+            </md-button>
         </md-toolbar>
 
         <categories></categories>
@@ -28,19 +44,28 @@
         data() {
             return {
                 app: window.epos.app,
-                checkout: false
+                checkout: false,
+                basket: {}
             }
         },
 
         methods: {
-            emptyBasket() {
-                this.$http.delete('/basket')
-                    .then(response => Event.fire('basket-reload', response.body));
+            changeMode(mode) {
+                this.$http.put('/api/basket/mode/' + mode);
+            },
+
+            destroyBasket() {
+                this.$http.delete('/api/basket');
             }
         },
 
         created() {
             Event.listen('checkout', state => this.checkout = state);
+
+            Echo.channel('basket')
+                .listen('BasketReload', (e) => {
+                    this.basket = e.basket;
+                });
         }
     }
 </script>

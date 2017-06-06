@@ -13,8 +13,8 @@
                 </md-layout>
 
                 <md-layout>
-                    <router-link class="app-nav-item" to="/admin">
-                        Admin
+                    <router-link class="app-nav-item" to="/transactions">
+                        Transactions
                     </router-link>
                 </md-layout>
             </md-layout>

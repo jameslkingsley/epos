@@ -15,7 +15,9 @@ class Item extends Model
      *
      * @var array
      */
-    protected $appends = ['qty', 'model'];
+    protected $appends = [
+        'qty', 'model', 'discounted'
+    ];
 
     /**
      * Adhoc quantity value.
@@ -66,6 +68,16 @@ class Item extends Model
     public function getQtyAttribute()
     {
         return $this->qty;
+    }
+
+    /**
+     * Checks if the item is discounted.
+     *
+     * @return boolean
+     */
+    public function getDiscountedAttribute()
+    {
+        return Deal::eligibleFor($this);
     }
 
     /**

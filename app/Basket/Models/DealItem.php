@@ -2,7 +2,6 @@
 
 namespace App\Basket\Models;
 
-use App\Basket\Models\Item;
 use Illuminate\Database\Eloquent\Model;
 use App\Basket\Collections\DealItemCollection;
 

@@ -37,7 +37,11 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Basket\Models\Price::class, function (Faker\Generator $faker) {
-    return [
+    return env('EPOS_SEED_LARGE', false) ? [
+        'trade' => $faker->numberBetween(10000, 5000000),
+        'markup' => $faker->randomFloat(2, 0, 2),
+        'vat' => $faker->randomElement([0, 0.05, 0.1, 0.2, 0.25])
+    ] : [
         'trade' => $faker->numberBetween(20, 500),
         'markup' => $faker->randomFloat(2, 0, 1),
         'vat' => $faker->randomElement([0, 0.05, 0.1, 0.2, 0.25])

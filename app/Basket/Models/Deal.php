@@ -79,4 +79,16 @@ class Deal extends Model
     {
         return $this->id == $deal->id;
     }
+
+    /**
+     * Check if the item has any deals in date.
+     *
+     * @return boolean
+     */
+    public static function eligibleFor(Item $item)
+    {
+        return static::inDate()->contains(function($deal) use($item) {
+            return $deal->items->contains('item_id', $item->id);
+        });
+    }
 }

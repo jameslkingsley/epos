@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Basket\Basket;
 use App\Events\BasketReload;
 use Illuminate\Http\Request;
+use App\Events\BasketModeChanged;
 use Illuminate\Support\Facades\Log;
 
 class BasketController extends Controller
@@ -85,5 +86,19 @@ class BasketController extends Controller
         basket()
             ->empty()
             ->reload();
+    }
+
+    /**
+     * Changes basket to the given mode.
+     *
+     * @return void
+     */
+    public function mode(int $mode)
+    {
+        basket()->update(function($basket) use($mode) {
+            $basket->mode = $mode;
+
+            return $basket->withEvent(BasketModeChanged::class, $mode);
+        })->reload();
     }
 }

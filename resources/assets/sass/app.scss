@@ -146,3 +146,8 @@ body {
         justify-content: flex-end;
     }
 }
+
+.has-discount {
+    background: $brand-success;
+    color: white;
+}

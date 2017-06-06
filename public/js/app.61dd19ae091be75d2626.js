@@ -150,7 +150,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         selected: function selected(item) {
-            this.$material.setCurrentTheme('default');
             this.$http.post('/api/items', item);
         },
         emptyBasket: function emptyBasket() {
@@ -161,26 +160,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         reloadBasket: function reloadBasket() {
             this.$http.get('/api/basket');
+        },
+        modeTheme: function modeTheme() {
+            var _this = this;
+
+            return _.findKey(this.basket.modes, function (i) {
+                return i == _this.basket.meta.mode;
+            }).toLowerCase();
         }
     },
 
     mounted: function mounted() {
-        var _this = this;
+        var _this2 = this;
 
         Event.listen('item-select', function (item) {
-            return _this.selected(item);
+            return _this2.selected(item);
         });
 
         Echo.channel('basket').listen('BasketReload', function (e) {
-            _this.basket = e.basket;
-            _this.loaded = true;
+            _this2.basket = e.basket;
+            _this2.loaded = true;
+
+            // Set the overall theme to match the basket mode
+            _this2.$material.setCurrentTheme(_this2.modeTheme());
         }).listen('BasketException', function (e) {
             Event.fire('alert', e.message);
+        }).listen('BasketModeChanged', function (e) {
+            //
         }).listen('TransactionStarted', function (e) {
-            _this.$material.setCurrentTheme('default');
+            _this2.$material.setCurrentTheme('default');
         }).listen('TransactionCompleted', function (e) {
-            _this.$material.setCurrentTheme('success');
-            _this.basket = e.basket;
+            _this2.$material.setCurrentTheme('success');
+            _this2.basket = e.basket;
         });
     },
     created: function created() {
@@ -713,7 +724,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         classes: function classes() {
             return {
                 'item-wrapper': true,
-                'cursor-pointer': true
+                'cursor-pointer': true,
+                'has-discount': this.item.discounted
             };
         }
     },
@@ -859,6 +871,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 this.$http.post('/api/payments', payment);
             }
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/FastCard.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['payment'],
+
+    computed: {
+        classes: function classes() {
+            return {
+                'item-wrapper': true,
+                'cursor-pointer': true
+            };
+        }
+    },
+
+    methods: {
+        handle: function handle() {
+            this.$http.post('/api/payments', this.payment);
         }
     }
 });
@@ -1032,21 +1082,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             app: window.epos.app,
-            checkout: false
+            checkout: false,
+            basket: {}
         };
     },
 
 
     methods: {
-        emptyBasket: function emptyBasket() {
-            this.$http.delete('/basket').then(function (response) {
-                return Event.fire('basket-reload', response.body);
-            });
+        changeMode: function changeMode(mode) {
+            this.$http.put('/api/basket/mode/' + mode);
+        },
+        destroyBasket: function destroyBasket() {
+            this.$http.delete('/api/basket');
         }
     },
 
@@ -1055,6 +1123,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         Event.listen('checkout', function (state) {
             return _this.checkout = state;
+        });
+
+        Echo.channel('basket').listen('BasketReload', function (e) {
+            _this.basket = e.basket;
         });
     }
 });
@@ -23637,7 +23709,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "item-title"
-  }, [_vm._v("\n        (" + _vm._s(_vm.item.id) + ") " + _vm._s(_vm.item.model.name) + "\n    ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n        " + _vm._s(_vm.item.model.name) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-price"
   }, [_vm._v("\n        " + _vm._s(_vm._f("currency")(_vm.item.model.gross)) + "\n    ")]), _vm._v(" "), _c('span', {
     staticClass: "item-meta"
@@ -24024,9 +24096,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n                    Till\n                ")])], 1), _vm._v(" "), _c('md-layout', [_c('router-link', {
     staticClass: "app-nav-item",
     attrs: {
-      "to": "/admin"
+      "to": "/transactions"
     }
-  }, [_vm._v("\n                    Admin\n                ")])], 1)], 1), _vm._v(" "), _c('md-layout', {
+  }, [_vm._v("\n                    Transactions\n                ")])], 1)], 1), _vm._v(" "), _c('md-layout', {
     attrs: {
       "md-gutter": ""
     }
@@ -24088,7 +24160,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "1"
     }
-  }, [_c('clock')], 1)], 1), _vm._v(" "), _c('categories'), _vm._v(" "), _c('div', {
+  }, [_c('clock')], 1), _vm._v(" "), _c('md-menu', {
+    attrs: {
+      "md-direction": "bottom left"
+    }
+  }, [_c('md-button', {
+    staticClass: "md-icon-button",
+    attrs: {
+      "md-menu-trigger": ""
+    }
+  }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-menu-content', _vm._l((_vm.basket.modes), function(mode, name) {
+    return _c('md-menu-item', {
+      nativeOn: {
+        "click": function($event) {
+          _vm.changeMode(mode)
+        }
+      }
+    }, [_vm._v("\n                    " + _vm._s(name) + "\n                ")])
+  }))], 1), _vm._v(" "), _c('md-button', {
+    staticClass: "md-icon-button",
+    nativeOn: {
+      "click": function($event) {
+        _vm.destroyBasket($event)
+      }
+    }
+  }, [_c('md-icon', [_vm._v("delete")])], 1)], 1), _vm._v(" "), _c('categories'), _vm._v(" "), _c('div', {
     staticClass: "page-content"
   }, [_c('div', {
     staticClass: "main-content"
@@ -24145,6 +24241,38 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-7b92a244", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7f6d0f8a\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/FastCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-whiteframe', {
+    class: _vm.classes,
+    attrs: {
+      "md-elevation": "1"
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.handle($event)
+      }
+    }
+  }, [_c('span', {
+    staticClass: "item-title"
+  }, [_vm._v("\n        Fast Card\n    ")]), _vm._v(" "), _c('span', {
+    staticClass: "item-price"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "item-meta"
+  })])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7f6d0f8a", module.exports)
   }
 }
 
@@ -38293,6 +38421,7 @@ Vue.component('basket-items', __webpack_require__("./resources/assets/js/compone
 Vue.component('basket-vat', __webpack_require__("./resources/assets/js/components/Basket/VAT.vue"));
 Vue.component('basket-payments', __webpack_require__("./resources/assets/js/components/Basket/Payments.vue"));
 Vue.component('basket-summary', __webpack_require__("./resources/assets/js/components/Basket/Summary.vue"));
+Vue.component('payments-fastcard', __webpack_require__("./resources/assets/js/components/Payments/FastCard.vue"));
 Vue.component('payments-fastcash', __webpack_require__("./resources/assets/js/components/Payments/FastCash.vue"));
 Vue.component('payments-cash', __webpack_require__("./resources/assets/js/components/Payments/Cash.vue"));
 Vue.component('payments-card', __webpack_require__("./resources/assets/js/components/Payments/Card.vue"));
@@ -38328,6 +38457,10 @@ var app = new Vue({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_echo__);
+var _Vue$material$registe;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
@@ -38340,17 +38473,28 @@ var VueMaterial = __webpack_require__("./node_modules/vue-material/dist/vue-mate
 __webpack_require__("./node_modules/vue-material/dist/vue-material.css");
 Vue.use(VueMaterial);
 
-Vue.material.registerTheme({
+Vue.material.registerTheme((_Vue$material$registe = {
     default: {
         primary: 'indigo',
         accent: 'indigo'
-    },
-
-    success: {
-        primary: 'green',
-        accent: 'green'
     }
-});
+
+}, _defineProperty(_Vue$material$registe, 'default', {
+    primary: 'indigo',
+    accent: 'indigo'
+}), _defineProperty(_Vue$material$registe, 'refund', {
+    primary: 'amber',
+    accent: 'amber'
+}), _defineProperty(_Vue$material$registe, 'staff', {
+    primary: 'black',
+    accent: 'black'
+}), _defineProperty(_Vue$material$registe, 'debug', {
+    primary: 'red',
+    accent: 'red'
+}), _defineProperty(_Vue$material$registe, 'success', {
+    primary: 'green',
+    accent: 'green'
+}), _Vue$material$registe));
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -38958,6 +39102,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-25e19c3c", Component.options)
   } else {
     hotAPI.reload("data-v-25e19c3c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Payments/FastCard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Payments/FastCard.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7f6d0f8a\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Payments/FastCard.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Payments\\FastCard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FastCard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7f6d0f8a", Component.options)
+  } else {
+    hotAPI.reload("data-v-7f6d0f8a", Component.options)
   }
 })()}
 

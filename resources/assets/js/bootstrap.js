@@ -16,6 +16,26 @@ Vue.material.registerTheme({
         accent: 'indigo'
     },
 
+    default: {
+        primary: 'indigo',
+        accent: 'indigo'
+    },
+
+    refund: {
+        primary: 'amber',
+        accent: 'amber'
+    },
+
+    staff: {
+        primary: 'black',
+        accent: 'black'
+    },
+
+    debug: {
+        primary: 'red',
+        accent: 'red'
+    },
+
     success: {
         primary: 'green',
         accent: 'green'

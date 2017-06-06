@@ -22,6 +22,7 @@ Route::get('/session', function() {
 Route::resource('/api/categories', 'CategoryController');
 
 Route::delete('/api/basket', 'BasketController@empty');
+Route::put('/api/basket/mode/{mode}', 'BasketController@mode');
 Route::resource('/api/basket', 'BasketController', [
     'except' => 'destroy'
 ]);

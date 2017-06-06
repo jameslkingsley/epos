@@ -7,6 +7,7 @@ use Jenssegers\Model\Model;
 use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\TransactionStarted;
+use Illuminate\Support\Facades\Session;
 use App\Basket\Models\TransactionHeader;
 use App\Basket\Collections\DealCollection;
 use App\Basket\Collections\ItemCollection;
@@ -23,12 +24,12 @@ class Basket extends Model
     const MDefault = 0;
     const MRefund = 1;
     const MStaff = 2;
-    const MDebug = 4;
+    const MDebug = 3;
 
     /**
      * Basket flag constants.
      *
-     * @var integer
+     * @var boolean
      */
     const SkipTransactionStartedEvent = true;
 
@@ -39,7 +40,8 @@ class Basket extends Model
      */
     protected $appends = [
         'items', 'payments',
-        'summaries', 'deals'
+        'summaries', 'deals',
+        'modes', 'meta'
     ];
 
     /**
@@ -48,7 +50,20 @@ class Basket extends Model
      * @var array
      */
     protected $wakeup = [
-        'items', 'payments', 'deals'
+        'items', 'payments',
+        'deals', 'mode'
+    ];
+
+    /**
+     * Default values for wakeup attributes.
+     *
+     * @var array
+     */
+    protected $wakeupDefaults = [
+        'items' => [],
+        'payments' => [],
+        'deals' => [],
+        'mode' => 0
     ];
 
     /**
@@ -94,12 +109,11 @@ class Basket extends Model
         $basket = session('basket', null);
 
         foreach ($this->wakeup as $attr) {
-            $this->$attr = ($basket && !$new) ? $basket->$attr : [];
+            $this->$attr = ($basket && !$new) ? $basket->$attr : $this->wakeupDefaults[$attr];
         }
 
         // Static basket attributes
         $this->cash_float = config('basket.cash_float');
-        $this->mode = static::MDefault; // TODO Set by constructor
 
         session()->put('basket', $this);
 
@@ -146,6 +160,33 @@ class Basket extends Model
     public function getSummariesAttribute()
     {
         return new Summary($this);
+    }
+
+    /**
+     * Gets the basket modes.
+     *
+     * @return array
+     */
+    public function getModesAttribute()
+    {
+        return [
+            'Default' => static::MDefault,
+            'Refund' => static::MRefund,
+            'Staff' => static::MStaff,
+            'Debug' => static::MDebug
+        ];
+    }
+
+    /**
+     * Gets the basket meta data.
+     *
+     * @return array
+     */
+    public function getMetaAttribute()
+    {
+        return [
+            'mode' => $this->mode
+        ];
     }
 
     /**
@@ -240,6 +281,8 @@ class Basket extends Model
      */
     public static function empty(bool $skip_event = false)
     {
+        Session::forget('basket');
+
         return new self(true, $skip_event);
     }
 
@@ -293,7 +336,7 @@ class Basket extends Model
         foreach ($deals as $deal) {
             if ($deal->handler->eligible()) {
                 $this->deals->add($deal);
-            }            
+            }
         }
 
         return $this;

@@ -1,7 +1,7 @@
 <template>
     <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
         <span class="item-title">
-            ({{ item.id }}) {{ item.model.name }}
+            {{ item.model.name }}
         </span>
 
         <span class="item-price">
@@ -22,7 +22,8 @@
             classes() {
                 return {
                     'item-wrapper': true,
-                    'cursor-pointer': true
+                    'cursor-pointer': true,
+                    'has-discount': this.item.discounted
                 };
             }
         },

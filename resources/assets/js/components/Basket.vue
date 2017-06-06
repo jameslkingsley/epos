@@ -27,7 +27,6 @@
 
         methods: {
             selected(item) {
-                this.$material.setCurrentTheme('default');
                 this.$http.post('/api/items', item);
             },
 
@@ -41,6 +40,12 @@
 
             reloadBasket() {
                 this.$http.get('/api/basket');
+            },
+
+            modeTheme() {
+                return _.findKey(this.basket.modes, (i) => {
+                    return i == this.basket.meta.mode;
+                }).toLowerCase();
             }
         },
 
@@ -54,9 +59,15 @@
                 .listen('BasketReload', (e) => {
                     this.basket = e.basket;
                     this.loaded = true;
+
+                    // Set the overall theme to match the basket mode
+                    this.$material.setCurrentTheme(this.modeTheme());
                 })
                 .listen('BasketException', (e) => {
                     Event.fire('alert', e.message);
+                })
+                .listen('BasketModeChanged', (e) => {
+                    //
                 })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');

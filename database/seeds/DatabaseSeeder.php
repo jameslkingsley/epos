@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
         foreach ([
             'Cash' => 'App\\Basket\\Payments\\Cash',
             'Card' => 'App\\Basket\\Payments\\Card',
-            'Fast Cash' => 'App\\Basket\\Payments\\FastCash'
+            'Fast Cash' => 'App\\Basket\\Payments\\FastCash',
+            'Fast Card' => 'App\\Basket\\Payments\\FastCard'
         ] as $key => $value) {
             App\Basket\Models\Payment::forceCreate([
                 'name' => $key,

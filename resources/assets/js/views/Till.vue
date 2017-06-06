@@ -15,7 +15,7 @@
                 </md-button>
 
                 <md-menu-content>
-                    <md-menu-item v-for="(mode, name) in basket.modes" @click.native="changeMode(mode)">
+                    <md-menu-item v-for="(mode, name) in basket.modes" :key="mode" @click.native="changeMode(mode)">
                         {{ name }}
                     </md-menu-item>
                 </md-menu-content>

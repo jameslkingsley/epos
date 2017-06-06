@@ -24171,6 +24171,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('md-icon', [_vm._v("filter_list")])], 1), _vm._v(" "), _c('md-menu-content', _vm._l((_vm.basket.modes), function(mode, name) {
     return _c('md-menu-item', {
+      key: mode,
       nativeOn: {
         "click": function($event) {
           _vm.changeMode(mode)

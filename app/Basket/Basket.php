@@ -35,6 +35,18 @@ class Basket extends Model
     const SkipTransactionStartedEvent = true;
 
     /**
+     * Basket mode names.
+     *
+     * @var array
+     */
+    const Modes = [
+        0 => 'Default',
+        1 => 'Refund',
+        2 => 'Staff',
+        3 => 'Debug'
+    ];
+
+    /**
      * Appended attributes.
      *
      * @var array

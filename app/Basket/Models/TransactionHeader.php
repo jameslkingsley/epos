@@ -2,6 +2,7 @@
 
 namespace App\Basket\Models;
 
+use App\Basket\Basket;
 use App\Basket\Models\TransactionDeal;
 use App\Basket\Models\TransactionItem;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +30,8 @@ class TransactionHeader extends Model
         'due_from_customer',
         'due_to_customer',
         'timestamp',
-        'payment_total'
+        'payment_total',
+        'mode_name'
     ];
 
     /**
@@ -213,5 +215,15 @@ class TransactionHeader extends Model
     public function getTimestampAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    /**
+     * Gets the attributable version.
+     *
+     * @return any
+     */
+    public function getModeNameAttribute()
+    {
+        return Basket::Modes[$this->mode];
     }
 }

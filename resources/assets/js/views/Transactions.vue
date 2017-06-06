@@ -14,7 +14,7 @@
                     <md-list>
                         <md-list-item md-expand-multiple v-for="(header, index) in headers" :key="index">
                             <span class="flex f1 align-right">
-                                <strong class="text-primary">{{ header.timestamp }}</strong>
+                                <strong class="text-primary">{{ header.mode_name }} &middot; {{ header.timestamp }}</strong>
 
                                 <pill class="flex push-left" right primary>
                                     {{ header.due_from_customer | currency }}

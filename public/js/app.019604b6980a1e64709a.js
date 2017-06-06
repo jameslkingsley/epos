@@ -24416,7 +24416,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "flex f1 align-right"
     }, [_c('strong', {
       staticClass: "text-primary"
-    }, [_vm._v(_vm._s(header.timestamp))]), _vm._v(" "), _c('pill', {
+    }, [_vm._v(_vm._s(header.mode_name) + " · " + _vm._s(header.timestamp))]), _vm._v(" "), _c('pill', {
       staticClass: "flex push-left",
       attrs: {
         "right": "",

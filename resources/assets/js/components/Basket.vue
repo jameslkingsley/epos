@@ -1,11 +1,13 @@
 <template>
-    <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav" v-if="loaded">
+    <md-sidenav md-fixed class="md-right main-sidebar" ref="rightSidenav">
         <div class="main-sidebar-links">
-            <basket-items :basket="basket" />
-            <basket-deals :basket="basket" />
-            <basket-payments :basket="basket" />
-            <basket-summary :basket="basket" />
-            <basket-vat :basket="basket" />
+            <div v-if="loaded">
+                <basket-items :basket="basket" />
+                <basket-deals :basket="basket" />
+                <basket-payments :basket="basket" />
+                <basket-summary :basket="basket" />
+                <basket-vat :basket="basket" />
+            </div>
 
             <md-bottom-bar>
                 <md-bottom-bar-item md-icon="refresh" @click.native="emptyBasket">Empty</md-bottom-bar-item>

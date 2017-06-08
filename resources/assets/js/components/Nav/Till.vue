@@ -13,16 +13,8 @@
                 </md-layout>
 
                 <md-layout>
-                    <router-link class="app-nav-item" to="/transactions">
-                        Transactions
-                    </router-link>
-                </md-layout>
-            </md-layout>
-
-            <md-layout md-gutter>
-                <md-layout>
-                    <router-link class="app-nav-item" to="/login">
-                        Login
+                    <router-link class="app-nav-item" to="/admin">
+                        Admin
                     </router-link>
                 </md-layout>
             </md-layout>

@@ -14,12 +14,13 @@ export default new VueRouter({
 
         {
             path: '/admin',
-            component: require('./views/Admin')
-        },
-
-        {
-            path: '/transactions',
-            component: require('./views/Transactions')
+            component: require('./views/Admin'),
+            children: [
+                {
+                    path: 'transactions',
+                    component: require('./tools/Transactions')
+                }
+            ]
         }
     ]
 });

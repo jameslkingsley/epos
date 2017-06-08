@@ -138,6 +138,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -768,14 +770,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {
@@ -986,11 +980,136 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/tools/Transactions.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            headers: []
+        };
+    },
+
+
+    methods: {
+        sort: function sort(_sort) {
+            console.log(_sort);
+            // this.headers = _.orderBy(this.headers, [item => item[sort.name]], sort.type);
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        this.$http.get('/api/transactions').then(function (response) {
+            _this.headers = response.body;
+        });
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Admin.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1127,127 +1246,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         Echo.channel('basket').listen('BasketReload', function (e) {
             _this.basket = e.basket;
-        });
-    }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Transactions.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            headers: []
-        };
-    },
-
-
-    methods: {
-        sort: function sort(_sort) {
-            console.log(_sort);
-            // this.headers = _.orderBy(this.headers, [item => item[sort.name]], sort.type);
-        }
-    },
-
-    created: function created() {
-        var _this = this;
-
-        this.$http.get('/api/transactions').then(function (response) {
-            _this.headers = response.body;
         });
     }
 });
@@ -23668,20 +23666,165 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a2a16f\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/tools/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('md-list', _vm._l((_vm.headers), function(header, index) {
+    return _c('md-list-item', {
+      key: index,
+      attrs: {
+        "md-expand-multiple": ""
+      }
+    }, [_c('span', {
+      staticClass: "flex f1 align-right"
+    }, [_c('strong', {
+      staticClass: "text-primary"
+    }, [_vm._v(_vm._s(header.mode_name) + " · " + _vm._s(header.timestamp))]), _vm._v(" "), _c('pill', {
+      staticClass: "flex push-left",
+      attrs: {
+        "right": "",
+        "primary": ""
+      }
+    }, [_vm._v("\n                " + _vm._s(_vm._f("currency")(header.due_from_customer)) + "\n            ")])], 1), _vm._v(" "), _c('md-list-expand', [_c('md-table', {
+      on: {
+        "sort": _vm.sort
+      }
+    }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Description")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((header.items), function(item, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                            ITEM — " + _vm._s(item.model.name) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.net_total)))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.vat_total)))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.gross_total)))])], 1)
+    }), _vm._v(" "), _vm._l((header.deals), function(deal, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                            DEAL — " + _vm._s(deal.title) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": "",
+          "colspan": "4"
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount_total)))])], 1)
+    }), _vm._v(" "), _vm._l((header.payments), function(payment, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                            PAYMENT — " + _vm._s(payment.title) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": "",
+          "colspan": "4"
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(payment.amount_total)))])], 1)
+    })], 2), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": "",
+        "colspan": "3"
+      }
+    }, [_vm._v("Due")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Took")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Change")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', {
+      attrs: {
+        "md-numeric": "",
+        "colspan": "3"
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.payment_total)))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_to_customer)))])], 1)], 1)], 1)], 1)], 1)
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-03a2a16f", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-04e97178\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Admin.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return _c('md-theme', {
+    attrs: {
+      "md-name": "admin"
+    }
+  }, [_c('div', {
     staticClass: "container"
-  }, [_c('md-toolbar', {
+  }, [_c('alert'), _vm._v(" "), _c('md-toolbar', {
     staticClass: "md-dense"
   }, [_c('nav-till'), _vm._v(" "), _c('h2', {
     staticClass: "md-title",
     staticStyle: {
       "flex": "1"
     }
-  }, [_vm._v("\n            Admin\n        ")])], 1)], 1)
+  }, [_vm._v("\n                Admin\n            ")])], 1), _vm._v(" "), _c('md-sidenav', {
+    ref: "leftSidenav",
+    staticClass: "md-left main-sidebar",
+    attrs: {
+      "md-fixed": ""
+    }
+  }, [_c('div', {
+    staticClass: "main-sidebar-links",
+    staticStyle: {
+      "background": "white"
+    }
+  }, [_c('md-list', [_c('md-list-item', [_c('router-link', {
+    attrs: {
+      "to": "/admin/transactions"
+    }
+  }, [_vm._v("\n                            Transactions\n                        ")])], 1)], 1)], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "admin-page-content"
+  }, [_c('router-view')], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -24006,7 +24149,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.loaded) ? _c('md-sidenav', {
+  return _c('md-sidenav', {
     ref: "rightSidenav",
     staticClass: "md-right main-sidebar",
     attrs: {
@@ -24014,7 +24157,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "main-sidebar-links"
-  }, [_c('basket-items', {
+  }, [(_vm.loaded) ? _c('div', [_c('basket-items', {
     attrs: {
       "basket": _vm.basket
     }
@@ -24034,7 +24177,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "basket": _vm.basket
     }
-  }), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
+  })], 1) : _vm._e(), _vm._v(" "), _c('md-bottom-bar', [_c('md-bottom-bar-item', {
     attrs: {
       "md-icon": "refresh"
     },
@@ -24057,7 +24200,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-icon": "print"
     }
-  }, [_vm._v("Receipt")])], 1)], 1)]) : _vm._e()
+  }, [_vm._v("Receipt")])], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -24096,18 +24239,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n                    Till\n                ")])], 1), _vm._v(" "), _c('md-layout', [_c('router-link', {
     staticClass: "app-nav-item",
     attrs: {
-      "to": "/transactions"
+      "to": "/admin"
     }
-  }, [_vm._v("\n                    Transactions\n                ")])], 1)], 1), _vm._v(" "), _c('md-layout', {
-    attrs: {
-      "md-gutter": ""
-    }
-  }, [_c('md-layout', [_c('router-link', {
-    staticClass: "app-nav-item",
-    attrs: {
-      "to": "/login"
-    }
-  }, [_vm._v("\n                    Login\n                ")])], 1)], 1)], 1)], 1)
+  }, [_vm._v("\n                    Admin\n                ")])], 1)], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -24384,143 +24518,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-d5e7c22e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e1cfad88\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Transactions.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('md-toolbar', {
-    staticClass: "md-dense"
-  }, [_c('nav-till'), _vm._v(" "), _c('h2', {
-    staticClass: "md-title",
-    staticStyle: {
-      "flex": "1"
-    }
-  }, [_vm._v("\n            Transactions\n        ")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "page-content"
-  }, [_c('div', {
-    staticClass: "main-content"
-  }, [_c('md-whiteframe', [_c('md-list', _vm._l((_vm.headers), function(header, index) {
-    return _c('md-list-item', {
-      key: index,
-      attrs: {
-        "md-expand-multiple": ""
-      }
-    }, [_c('span', {
-      staticClass: "flex f1 align-right"
-    }, [_c('strong', {
-      staticClass: "text-primary"
-    }, [_vm._v(_vm._s(header.mode_name) + " · " + _vm._s(header.timestamp))]), _vm._v(" "), _c('pill', {
-      staticClass: "flex push-left",
-      attrs: {
-        "right": "",
-        "primary": ""
-      }
-    }, [_vm._v("\n                                " + _vm._s(_vm._f("currency")(header.due_from_customer)) + "\n                            ")])], 1), _vm._v(" "), _c('md-list-expand', [_c('md-table', {
-      on: {
-        "sort": _vm.sort
-      }
-    }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Description")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((header.items), function(item, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                                            ITEM — " + _vm._s(item.model.name) + "\n                                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.net_total)))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.vat_total)))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.gross_total)))])], 1)
-    }), _vm._v(" "), _vm._l((header.deals), function(deal, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                                            DEAL — " + _vm._s(deal.title) + "\n                                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": "",
-          "colspan": "4"
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount_total)))])], 1)
-    }), _vm._v(" "), _vm._l((header.payments), function(payment, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                                            PAYMENT — " + _vm._s(payment.title) + "\n                                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": "",
-          "colspan": "4"
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(payment.amount_total)))])], 1)
-    })], 2), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": "",
-        "colspan": "3"
-      }
-    }, [_vm._v("Due")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Took")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Change")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', {
-      attrs: {
-        "md-numeric": "",
-        "colspan": "3"
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))]), _vm._v(" "), _c('md-table-cell', {
-      attrs: {
-        "md-numeric": ""
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.payment_total)))]), _vm._v(" "), _c('md-table-cell', {
-      attrs: {
-        "md-numeric": ""
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_to_customer)))])], 1)], 1)], 1)], 1)], 1)
-  }))], 1)], 1)])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e1cfad88", module.exports)
   }
 }
 
@@ -38473,15 +38470,23 @@ Vue.use(VueMaterial);
 Vue.material.registerTheme({
     default: {
         primary: {
-            color: 'blue',
+            color: 'light-green',
             hue: 700
         },
         accent: 'black'
     },
 
+    admin: {
+        primary: 'blue-grey',
+        accent: 'black'
+    },
+
     refund: {
-        primary: 'amber',
-        accent: 'amber'
+        primary: {
+            color: 'deep-orange',
+            hue: 800
+        },
+        accent: 'black'
     },
 
     staff: {
@@ -39235,10 +39240,11 @@ module.exports = Component.exports
         component: __webpack_require__("./resources/assets/js/views/Login.vue")
     }, {
         path: '/admin',
-        component: __webpack_require__("./resources/assets/js/views/Admin.vue")
-    }, {
-        path: '/transactions',
-        component: __webpack_require__("./resources/assets/js/views/Transactions.vue")
+        component: __webpack_require__("./resources/assets/js/views/Admin.vue"),
+        children: [{
+            path: 'transactions',
+            component: __webpack_require__("./resources/assets/js/tools/Transactions.vue")
+        }]
     }]
 }));
 
@@ -39528,6 +39534,41 @@ var Form = function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/tools/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/tools/Transactions.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a2a16f\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/tools/Transactions.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\tools\\Transactions.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Transactions.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03a2a16f", Component.options)
+  } else {
+    hotAPI.reload("data-v-03a2a16f", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/views/Admin.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39625,41 +39666,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-760cfcc8", Component.options)
   } else {
     hotAPI.reload("data-v-760cfcc8", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/views/Transactions.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
-  /* script */
-  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Transactions.vue"),
-  /* template */
-  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e1cfad88\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Transactions.vue"),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\views\\Transactions.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Transactions.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e1cfad88", Component.options)
-  } else {
-    hotAPI.reload("data-v-e1cfad88", Component.options)
   }
 })()}
 

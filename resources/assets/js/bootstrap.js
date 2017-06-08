@@ -13,15 +13,23 @@ Vue.use(VueMaterial);
 Vue.material.registerTheme({
     default: {
         primary: {
-            color: 'blue',
+            color: 'light-green',
             hue: 700
         },
         accent: 'black'
     },
 
+    admin: {
+        primary: 'blue-grey',
+        accent: 'black'
+    },
+
     refund: {
-        primary: 'amber',
-        accent: 'amber'
+        primary: {
+            color: 'deep-orange',
+            hue: 800
+        },
+        accent: 'black'
     },
 
     staff: {

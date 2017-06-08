@@ -218,4 +218,52 @@ class Number
 
         return $this;
     }
+
+    /**
+     * Checks if the number is greater than.
+     *
+     * @return boolean
+     */
+    public function gt($number)
+    {
+        $number = $number instanceof Number ? $number->get() : $number;
+
+        return $this->number > $number;
+    }
+
+    /**
+     * Checks if the number is greater than or equal to.
+     *
+     * @return boolean
+     */
+    public function gte($number)
+    {
+        $number = $number instanceof Number ? $number->get() : $number;
+
+        return $this->number >= $number;
+    }
+
+    /**
+     * Checks if the number is less than.
+     *
+     * @return boolean
+     */
+    public function lt($number)
+    {
+        $number = $number instanceof Number ? $number->get() : $number;
+
+        return $this->number < $number;
+    }
+
+    /**
+     * Checks if the number is less than or equal to.
+     *
+     * @return boolean
+     */
+    public function lte($number)
+    {
+        $number = $number instanceof Number ? $number->get() : $number;
+
+        return $this->number <= $number;
+    }
 }

@@ -7,25 +7,21 @@ use App\Basket\Models\Item;
 use App\Events\ItemRemoved;
 use App\Events\BasketException;
 use App\Basket\Exceptions\Exception;
+use App\Basket\Traits\HasConstraints;
 use App\Basket\Collections\Collection;
 use App\Basket\Models\TransactionHeader;
 use App\Basket\Constraints\ItemConstraint;
 
 class ItemCollection extends Collection
 {
+    use HasConstraints;
+
     /**
      * Basket instance.
      *
      * @var App\Basket\Basket
      */
     protected $basket;
-
-    /**
-     * Constraint instance.
-     *
-     * @var App\Basket\Constraints\ItemConstraint
-     */
-    protected $constraint;
 
     /**
      * Constructor method.
@@ -35,7 +31,9 @@ class ItemCollection extends Collection
     public function __construct($items, $basket = null)
     {
         $this->basket = $basket;
-        $this->constraint = new ItemConstraint;
+
+        // Register the constraint class
+        $this->constraint(new ItemConstraint);
 
         foreach ($items as $item) {
             $this->push($item);
@@ -124,25 +122,25 @@ class ItemCollection extends Collection
      */
     public function add($item)
     {
-        $item = $this->resolve($item);
+        return $this->basket->update(function($basket) use($item) {
+            $item = $this->resolve($item);
 
-        // Validate the item, if invalid, will exit
-        if (! $this->constraint->passes($this->basket, $item)) {
-            $this->basket->exception($this->constraint->reason());
-            exit;
-        }
+            // Validate the item, if invalid, will exit
+            if (! $this->constraint(compact('basket', 'item'))->passes('adding')) {
+                return $basket->exception($this->constraint()->reason());
+            }
 
-        if ($this->has($item)) {
-            $this->update($item, function(&$item) {
-                $item->qty++;
-            });
-        } else {
-            $this->push($item);
-        }
+            if ($this->has($item)) {
+                $this->update($item, function(&$item) {
+                    $item->qty++;
+                });
+            } else {
+                $this->push($item);
+            }
 
-        event(new ItemAdded($item));
-
-        return $this;
+            // Return the updated basket, with the item added event
+            return $basket->withEvent(ItemAdded::class, $item);
+        });
     }
 
     /**

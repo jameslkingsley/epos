@@ -11,24 +11,10 @@ class BuyOneGetOneFree extends Deal
      */
     public function concerns()
     {
-        $dealItems = $this->deal->products();
-
-        return $this->basket->items->reject(function($item) use($dealItems) {
-            return ! $dealItems->contains($item);
-        })->reject(function($item) {
+        return $this->productsInBasket()->reject(function($item) {
             // Reject where quantity is not a multiple of 2
             return $item->qty < 2 && $item->qty % 2 != 0;
         });
-    }
-
-    /**
-     * Checks if the deal is eligible.
-     *
-     * @return boolean
-     */
-    public function eligible()
-    {
-        return $this->concerns()->isNotEmpty();
     }
 
     /**
@@ -38,12 +24,10 @@ class BuyOneGetOneFree extends Deal
      */
     public function discount()
     {
-        $amounts = $this->concerns()->unique(function($item) {
-            return $item->model_type.':'.$item->model_id;
-        })->map(function($item) {
-            return $item->model->gross()->times(floor($item->qty / 2))->inverted();
-        })->all();
-
-        return number()->sum($amounts);
+        return number()->sum(
+            $this->concernsUnique()->map(function($item) {
+                return $item->model->gross()->times(floor($item->qty / 2))->inverted();
+            })->all()
+        );
     }
 }

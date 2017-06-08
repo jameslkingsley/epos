@@ -38458,10 +38458,6 @@ var app = new Vue({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_echo__);
-var _Vue$material$registe;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
@@ -38474,28 +38470,35 @@ var VueMaterial = __webpack_require__("./node_modules/vue-material/dist/vue-mate
 __webpack_require__("./node_modules/vue-material/dist/vue-material.css");
 Vue.use(VueMaterial);
 
-Vue.material.registerTheme((_Vue$material$registe = {
+Vue.material.registerTheme({
     default: {
-        primary: 'indigo',
-        accent: 'indigo'
-    }
+        primary: {
+            color: 'blue',
+            hue: 700
+        },
+        accent: 'black'
+    },
 
-}, _defineProperty(_Vue$material$registe, 'default', {
-    primary: 'indigo',
-    accent: 'indigo'
-}), _defineProperty(_Vue$material$registe, 'refund', {
-    primary: 'amber',
-    accent: 'amber'
-}), _defineProperty(_Vue$material$registe, 'staff', {
-    primary: 'black',
-    accent: 'black'
-}), _defineProperty(_Vue$material$registe, 'debug', {
-    primary: 'red',
-    accent: 'red'
-}), _defineProperty(_Vue$material$registe, 'success', {
-    primary: 'green',
-    accent: 'green'
-}), _Vue$material$registe));
+    refund: {
+        primary: 'amber',
+        accent: 'amber'
+    },
+
+    staff: {
+        primary: 'black',
+        accent: 'black'
+    },
+
+    debug: {
+        primary: 'red',
+        accent: 'red'
+    },
+
+    success: {
+        primary: 'green',
+        accent: 'green'
+    }
+});
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';

@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Basket\Models\Item;
 use App\Basket\Models\Payment;
 use App\Basket\Support\Number;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,8 +14,10 @@ class PaymentTest extends TestCase
     /** @test */
     public function can_add_payment_to_basket()
     {
+        $item = Item::first();
         $payment = Payment::first();
 
+        $this->basket->items->add($item);
         $this->basket->payments->add($payment);
 
         $this->assertTrue($this->basket->payments->has($payment));
@@ -34,8 +37,10 @@ class PaymentTest extends TestCase
     /** @test */
     public function can_update_payment_in_basket()
     {
+        $item = Item::first();
         $payment = Payment::first();
 
+        $this->basket->items->add($item);
         $this->basket->payments->add($payment);
 
         $this->basket->payments->update($payment, function(&$payment) {
@@ -62,8 +67,10 @@ class PaymentTest extends TestCase
     /** @test */
     public function can_check_payment_is_in_basket()
     {
+        $item = Item::first();
         $payment = Payment::first();
 
+        $this->basket->items->add($item);
         $this->basket->payments->add($payment);
 
         $this->assertTrue($this->basket->payments->has($payment));
@@ -80,5 +87,15 @@ class PaymentTest extends TestCase
         }
 
         $this->assertInstanceOf(Number::class, $this->basket->payments->balance());
+    }
+
+    /** @test */
+    public function cant_add_payment_without_balance_due()
+    {
+        $payment = Payment::first();
+
+        $this->basket->payments->add($payment);
+
+        $this->assertFalse($this->basket->payments->has($payment));
     }
 }

@@ -264,7 +264,13 @@ class Basket extends Model
      */
     public function update(callable $closure)
     {
-        $basket = $closure($this);
+        $modified = $closure($this);
+
+        if (! $modified instanceof Basket) {
+            return $this;
+        }
+
+        $basket = $modified;
 
         session()->put('basket', $basket);
 

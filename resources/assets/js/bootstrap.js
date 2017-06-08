@@ -12,13 +12,11 @@ Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
     default: {
-        primary: 'indigo',
-        accent: 'indigo'
-    },
-
-    default: {
-        primary: 'indigo',
-        accent: 'indigo'
+        primary: {
+            color: 'blue',
+            hue: 700
+        },
+        accent: 'black'
     },
 
     refund: {

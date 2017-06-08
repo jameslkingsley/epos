@@ -8,6 +8,7 @@ use App\Basket\Models\Payment;
 use App\Events\PaymentRemoved;
 use Illuminate\Support\Facades\Log;
 use App\Basket\Exceptions\Exception;
+use App\Basket\Traits\HasConstraints;
 use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
 use App\Basket\Models\TransactionHeader;
@@ -15,19 +16,14 @@ use App\Basket\Constraints\PaymentConstraint;
 
 class PaymentCollection extends Collection
 {
+    use HasConstraints;
+
     /**
      * Basket instance.
      *
      * @var App\Basket\Basket
      */
     protected $basket;
-
-    /**
-     * Constraint instance.
-     *
-     * @var App\Basket\Constraints\PaymentConstraint
-     */
-    protected $constraint;
 
     /**
      * Constructor method.
@@ -37,7 +33,9 @@ class PaymentCollection extends Collection
     public function __construct($payments, $basket = null)
     {
         $this->basket = $basket;
-        $this->constraint = new PaymentConstraint;
+
+        // Register the constraint class
+        $this->constraint(new PaymentConstraint);
 
         foreach ($payments as $payment) {
             $this->push($payment);
@@ -84,25 +82,24 @@ class PaymentCollection extends Collection
     public function add($payment)
     {
         return $this->basket->update(function($basket) use($payment) {
-            $payment = $basket->payments->resolve($payment, [
+            $payment = $this->resolve($payment, [
                 'amount' => $payment->amount
             ]);
 
             // Validate the payment, if invalid, will exit
-            if (! $this->constraint->passes($basket, $payment)) {
-                $basket->exception($this->constraint->reason());
-                exit;
+            if (! $this->constraint(compact('basket', 'payment'))->passes('adding')) {
+                return $basket->exception($this->constraint()->reason());
             }
 
             // Compute the amount via the provider incase it needs to be mutated
             $payment->amount = $payment->provider->amount($payment->amount);
 
-            if ($basket->payments->has($payment)) {
-                $basket->payments->update($payment, function(&$p) use($payment) {
+            if ($this->has($payment)) {
+                $this->update($payment, function(&$p) use($payment) {
                     $p->amount += $payment->amount;
                 });
             } else {
-                $basket->payments->push($payment);
+                $this->push($payment);
             }
 
             // Return the updated basket, with the payment added event

@@ -24,13 +24,35 @@ abstract class Constraint
     }
 
     /**
+     * Checks if the constraint passes.
+     *
+     * @return boolean
+     */
+    public function passes()
+    {
+        $methods = [];
+
+        foreach (func_get_args() as $method) {
+            $methods[] = $this->$method();
+        }
+
+        return $this->assertAllTrue($methods);
+    }
+
+    /**
      * Asserts that all the given arguments are true.
      *
      * @return boolean
      */
     public function assertAllTrue()
     {
-        return ! collect(func_get_args())->contains(false);
+        $bools = func_get_args();
+
+        if (is_array(func_get_arg(0))) {
+            $bools = func_get_arg(0);
+        }
+
+        return ! collect($bools)->contains(false);
     }
 
     /**
@@ -46,6 +68,6 @@ abstract class Constraint
 
         $this->reasons->push($message);
 
-        return $this;
+        return false;
     }
 }

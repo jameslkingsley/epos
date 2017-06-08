@@ -7,15 +7,12 @@ use App\Basket\Basket;
 class ItemConstraint extends Constraint
 {
     /**
-     * Checks if the constraint passes.
+     * Checks if the item can be added.
      *
      * @return boolean
      */
-    public function passes(Basket $basket, $item)
+    public function adding()
     {
-        $this->basket = $basket;
-        $this->item = $item;
-
         return true;
     }
 }

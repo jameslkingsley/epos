@@ -43,4 +43,40 @@ abstract class Deal
     {
         return new static($deal);
     }
+
+    /**
+     * Checks if the deal is eligible.
+     *
+     * @return boolean
+     */
+    public function eligible()
+    {
+        return $this->concerns()->isNotEmpty();
+    }
+
+    /**
+     * Gets the products in basket that are in the deal.
+     *
+     * @return Collection App\Basket\Models\Item
+     */
+    public function productsInBasket()
+    {
+        $dealItems = $this->deal->products();
+
+        return $this->basket->items->reject(function($item) use($dealItems) {
+            return ! $dealItems->contains($item);
+        });
+    }
+
+    /**
+     * Gets the unique concerned items.
+     *
+     * @return Collection App\Basket\Models\Item
+     */
+    public function concernsUnique()
+    {
+        return $this->concerns()->unique(function($item) {
+            return $item->model_type.':'.$item->model_id;
+        });
+    }
 }

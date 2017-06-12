@@ -13,12 +13,21 @@ export default new VueRouter({
         },
 
         {
+            path: '/sandbox',
+            component: require('./views/Sandbox')
+        },
+
+        {
             path: '/admin',
             component: require('./views/Admin'),
             children: [
                 {
                     path: 'transactions',
-                    component: require('./tools/Transactions')
+                    component: require('./admin/Transactions')
+                },
+                {
+                    path: 'inventory',
+                    component: require('./admin/Inventory')
                 }
             ]
         }

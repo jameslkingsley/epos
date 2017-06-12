@@ -24,14 +24,13 @@
 
         methods: {
             handle() {
-                let amount = prompt('Enter Amount', '0');
-
-                if (amount != null && amount > 0) {
+                Keypad.open({
+                    minimum: 1
+                }).then(value => {
                     let payment = this.payment;
-                    payment.amount = Number(amount) * 100;
-
+                    payment.amount = value;
                     this.$http.post('/api/payments', payment);
-                }
+                });
             }
         }
     }

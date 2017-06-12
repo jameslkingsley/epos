@@ -19,6 +19,12 @@
                                 Transactions
                             </router-link>
                         </md-list-item>
+
+                        <md-list-item>
+                            <router-link to="/admin/inventory">
+                                Inventory
+                            </router-link>
+                        </md-list-item>
                     </md-list>
                 </div>
             </md-sidenav>

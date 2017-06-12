@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <alert />
+        <keypad :options="keypadOptions" />
 
         <md-toolbar class="md-dense">
             <nav-till />
@@ -20,10 +21,6 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-
-            <md-button class="md-icon-button" @click.native="destroyBasket">
-                <md-icon>delete</md-icon>
-            </md-button>
         </md-toolbar>
 
         <categories></categories>
@@ -45,17 +42,14 @@
             return {
                 app: window.epos.app,
                 checkout: false,
-                basket: {}
+                basket: {},
+                keypadOptions: window.KeypadOptions
             }
         },
 
         methods: {
             changeMode(mode) {
                 this.$http.put('/api/basket/mode/' + mode);
-            },
-
-            destroyBasket() {
-                this.$http.delete('/api/basket');
             }
         },
 

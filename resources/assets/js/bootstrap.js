@@ -1,11 +1,15 @@
+// Lodash
 window._ = require('lodash');
 
+// Vue
 window.Vue = require('vue');
 require('vue-resource');
 
+// Vue Router
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
+// Vue Material Design
 var VueMaterial = require('vue-material');
 require('vue-material/dist/vue-material.css');
 Vue.use(VueMaterial);
@@ -43,22 +47,29 @@ Vue.material.registerTheme({
     },
 
     success: {
-        primary: 'green',
-        accent: 'green'
+        primary: 'blue',
+        accent: 'blue'
     }
 });
 
+// AJAX Defaults
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// Helpers
 require('./support/event.js');
 require('./support/errors.js');
 require('./support/form.js');
 
-import Echo from 'laravel-echo'
+// Keypad
+require('./keypad.js');
+window.KeypadOptions = {
+    currency: window.epos.app.currency
+};
 
+// Websocket
 window.Pusher = require('pusher-js');
-
+import Echo from 'laravel-echo';
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: '648cf3562bf2244772cf',

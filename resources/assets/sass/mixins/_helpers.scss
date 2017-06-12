@@ -15,7 +15,7 @@ $spaceamounts: (0, 1, 2, 3, 4, 5);
 
 // Font Sizes
 @for $i from 0 through 72 {
-    .f-#{$i} { font-size: #{$i}px; }
+    .f-#{$i} { font-size: #{$i}px !important; }
 }
 
 // Cursors

@@ -68,6 +68,177 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/Inventory.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            category: 1,
+            categories: [],
+            items: []
+        };
+    },
+
+
+    methods: {
+        view: function view() {
+            var _this = this;
+
+            this.$http.get('/api/categories/' + this.category).then(function (response) {
+                return _this.items = response.body;
+            });
+        }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        this.$http.get('/api/categories').then(function (response) {
+            _this2.categories = response.body;
+        });
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/Transactions.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            headers: []
+        };
+    },
+
+
+    methods: {
+        sort: function sort(_sort) {
+            console.log(_sort);
+            // this.headers = _.orderBy(this.headers, [item => item[sort.name]], sort.type);
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        this.$http.get('/api/transactions').then(function (response) {
+            _this.headers = response.body;
+        });
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Alert.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -682,6 +853,175 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Keypad.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        options: {
+            type: Object,
+            default: {}
+        }
+    },
+
+    data: function data() {
+        return {
+            value: '',
+            errorMessage: '',
+            show: false,
+            shouldShake: false,
+            currency: null,
+            autocomplete: null,
+            minimum: null,
+            maximum: null,
+            keys: [[{ text: '7', method: this.handleKey }, { text: '8', method: this.handleKey }, { text: '9', method: this.handleKey }], [{ text: '4', method: this.handleKey }, { text: '5', method: this.handleKey }, { text: '6', method: this.handleKey }], [{ text: '1', method: this.handleKey }, { text: '2', method: this.handleKey }, { text: '3', method: this.handleKey }], [{ text: '0', method: this.handleKey }, { text: '00', method: this.handleKey }, { text: '<i class="material-icons" style="line-height:inherit">backspace</i>', method: this.backspace }]]
+        };
+    },
+
+
+    computed: {
+        displayValue: function displayValue() {
+            return this.currency ? this.formatAsCurrency(this.value) : this.value;
+        },
+        classes: function classes() {
+            return {
+                'keypad': true,
+                'shake': this.shouldShake
+            };
+        }
+    },
+
+    methods: {
+        handleKey: function handleKey(key) {
+            this.value += key.text;
+
+            // Emit keypress event
+            this.$emit('keypress', {
+                key: key,
+                value: this.value
+            });
+
+            if (this.hasErrors()) return;
+
+            // Confirm if auto-completed
+            if (this.isAutoCompleted()) this.confirm();
+        },
+        hasErrors: function hasErrors() {
+            if (this.minimum && Number(this.value) < this.minimum) {
+                return this.hasError('Minimum value of ' + this.minimum);
+            }
+
+            if (this.maximum && Number(this.value) > this.maximum) {
+                return this.hasError('Maximum value of ' + this.maximum);
+            }
+
+            this.errorMessage = '';
+            return false;
+        },
+        hasError: function hasError(text) {
+            this.errorMessage = text;
+            return true;
+        },
+        backspace: function backspace(key) {
+            this.value = this.value.slice(0, -1);
+            this.hasErrors();
+        },
+        shake: function shake() {
+            var _this = this;
+
+            this.shouldShake = true;
+
+            setTimeout(function () {
+                return _this.shouldShake = false;
+            }, 500);
+        },
+        confirm: function confirm() {
+            if (this.hasErrors()) {
+                return this.shake();
+            }
+
+            Event.fire('keypad-confirm', this.value);
+            this.clear();
+        },
+        cancel: function cancel() {
+            Event.fire('keypad-cancel');
+            this.clear();
+        },
+        clear: function clear() {
+            this.value = '';
+            this.show = false;
+        },
+        formatAsCurrency: function formatAsCurrency(value) {
+            var langage = (navigator.language || navigator.browserLanguage).split('-')[0];
+
+            return (value / 100).toLocaleString(langage, {
+                style: 'currency',
+                currency: this.currency
+            });
+        },
+        isAutoCompleted: function isAutoCompleted() {
+            return this.autocomplete && this.value.length == this.autocomplete;
+        }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        Event.listen('keypad', function (state) {
+            return _this2.show = state;
+        });
+        Event.listen('keypad-options', function (options) {
+            for (var key in options) {
+                _this2[key] = options[key];
+            }
+        });
+
+        for (var key in this.options) {
+            this[key] = this.options[key];
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Models/Payment.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -812,14 +1152,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         handle: function handle() {
-            var amount = prompt('Enter Amount', '0');
+            var _this = this;
 
-            if (amount != null && amount > 0) {
-                var payment = this.payment;
-                payment.amount = Number(amount) * 100;
-
-                this.$http.post('/api/payments', payment);
-            }
+            Keypad.open({
+                minimum: 1
+            }).then(function (value) {
+                var payment = _this.payment;
+                payment.amount = value;
+                _this.$http.post('/api/payments', payment);
+            });
         }
     }
 });
@@ -857,14 +1198,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         handle: function handle() {
-            var amount = prompt('Enter Amount', '0');
+            var _this = this;
 
-            if (amount != null && amount > 0) {
-                var payment = this.payment;
-                payment.amount = Number(amount) * 100;
-
-                this.$http.post('/api/payments', payment);
-            }
+            Keypad.open({
+                minimum: 1
+            }).then(function (value) {
+                var payment = _this.payment;
+                payment.amount = value;
+                _this.$http.post('/api/payments', payment);
+            });
         }
     }
 });
@@ -980,116 +1322,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/tools/Transactions.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            headers: []
-        };
-    },
-
-
-    methods: {
-        sort: function sort(_sort) {
-            console.log(_sort);
-            // this.headers = _.orderBy(this.headers, [item => item[sort.name]], sort.type);
-        }
-    },
-
-    created: function created() {
-        var _this = this;
-
-        this.$http.get('/api/transactions').then(function (response) {
-            _this.headers = response.body;
-        });
-    }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Admin.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1171,7 +1414,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Till.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Sandbox.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1179,6 +1422,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            keypadOptions: window.KeypadOptions
+        };
+    },
+
+
+    methods: {
+        open: function open() {
+            Keypad.open({
+                minimum: 25
+            }).then(function (value) {
+                return console.log(value);
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Till.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -1223,7 +1498,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             app: window.epos.app,
             checkout: false,
-            basket: {}
+            basket: {},
+            keypadOptions: window.KeypadOptions
         };
     },
 
@@ -1231,9 +1507,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         changeMode: function changeMode(mode) {
             this.$http.put('/api/basket/mode/' + mode);
-        },
-        destroyBasket: function destroyBasket() {
-            this.$http.delete('/api/basket');
         }
     },
 
@@ -1249,6 +1522,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
     }
 });
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keypad.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
+exports.push([module.i, "\n.keypad-cover[data-v-32516337] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 999;\n}\n.keypad[data-v-32516337] {\n  position: fixed;\n  width: 300px;\n  left: calc(50% - 150px);\n  right: calc(50% - 150px);\n  bottom: 5%;\n  z-index: 1000;\n}\n.keypad.shake[data-v-32516337] {\n    -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.keypad .keypad-error[data-v-32516337] {\n    color: #de4444;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 5vh;\n    line-height: 5vh;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    font-size: 16px;\n}\n.keypad .keypad-input[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    border: none;\n    border-bottom: 1px solid #eee;\n    padding: 5vh 0;\n    height: 0;\n    text-align: center;\n    font-size: 22px;\n    outline: 0;\n}\n.keypad .keypad-row[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337] {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      height: 10vh;\n      line-height: 10vh;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      font-size: 22px;\n      cursor: pointer;\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n}\n.keypad .keypad-row .keypad-key.has-ripple[data-v-32516337] {\n        position: relative;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337]:hover {\n        background: #f2f2f2;\n}\n.slide-enter-active[data-v-32516337], .slide-leave-active[data-v-32516337] {\n  transition: bottom 0.25s cubic-bezier(0.55, 0, 0.1, 1);\n}\n.slide-enter[data-v-32516337], .slide-leave-to[data-v-32516337] {\n  bottom: -100%;\n}\n@-webkit-keyframes shake {\n10%, 90% {\n    -webkit-transform: translate3d(-2px, 0, 0);\n            transform: translate3d(-2px, 0, 0);\n}\n20%, 80% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate3d(-6px, 0, 0);\n            transform: translate3d(-6px, 0, 0);\n}\n40%, 60% {\n    -webkit-transform: translate3d(8px, 0, 0);\n            transform: translate3d(8px, 0, 0);\n}\n}\n@keyframes shake {\n10%, 90% {\n    -webkit-transform: translate3d(-2px, 0, 0);\n            transform: translate3d(-2px, 0, 0);\n}\n20%, 80% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate3d(-6px, 0, 0);\n            transform: translate3d(-6px, 0, 0);\n}\n40%, 60% {\n    -webkit-transform: translate3d(8px, 0, 0);\n            transform: translate3d(8px, 0, 0);\n}\n}\n", ""]);
 
 /***/ }),
 
@@ -23666,130 +23947,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a2a16f\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/tools/Transactions.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('md-list', _vm._l((_vm.headers), function(header, index) {
-    return _c('md-list-item', {
-      key: index,
-      attrs: {
-        "md-expand-multiple": ""
-      }
-    }, [_c('span', {
-      staticClass: "flex f1 align-right"
-    }, [_c('strong', {
-      staticClass: "text-primary"
-    }, [_vm._v(_vm._s(header.mode_name) + " · " + _vm._s(header.timestamp))]), _vm._v(" "), _c('pill', {
-      staticClass: "flex push-left",
-      attrs: {
-        "right": "",
-        "primary": ""
-      }
-    }, [_vm._v("\n                " + _vm._s(_vm._f("currency")(header.due_from_customer)) + "\n            ")])], 1), _vm._v(" "), _c('md-list-expand', [_c('md-table', {
-      on: {
-        "sort": _vm.sort
-      }
-    }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("Description")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((header.items), function(item, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                            ITEM — " + _vm._s(item.model.name) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.net_total)))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.vat_total)))]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": ""
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(item.gross_total)))])], 1)
-    }), _vm._v(" "), _vm._l((header.deals), function(deal, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                            DEAL — " + _vm._s(deal.title) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": "",
-          "colspan": "4"
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount_total)))])], 1)
-    }), _vm._v(" "), _vm._l((header.payments), function(payment, index) {
-      return _c('md-table-row', {
-        key: index
-      }, [_c('md-table-cell', [_vm._v("\n                            PAYMENT — " + _vm._s(payment.title) + "\n                        ")]), _vm._v(" "), _c('md-table-cell', {
-        attrs: {
-          "md-numeric": "",
-          "colspan": "4"
-        }
-      }, [_vm._v(_vm._s(_vm._f("currency")(payment.amount_total)))])], 1)
-    })], 2), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": "",
-        "colspan": "3"
-      }
-    }, [_vm._v("Due")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Took")]), _vm._v(" "), _c('md-table-head', {
-      attrs: {
-        "width": "100",
-        "md-numeric": ""
-      }
-    }, [_vm._v("Change")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', {
-      attrs: {
-        "md-numeric": "",
-        "colspan": "3"
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))]), _vm._v(" "), _c('md-table-cell', {
-      attrs: {
-        "md-numeric": ""
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.payment_total)))]), _vm._v(" "), _c('md-table-cell', {
-      attrs: {
-        "md-numeric": ""
-      }
-    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_to_customer)))])], 1)], 1)], 1)], 1)], 1)
-  }))
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-03a2a16f", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-04e97178\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Admin.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23822,7 +23979,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "to": "/admin/transactions"
     }
-  }, [_vm._v("\n                            Transactions\n                        ")])], 1)], 1)], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            Transactions\n                        ")])], 1), _vm._v(" "), _c('md-list-item', [_c('router-link', {
+    attrs: {
+      "to": "/admin/inventory"
+    }
+  }, [_vm._v("\n                            Inventory\n                        ")])], 1)], 1)], 1)]), _vm._v(" "), _c('div', {
     staticClass: "admin-page-content"
   }, [_c('router-view')], 1)], 1)])
 },staticRenderFns: []}
@@ -23996,6 +24157,81 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-2a4b2fc9", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-32516337\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Keypad.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.show) ? _c('div', {
+    staticClass: "keypad-cover",
+    on: {
+      "click": _vm.cancel
+    }
+  }) : _vm._e(), _vm._v(" "), _c('transition', {
+    attrs: {
+      "name": "slide"
+    }
+  }, [(_vm.show) ? _c('md-whiteframe', {
+    class: _vm.classes
+  }, [(_vm.errorMessage.length > 0) ? _c('div', {
+    staticClass: "keypad-row keypad-error"
+  }, [_vm._v("\n                " + _vm._s(_vm.errorMessage) + "\n            ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "keypad-row"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.displayValue),
+      expression: "displayValue"
+    }],
+    staticClass: "keypad-input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.displayValue)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.displayValue = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._l((_vm.keys), function(row, index) {
+    return _c('div', {
+      staticClass: "keypad-row"
+    }, _vm._l((row), function(key, index) {
+      return _c('span', {
+        staticClass: "keypad-key has-ripple",
+        on: {
+          "click": function($event) {
+            key.method(key)
+          }
+        }
+      }, [_c('md-ink-ripple'), _vm._v(" "), _c('span', {
+        domProps: {
+          "innerHTML": _vm._s(key.text)
+        }
+      })], 1)
+    }))
+  }), _vm._v(" "), _c('div', {
+    staticClass: "keypad-row"
+  }, [_c('span', {
+    staticClass: "keypad-key has-ripple",
+    on: {
+      "click": _vm.confirm
+    }
+  }, [_c('md-ink-ripple'), _vm._v("\n                    Enter\n                ")], 1)])], 2) : _vm._e()], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-32516337", module.exports)
   }
 }
 
@@ -24281,13 +24517,137 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6e06fe7b\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', _vm._l((_vm.headers), function(header, index) {
+    return _c('md-table', {
+      key: index,
+      on: {
+        "sort": _vm.sort
+      }
+    }, [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+      staticClass: "f-18",
+      attrs: {
+        "colspan": "4"
+      }
+    }, [_vm._v(_vm._s(header.mode_name) + " — " + _vm._s(header.timestamp))]), _vm._v(" "), _c('md-table-head', {
+      staticClass: "f-18",
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))])], 1), _vm._v(" "), _c('md-table-row', [_c('md-table-head', [_vm._v("Description")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Qty")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Net")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("VAT")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Gross")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_vm._l((header.items), function(item, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                    ITEM — " + _vm._s(item.model.name) + "\n                ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(item.qty))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.net_total)))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.vat_total)))]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": ""
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(item.gross_total)))])], 1)
+    }), _vm._v(" "), _vm._l((header.deals), function(deal, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                    DEAL — " + _vm._s(deal.title) + "\n                ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": "",
+          "colspan": "4"
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(deal.discount_total)))])], 1)
+    }), _vm._v(" "), _vm._l((header.payments), function(payment, index) {
+      return _c('md-table-row', {
+        key: index
+      }, [_c('md-table-cell', [_vm._v("\n                    PAYMENT — " + _vm._s(payment.title) + "\n                ")]), _vm._v(" "), _c('md-table-cell', {
+        attrs: {
+          "md-numeric": "",
+          "colspan": "4"
+        }
+      }, [_vm._v(_vm._s(_vm._f("currency")(payment.amount_total)))])], 1)
+    })], 2), _vm._v(" "), _c('md-table-header', [_c('md-table-row', [_c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": "",
+        "colspan": "3"
+      }
+    }, [_vm._v("Due")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Took")]), _vm._v(" "), _c('md-table-head', {
+      attrs: {
+        "width": "100",
+        "md-numeric": ""
+      }
+    }, [_vm._v("Change")])], 1)], 1), _vm._v(" "), _c('md-table-body', [_c('md-table-row', [_c('md-table-cell', {
+      attrs: {
+        "md-numeric": "",
+        "colspan": "3"
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_from_customer)))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.payment_total)))]), _vm._v(" "), _c('md-table-cell', {
+      attrs: {
+        "md-numeric": ""
+      }
+    }, [_vm._v(_vm._s(_vm._f("currency")(header.due_to_customer)))])], 1)], 1)], 1)
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6e06fe7b", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-760cfcc8\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Till.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_c('alert'), _vm._v(" "), _c('md-toolbar', {
+  }, [_c('alert'), _vm._v(" "), _c('keypad', {
+    attrs: {
+      "options": _vm.keypadOptions
+    }
+  }), _vm._v(" "), _c('md-toolbar', {
     staticClass: "md-dense"
   }, [_c('nav-till'), _vm._v(" "), _c('h2', {
     staticClass: "md-title",
@@ -24312,14 +24672,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("\n                    " + _vm._s(name) + "\n                ")])
-  }))], 1), _vm._v(" "), _c('md-button', {
-    staticClass: "md-icon-button",
-    nativeOn: {
-      "click": function($event) {
-        _vm.destroyBasket($event)
-      }
-    }
-  }, [_c('md-icon', [_vm._v("delete")])], 1)], 1), _vm._v(" "), _c('categories'), _vm._v(" "), _c('div', {
+  }))], 1)], 1), _vm._v(" "), _c('categories'), _vm._v(" "), _c('div', {
     staticClass: "page-content"
   }, [_c('div', {
     staticClass: "main-content"
@@ -24376,6 +24729,56 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-7b92a244", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7ce213a6\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/Inventory.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('md-whiteframe', {
+    staticClass: "p-t-1 p-x-1"
+  }, [_c('md-toolbar', {
+    staticClass: "md-dense md-transparent"
+  }, [_c('md-input-container', [_c('label', {
+    attrs: {
+      "for": "category"
+    }
+  }, [_vm._v("Category")]), _vm._v(" "), _c('md-select', {
+    attrs: {
+      "name": "category",
+      "id": "category"
+    },
+    on: {
+      "change": _vm.view
+    },
+    model: {
+      value: (_vm.category),
+      callback: function($$v) {
+        _vm.category = $$v
+      },
+      expression: "category"
+    }
+  }, _vm._l((_vm.categories), function(item, index) {
+    return _c('md-option', {
+      key: index,
+      attrs: {
+        "value": item.id
+      }
+    }, [_vm._v("\n                        " + _vm._s(item.name) + "\n                    ")])
+  }))], 1)], 1)], 1), _vm._v(" "), _c('md-table', [_c('md-table-header', [_c('md-table-row', [_c('md-table-head', [_vm._v("ID")]), _vm._v(" "), _c('md-table-head', [_vm._v("Model Type")]), _vm._v(" "), _c('md-table-head', [_vm._v("Model ID")])], 1)], 1), _vm._v(" "), _c('md-table-body', _vm._l((_vm.items), function(item, index) {
+    return _c('md-table-row', {
+      key: index
+    }, [_c('md-table-cell', [_vm._v(_vm._s(item.id))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(item.model_type))]), _vm._v(" "), _c('md-table-cell', [_vm._v(_vm._s(item.model_id))])], 1)
+  }))], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7ce213a6", module.exports)
   }
 }
 
@@ -24536,6 +24939,34 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-e6c64248", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e6f39ea0\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Sandbox.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "p-a-5"
+  }, [_c('md-button', {
+    nativeOn: {
+      "click": function($event) {
+        _vm.open($event)
+      }
+    }
+  }, [_vm._v("Open Keypad")]), _vm._v(" "), _c('keypad', {
+    attrs: {
+      "options": _vm.keypadOptions
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-e6f39ea0", module.exports)
   }
 }
 
@@ -28640,6 +29071,289 @@ if (inBrowser && window.Vue) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (VueRouter);
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keypad.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keypad.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("5fc94236", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keypad.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keypad.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/addStylesClient.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__("./node_modules/vue-style-loader/lib/listToStyles.js")
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction) {
+  isProduction = _isProduction
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/lib/listToStyles.js":
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
 
 
 /***/ }),
@@ -38400,6 +39114,76 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/admin/Inventory.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/Inventory.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7ce213a6\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/Inventory.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\admin\\Inventory.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Inventory.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7ce213a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-7ce213a6", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/Transactions.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/admin/Transactions.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6e06fe7b\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/admin/Transactions.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\admin\\Transactions.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Transactions.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6e06fe7b", Component.options)
+  } else {
+    hotAPI.reload("data-v-6e06fe7b", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/app.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -38411,6 +39195,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // Components
+Vue.component('keypad', __webpack_require__("./resources/assets/js/components/Keypad.vue"));
 Vue.component('pill', __webpack_require__("./resources/assets/js/components/Pill.vue"));
 Vue.component('basket-deals', __webpack_require__("./resources/assets/js/components/Basket/Deals.vue"));
 Vue.component('alert', __webpack_require__("./resources/assets/js/components/Alert.vue"));
@@ -38455,14 +39240,18 @@ var app = new Vue({
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_laravel_echo__);
+// Lodash
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 
+// Vue
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 __webpack_require__("./node_modules/vue-resource/dist/vue-resource.es2015.js");
 
+// Vue Router
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
+// Vue Material Design
 var VueMaterial = __webpack_require__("./node_modules/vue-material/dist/vue-material.js");
 __webpack_require__("./node_modules/vue-material/dist/vue-material.css");
 Vue.use(VueMaterial);
@@ -38500,20 +39289,27 @@ Vue.material.registerTheme({
     },
 
     success: {
-        primary: 'green',
-        accent: 'green'
+        primary: 'blue',
+        accent: 'blue'
     }
 });
 
+// AJAX Defaults
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// Helpers
 __webpack_require__("./resources/assets/js/support/event.js");
 __webpack_require__("./resources/assets/js/support/errors.js");
 __webpack_require__("./resources/assets/js/support/form.js");
 
+// Keypad
+__webpack_require__("./resources/assets/js/keypad.js");
+window.KeypadOptions = {
+    currency: window.epos.app.currency
+};
 
-
+// Websocket
 window.Pusher = __webpack_require__("./node_modules/pusher-js/dist/web/pusher.js");
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_1_laravel_echo___default.a({
@@ -38944,6 +39740,45 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Keypad.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keypad.vue")
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Keypad.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-32516337\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Keypad.vue"),
+  /* scopeId */
+  "data-v-32516337",
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Keypad.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Keypad.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32516337", Component.options)
+  } else {
+    hotAPI.reload("data-v-32516337", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Models/Payment.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39224,6 +40059,42 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/keypad.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Keypad = new (function () {
+    function _class() {
+        _classCallCheck(this, _class);
+    }
+
+    _createClass(_class, [{
+        key: 'open',
+        value: function open(options) {
+            Event.fire('keypad-options', options || {});
+            Event.fire('keypad', true);
+
+            return new Promise(function (resolve, reject) {
+                Event.listen('keypad-confirm', function (value) {
+                    return resolve(value);
+                });
+            });
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            Event.fire('keypad', false);
+        }
+    }]);
+
+    return _class;
+}())();
+
+/***/ }),
+
 /***/ "./resources/assets/js/routes.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39239,11 +40110,17 @@ module.exports = Component.exports
         path: '/login',
         component: __webpack_require__("./resources/assets/js/views/Login.vue")
     }, {
+        path: '/sandbox',
+        component: __webpack_require__("./resources/assets/js/views/Sandbox.vue")
+    }, {
         path: '/admin',
         component: __webpack_require__("./resources/assets/js/views/Admin.vue"),
         children: [{
             path: 'transactions',
-            component: __webpack_require__("./resources/assets/js/tools/Transactions.vue")
+            component: __webpack_require__("./resources/assets/js/admin/Transactions.vue")
+        }, {
+            path: 'inventory',
+            component: __webpack_require__("./resources/assets/js/admin/Inventory.vue")
         }]
     }]
 }));
@@ -39534,41 +40411,6 @@ var Form = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/tools/Transactions.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
-  /* script */
-  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/tools/Transactions.vue"),
-  /* template */
-  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-03a2a16f\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/tools/Transactions.vue"),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\tools\\Transactions.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Transactions.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-03a2a16f", Component.options)
-  } else {
-    hotAPI.reload("data-v-03a2a16f", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/views/Admin.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39631,6 +40473,41 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-c5bc7edc", Component.options)
   } else {
     hotAPI.reload("data-v-c5bc7edc", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/views/Sandbox.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/views/Sandbox.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-e6f39ea0\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/views/Sandbox.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\views\\Sandbox.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Sandbox.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e6f39ea0", Component.options)
+  } else {
+    hotAPI.reload("data-v-e6f39ea0", Component.options)
   }
 })()}
 

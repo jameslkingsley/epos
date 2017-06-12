@@ -109,12 +109,22 @@
             },
 
             hasErrors() {
+                // Minimum number value
                 if (this.minimum && Number(this.value) < this.minimum) {
-                    return this.hasError('Minimum value of ' + this.minimum);
+                    return this.hasError(
+                        'Minimum value of ' + (this.currency
+                            ? this.formatAsCurrency(this.minimum)
+                            : this.minimum)
+                        );
                 }
 
+                // Maximum number value
                 if (this.maximum && Number(this.value) > this.maximum) {
-                    return this.hasError('Maximum value of ' + this.maximum);
+                    return this.hasError(
+                        'Maximum value of ' + (this.currency
+                            ? this.formatAsCurrency(this.maximum)
+                            : this.maximum)
+                        );
                 }
 
                 this.errorMessage = '';
@@ -153,7 +163,9 @@
 
             clear() {
                 this.value = '';
+                this.errorMessage = '';
                 this.show = false;
+                this.shouldShake = false;
             },
 
             formatAsCurrency(value) {

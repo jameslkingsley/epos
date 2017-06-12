@@ -945,12 +945,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.isAutoCompleted()) this.confirm();
         },
         hasErrors: function hasErrors() {
+            // Minimum number value
             if (this.minimum && Number(this.value) < this.minimum) {
-                return this.hasError('Minimum value of ' + this.minimum);
+                return this.hasError('Minimum value of ' + (this.currency ? this.formatAsCurrency(this.minimum) : this.minimum));
             }
 
+            // Maximum number value
             if (this.maximum && Number(this.value) > this.maximum) {
-                return this.hasError('Maximum value of ' + this.maximum);
+                return this.hasError('Maximum value of ' + (this.currency ? this.formatAsCurrency(this.maximum) : this.maximum));
             }
 
             this.errorMessage = '';
@@ -987,7 +989,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         clear: function clear() {
             this.value = '';
+            this.errorMessage = '';
             this.show = false;
+            this.shouldShake = false;
         },
         formatAsCurrency: function formatAsCurrency(value) {
             var langage = (navigator.language || navigator.browserLanguage).split('-')[0];

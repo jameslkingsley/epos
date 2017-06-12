@@ -29,6 +29,15 @@ class DatabaseSeeder extends Seeder
         });
 
         foreach ([
+            'Generic' => 'App\\Basket\\Printers\\Generic'
+        ] as $key => $value) {
+            App\Basket\Models\Printer::forceCreate([
+                'name' => $key,
+                'provider_class' => $value
+            ]);
+        }
+
+        foreach ([
             'Cash' => 'App\\Basket\\Payments\\Cash',
             'Card' => 'App\\Basket\\Payments\\Card',
             'Fast Cash' => 'App\\Basket\\Payments\\FastCash',

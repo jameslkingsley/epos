@@ -226,4 +226,14 @@ class TransactionHeader extends Model
     {
         return Basket::Modes[$this->mode];
     }
+
+    /**
+     * Gets the latest header record.
+     *
+     * @return self
+     */
+    public static function latest()
+    {
+        return static::orderBy('created_at', 'desc')->first();
+    }
 }

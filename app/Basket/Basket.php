@@ -14,6 +14,7 @@ use App\Basket\Collections\DealCollection;
 use App\Basket\Collections\ItemCollection;
 use Illuminate\Database\Eloquent\Collection;
 use App\Basket\Collections\PaymentCollection;
+use App\Basket\Printers\Generic as GenericPrinter;
 
 class Basket extends Model
 {
@@ -54,7 +55,8 @@ class Basket extends Model
     protected $appends = [
         'items', 'payments',
         'summaries', 'deals',
-        'modes', 'meta'
+        'modes', 'meta',
+        'printer'
     ];
 
     /**
@@ -173,6 +175,17 @@ class Basket extends Model
     public function getSummariesAttribute()
     {
         return new Summary($this);
+    }
+
+    /**
+     * Gets the basket printer.
+     *
+     * @return App\Basket\Printers\Printer
+     */
+    public function getPrinterAttribute()
+    {
+        // TODO Get printer from settings
+        return new GenericPrinter;
     }
 
     /**

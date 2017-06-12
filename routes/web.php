@@ -33,6 +33,8 @@ Route::resource('/api/items', 'ItemController');
 
 Route::resource('/api/payments', 'PaymentController');
 
+Route::resource('/api/receipt', 'ReceiptController');
+
 Route::resource('/api/transactions', 'TransactionController');
 
 Auth::routes();

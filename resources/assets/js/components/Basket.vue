@@ -12,7 +12,7 @@
             <md-bottom-bar>
                 <md-bottom-bar-item md-icon="refresh" @click.native="emptyBasket">Empty</md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="check" md-active @click.native="checkout">Checkout</md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="print">Receipt</md-bottom-bar-item>
+                <md-bottom-bar-item md-icon="print" @click.native="printReceipt">Receipt</md-bottom-bar-item>
             </md-bottom-bar>
         </div>
     </md-sidenav>
@@ -42,6 +42,10 @@
 
             reloadBasket() {
                 this.$http.get('/api/basket');
+            },
+
+            printReceipt() {
+                this.$http.get('/api/receipt');
             },
 
             modeTheme() {

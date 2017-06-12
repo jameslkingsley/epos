@@ -334,6 +334,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         reloadBasket: function reloadBasket() {
             this.$http.get('/api/basket');
         },
+        printReceipt: function printReceipt() {
+            this.$http.get('/api/receipt');
+        },
         modeTheme: function modeTheme() {
             var _this = this;
 
@@ -24439,6 +24442,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Checkout")]), _vm._v(" "), _c('md-bottom-bar-item', {
     attrs: {
       "md-icon": "print"
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.printReceipt($event)
+      }
     }
   }, [_vm._v("Receipt")])], 1)], 1)])
 },staticRenderFns: []}

@@ -10,4 +10,8 @@ window.Event = new class {
     listen(event, callback) {
         this.vue.$on(event, callback);
     }
+
+    listenOnce(event, callback) {
+        this.vue.$once(event, callback);
+    }
 }

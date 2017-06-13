@@ -856,6 +856,119 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Keyboard.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        options: {
+            type: Object,
+            default: {}
+        }
+    },
+
+    data: function data() {
+        return {
+            text: '',
+            shifted: true,
+            caps: false,
+            show: false,
+            keys: [[{ lower: '1', upper: '!' }, { lower: '2', upper: '"' }, { lower: '3', upper: '£' }, { lower: '4', upper: '$' }, { lower: '5', upper: '%' }, { lower: '6', upper: '^' }, { lower: '7', upper: '&' }, { lower: '8', upper: '*' }, { lower: '9', upper: '(' }, { lower: '0', upper: ')' }], [{ lower: 'q', upper: 'Q' }, { lower: 'w', upper: 'W' }, { lower: 'e', upper: 'E' }, { lower: 'r', upper: 'R' }, { lower: 't', upper: 'T' }, { lower: 'y', upper: 'Y' }, { lower: 'u', upper: 'U' }, { lower: 'i', upper: 'I' }, { lower: 'o', upper: 'O' }, { lower: 'p', upper: 'P' }], [{ lower: 'a', upper: 'A' }, { lower: 's', upper: 'S' }, { lower: 'd', upper: 'D' }, { lower: 'f', upper: 'F' }, { lower: 'g', upper: 'G' }, { lower: 'h', upper: 'H' }, { lower: 'j', upper: 'J' }, { lower: 'k', upper: 'K' }, { lower: 'l', upper: 'L' }], [{ lower: '<i class="material-icons" style="line-height:inherit">keyboard_arrow_up</i>', method: this.shift, unfixed: true }, { lower: 'z', upper: 'Z' }, { lower: 'x', upper: 'X' }, { lower: 'c', upper: 'C' }, { lower: 'v', upper: 'V' }, { lower: 'b', upper: 'B' }, { lower: 'n', upper: 'N' }, { lower: 'm', upper: 'M' }, { lower: '<i class="material-icons" style="line-height:inherit">backspace</i>', method: this.backspace, unfixed: true }], [{ lower: ',' }, { lower: 'Space', unfixed: true, method: this.space }, { lower: '.' }, { lower: '<i class="material-icons" style="line-height:inherit">keyboard_return</i>', method: this.confirm }]]
+        };
+    },
+
+
+    methods: {
+        getMethod: function getMethod(key) {
+            return 'method' in key ? key.method(key) : this.handleKey(key);
+        },
+        getStyle: function getStyle(key) {
+            return 'unfixed' in key ? 'max-width: none;' : '';
+        },
+        handleKey: function handleKey(key) {
+            this.text += this.shifted ? key.upper : key.lower;
+
+            if (!this.caps) {
+                this.shifted = false;
+            }
+        },
+        backspace: function backspace() {
+            this.text = this.text.slice(0, -1);
+        },
+        shift: function shift() {
+            this.shifted = !this.shifted;
+        },
+        space: function space() {
+            this.text += ' ';
+        },
+        capsLock: function capsLock() {
+            this.caps = !this.caps;
+            this.shifted = !this.shifted;
+        },
+        clear: function clear() {
+            this.text = '';
+            this.show = false;
+            this.shifted = true;
+        },
+        cancel: function cancel() {
+            Event.fire('keyboard-cancel');
+            this.clear();
+        },
+        confirm: function confirm() {
+            Event.fire('keyboard-confirm', this.text);
+            this.clear();
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        Event.listen('keyboard', function (state) {
+            return _this.show = state;
+        });
+        Event.listen('keyboard-options', function (options) {
+            for (var key in options) {
+                _this[key] = options[key];
+            }
+        });
+
+        for (var key in this.options) {
+            this[key] = this.options[key];
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Keypad.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1438,17 +1551,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            keypadOptions: window.KeypadOptions
+            keyboardOptions: window.KeyboardOptions
         };
     },
 
 
     methods: {
         open: function open() {
-            Keypad.open({
-                minimum: 25
-            }).then(function (value) {
-                return console.log(value);
+            Keyboard.open().then(function (text) {
+                return console.log(text);
             });
         }
     }
@@ -1536,7 +1647,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
-exports.push([module.i, "\n.keypad-cover[data-v-32516337] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 999;\n}\n.keypad[data-v-32516337] {\n  position: fixed;\n  width: 300px;\n  left: calc(50% - 150px);\n  right: calc(50% - 150px);\n  bottom: 5%;\n  z-index: 1000;\n}\n.keypad.shake[data-v-32516337] {\n    -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n.keypad .keypad-error[data-v-32516337] {\n    color: #de4444;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 5vh;\n    line-height: 5vh;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    font-size: 16px;\n}\n.keypad .keypad-input[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    border: none;\n    border-bottom: 1px solid #eee;\n    padding: 5vh 0;\n    height: 0;\n    text-align: center;\n    font-size: 22px;\n    outline: 0;\n}\n.keypad .keypad-row[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337] {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      height: 10vh;\n      line-height: 10vh;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      font-size: 22px;\n      cursor: pointer;\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n}\n.keypad .keypad-row .keypad-key.has-ripple[data-v-32516337] {\n        position: relative;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337]:hover {\n        background: #f2f2f2;\n}\n.slide-enter-active[data-v-32516337], .slide-leave-active[data-v-32516337] {\n  transition: bottom 0.25s cubic-bezier(0.55, 0, 0.1, 1);\n}\n.slide-enter[data-v-32516337], .slide-leave-to[data-v-32516337] {\n  bottom: -100%;\n}\n@-webkit-keyframes shake {\n10%, 90% {\n    -webkit-transform: translate3d(-2px, 0, 0);\n            transform: translate3d(-2px, 0, 0);\n}\n20%, 80% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate3d(-6px, 0, 0);\n            transform: translate3d(-6px, 0, 0);\n}\n40%, 60% {\n    -webkit-transform: translate3d(8px, 0, 0);\n            transform: translate3d(8px, 0, 0);\n}\n}\n@keyframes shake {\n10%, 90% {\n    -webkit-transform: translate3d(-2px, 0, 0);\n            transform: translate3d(-2px, 0, 0);\n}\n20%, 80% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate3d(-6px, 0, 0);\n            transform: translate3d(-6px, 0, 0);\n}\n40%, 60% {\n    -webkit-transform: translate3d(8px, 0, 0);\n            transform: translate3d(8px, 0, 0);\n}\n}\n", ""]);
+exports.push([module.i, "\n.keypad-cover[data-v-32516337] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 999;\n}\n.keypad[data-v-32516337] {\n  position: fixed;\n  left: 50%;\n  bottom: 5%;\n  -webkit-transform: translate(-50%, 0);\n          transform: translate(-50%, 0);\n  z-index: 1000;\n}\n.keypad.shake[data-v-32516337] {\n    -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate(-50%, 0);\n            transform: translate(-50%, 0);\n}\n.keypad .keypad-error[data-v-32516337] {\n    color: #de4444;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 4vh;\n    line-height: 4vh;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    font-size: 16px;\n}\n.keypad .keypad-input[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    border: none;\n    border-bottom: 1px solid #eee;\n    padding: 4vh 0;\n    height: 0;\n    text-align: center;\n    font-size: 22px;\n    outline: 0;\n}\n.keypad .keypad-row[data-v-32516337] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337] {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      height: 8vh;\n      width: 8vh;\n      line-height: 8vh;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      font-size: 22px;\n      cursor: pointer;\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n}\n.keypad .keypad-row .keypad-key.has-ripple[data-v-32516337] {\n        position: relative;\n}\n.keypad .keypad-row .keypad-key[data-v-32516337]:hover {\n        background: #f2f2f2;\n}\n.slide-enter-active[data-v-32516337], .slide-leave-active[data-v-32516337] {\n  transition: bottom 0.25s cubic-bezier(0.55, 0, 0.1, 1);\n}\n.slide-enter[data-v-32516337], .slide-leave-to[data-v-32516337] {\n  bottom: -100%;\n}\n@-webkit-keyframes shake {\n10%, 90% {\n    -webkit-transform: translate(-55%, 0);\n            transform: translate(-55%, 0);\n}\n20%, 80% {\n    -webkit-transform: translate(-45%, 0);\n            transform: translate(-45%, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate(-60%, 0);\n            transform: translate(-60%, 0);\n}\n40%, 60% {\n    -webkit-transform: translate(-40%, 0);\n            transform: translate(-40%, 0);\n}\n}\n@keyframes shake {\n10%, 90% {\n    -webkit-transform: translate(-55%, 0);\n            transform: translate(-55%, 0);\n}\n20%, 80% {\n    -webkit-transform: translate(-45%, 0);\n            transform: translate(-45%, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate(-60%, 0);\n            transform: translate(-60%, 0);\n}\n40%, 60% {\n    -webkit-transform: translate(-40%, 0);\n            transform: translate(-40%, 0);\n}\n}\n", ""]);
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keyboard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
+exports.push([module.i, "\n.keyboard-cover[data-v-4a510d0a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 999;\n}\n.keyboard[data-v-4a510d0a] {\n  position: fixed;\n  bottom: 5%;\n  left: 50%;\n  -webkit-transform: translate(-50%, 0);\n          transform: translate(-50%, 0);\n  z-index: 1000;\n}\n.keyboard.shake[data-v-4a510d0a] {\n    -webkit-animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate(-50%, 0);\n            transform: translate(-50%, 0);\n}\n.keyboard .keyboard-error[data-v-4a510d0a] {\n    color: #de4444;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 5vh;\n    line-height: 5vh;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    font-size: 16px;\n}\n.keyboard .keyboard-input[data-v-4a510d0a] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    border: none;\n    border-bottom: 1px solid #eee;\n    padding: 4vh 0;\n    height: 0;\n    text-align: center;\n    font-size: 22px;\n    outline: 0;\n}\n.keyboard .keyboard-row[data-v-4a510d0a] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n.keyboard .keyboard-row .keyboard-key[data-v-4a510d0a] {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      height: 8vh;\n      min-width: 8vh;\n      max-width: 8vh;\n      line-height: 8vh;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      font-size: 22px;\n      cursor: pointer;\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n}\n.keyboard .keyboard-row .keyboard-key.has-ripple[data-v-4a510d0a] {\n        position: relative;\n}\n.keyboard .keyboard-row .keyboard-key[data-v-4a510d0a]:hover {\n        background: #f2f2f2;\n}\n.slide-enter-active[data-v-4a510d0a], .slide-leave-active[data-v-4a510d0a] {\n  transition: bottom 0.25s cubic-bezier(0.55, 0, 0.1, 1);\n}\n.slide-enter[data-v-4a510d0a], .slide-leave-to[data-v-4a510d0a] {\n  bottom: -100%;\n}\n@-webkit-keyframes shake {\n10%, 90% {\n    -webkit-transform: translate(-55%, 0);\n            transform: translate(-55%, 0);\n}\n20%, 80% {\n    -webkit-transform: translate(-45%, 0);\n            transform: translate(-45%, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate(-60%, 0);\n            transform: translate(-60%, 0);\n}\n40%, 60% {\n    -webkit-transform: translate(-40%, 0);\n            transform: translate(-40%, 0);\n}\n}\n@keyframes shake {\n10%, 90% {\n    -webkit-transform: translate(-55%, 0);\n            transform: translate(-55%, 0);\n}\n20%, 80% {\n    -webkit-transform: translate(-45%, 0);\n            transform: translate(-45%, 0);\n}\n30%, 50%, 70% {\n    -webkit-transform: translate(-60%, 0);\n            transform: translate(-60%, 0);\n}\n40%, 60% {\n    -webkit-transform: translate(-40%, 0);\n            transform: translate(-40%, 0);\n}\n}\n", ""]);
 
 /***/ }),
 
@@ -24388,6 +24507,77 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4a510d0a\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Keyboard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.show) ? _c('div', {
+    staticClass: "keyboard-cover",
+    on: {
+      "click": _vm.cancel
+    }
+  }) : _vm._e(), _vm._v(" "), _c('transition', {
+    attrs: {
+      "name": "slide"
+    }
+  }, [(_vm.show) ? _c('md-whiteframe', {
+    staticClass: "keyboard"
+  }, [_c('div', {
+    staticClass: "keyboard-row"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.text),
+      expression: "text"
+    }],
+    staticClass: "keyboard-input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.text)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.text = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._l((_vm.keys), function(row, index) {
+    return _c('div', {
+      staticClass: "keyboard-row"
+    }, _vm._l((row), function(key, index) {
+      return _c('span', {
+        staticClass: "keyboard-key has-ripple",
+        style: (_vm.getStyle(key)),
+        on: {
+          "click": function($event) {
+            _vm.getMethod(key)
+          }
+        }
+      }, [_c('md-ink-ripple'), _vm._v(" "), (!('upper' in key) || !_vm.shifted) ? _c('span', {
+        domProps: {
+          "innerHTML": _vm._s(key.lower)
+        }
+      }) : _vm._e(), _vm._v(" "), ('upper' in key && _vm.shifted) ? _c('span', {
+        domProps: {
+          "innerHTML": _vm._s(key.upper)
+        }
+      }) : _vm._e()], 1)
+    }))
+  })], 2) : _vm._e()], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4a510d0a", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4acd5bae\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Basket.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24968,9 +25158,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.open($event)
       }
     }
-  }, [_vm._v("Open Keypad")]), _vm._v(" "), _c('keypad', {
+  }, [_vm._v("Open Keyboard")]), _vm._v(" "), _c('keyboard', {
     attrs: {
-      "options": _vm.keypadOptions
+      "options": _vm.keyboardOptions
     }
   })], 1)
 },staticRenderFns: []}
@@ -29104,6 +29294,33 @@ if(false) {
  if(!content.locals) {
    module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keypad.vue", function() {
      var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-32516337\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keypad.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keyboard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keyboard.vue");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("21862471", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keyboard.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Keyboard.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -39207,6 +39424,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // Components
+Vue.component('keyboard', __webpack_require__("./resources/assets/js/components/Keyboard.vue"));
 Vue.component('keypad', __webpack_require__("./resources/assets/js/components/Keypad.vue"));
 Vue.component('pill', __webpack_require__("./resources/assets/js/components/Pill.vue"));
 Vue.component('basket-deals', __webpack_require__("./resources/assets/js/components/Basket/Deals.vue"));
@@ -39319,6 +39537,12 @@ __webpack_require__("./resources/assets/js/support/form.js");
 __webpack_require__("./resources/assets/js/keypad.js");
 window.KeypadOptions = {
     currency: window.epos.app.currency
+};
+
+// Keyboard
+__webpack_require__("./resources/assets/js/keyboard.js");
+window.KeyboardOptions = {
+    //
 };
 
 // Websocket
@@ -39752,6 +39976,45 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Keyboard.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4a510d0a\",\"scoped\":true,\"hasInlineConfig\":true}!./node_modules/sass-loader/lib/loader.js!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./resources/assets/js/components/Keyboard.vue")
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Keyboard.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4a510d0a\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Keyboard.vue"),
+  /* scopeId */
+  "data-v-4a510d0a",
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\components\\Keyboard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Keyboard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a510d0a", Component.options)
+  } else {
+    hotAPI.reload("data-v-4a510d0a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Keypad.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40071,6 +40334,43 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/keyboard.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Keyboard = new (function () {
+    function _class() {
+        _classCallCheck(this, _class);
+    }
+
+    _createClass(_class, [{
+        key: 'open',
+        value: function open(options) {
+            Event.fire('keyboard-options', options || {});
+            Event.fire('keyboard', true);
+
+            return new Promise(function (resolve, reject) {
+                Event.listenOnce('keyboard-confirm', function (text) {
+                    return resolve(text);
+                });
+                Event.listenOnce('keyboard-cancel', reject);
+            });
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            Event.fire('keyboard', false);
+        }
+    }]);
+
+    return _class;
+}())();
+
+/***/ }),
+
 /***/ "./resources/assets/js/keypad.js":
 /***/ (function(module, exports) {
 
@@ -40090,7 +40390,7 @@ window.Keypad = new (function () {
             Event.fire('keypad', true);
 
             return new Promise(function (resolve, reject) {
-                Event.listen('keypad-confirm', function (value) {
+                Event.listenOnce('keypad-confirm', function (value) {
                     return resolve(value);
                 });
             });
@@ -40254,6 +40554,11 @@ window.Event = new (function () {
         key: "listen",
         value: function listen(event, callback) {
             this.vue.$on(event, callback);
+        }
+    }, {
+        key: "listenOnce",
+        value: function listenOnce(event, callback) {
+            this.vue.$once(event, callback);
         }
     }]);
 

@@ -209,22 +209,21 @@
 
     .keypad {
         position: fixed;
-        width: 300px;
-        left: calc(50% - 150px);
-        right: calc(50% - 150px);
+        left: 50%;
         bottom: 5%;
+        transform: translate(-50%, 0);
         z-index: 1000;
 
         &.shake {
             animation: shake .5s cubic-bezier(.36, .07, .19, .97) both;
-            transform: translate3d(0, 0, 0);
+            transform: translate(-50%, 0);
         }
 
         .keypad-error {
             color: #de4444;
             justify-content: center;
-            height: 5vh;
-            line-height: 5vh;
+            height: 4vh;
+            line-height: 4vh;
             display: flex;
             flex: 1;
             font-size: 16px;
@@ -235,7 +234,7 @@
             flex: 1;
             border: none;
             border-bottom: 1px solid #eee;
-            padding: 5vh 0;
+            padding: 4vh 0;
             height: 0;
             text-align: center;
             font-size: 22px;
@@ -249,8 +248,9 @@
             .keypad-key {
                 display: flex;
                 flex: 1;
-                height: 10vh;
-                line-height: 10vh;
+                height: 8vh;
+                width: 8vh;
+                line-height: 8vh;
                 justify-content: center;
                 font-size: 22px;
                 cursor: pointer;
@@ -277,19 +277,19 @@
 
     @keyframes shake {
         10%, 90% {
-            transform: translate3d(-2px, 0, 0);
+            transform: translate(-55%, 0);
         }
 
         20%, 80% {
-            transform: translate3d(4px, 0, 0);
+            transform: translate(-45%, 0);
         }
 
         30%, 50%, 70% {
-            transform: translate3d(-6px, 0, 0);
+            transform: translate(-60%, 0);
         }
 
         40%, 60% {
-            transform: translate3d(8px, 0, 0);
+            transform: translate(-40%, 0);
         }
     }
 </style>

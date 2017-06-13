@@ -4,7 +4,7 @@ window.Keypad = new class {
         Event.fire('keypad', true);
 
         return new Promise((resolve, reject) => {
-            Event.listen('keypad-confirm', value => resolve(value));
+            Event.listenOnce('keypad-confirm', value => resolve(value));
         });
     }
 

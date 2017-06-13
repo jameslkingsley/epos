@@ -2,6 +2,7 @@ import './bootstrap';
 import router from './routes';
 
 // Components
+Vue.component('keyboard', require('./components/Keyboard.vue'));
 Vue.component('keypad', require('./components/Keypad.vue'));
 Vue.component('pill', require('./components/Pill.vue'));
 Vue.component('basket-deals', require('./components/Basket/Deals.vue'));

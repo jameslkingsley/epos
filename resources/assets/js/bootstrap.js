@@ -67,6 +67,12 @@ window.KeypadOptions = {
     currency: window.epos.app.currency
 };
 
+// Keyboard
+require('./keyboard.js');
+window.KeyboardOptions = {
+    //
+};
+
 // Websocket
 window.Pusher = require('pusher-js');
 import Echo from 'laravel-echo';

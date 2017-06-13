@@ -1,8 +1,8 @@
 <template>
     <div class="p-a-5">
-        <md-button @click.native="open">Open Keypad</md-button>
+        <md-button @click.native="open">Open Keyboard</md-button>
 
-        <keypad :options="keypadOptions" />
+        <keyboard :options="keyboardOptions" />
     </div>
 </template>
 
@@ -10,15 +10,13 @@
     export default {
         data() {
             return {
-                keypadOptions: window.KeypadOptions
-            }
+                keyboardOptions: window.KeyboardOptions
+            };
         },
 
         methods: {
             open() {
-                Keypad.open({
-                    minimum: 25
-                }).then(value => console.log(value));
+                Keyboard.open().then(text => console.log(text));
             }
         }
     }

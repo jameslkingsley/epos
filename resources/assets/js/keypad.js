@@ -5,6 +5,7 @@ window.Keypad = new class {
 
         return new Promise((resolve, reject) => {
             Event.listenOnce('keypad-confirm', value => resolve(value));
+            Event.listenOnce('keypad-cancel', reject);
         });
     }
 

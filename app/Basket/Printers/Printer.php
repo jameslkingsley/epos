@@ -23,18 +23,4 @@ abstract class Printer
     {
         $this->transaction = TransactionHeader::latest();
     }
-
-    /**
-     * Gets the receipt view model.
-     *
-     * @return array
-     */
-    public function getViewModel()
-    {
-        return [
-            [
-                'model' => null
-            ]
-        ];
-    }
 }

@@ -73,6 +73,9 @@ window.KeyboardOptions = {
     //
 };
 
+// Printers
+window.Printer = require('./printers/printer.js');
+
 // Websocket
 window.Pusher = require('pusher-js');
 import Echo from 'laravel-echo';

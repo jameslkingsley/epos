@@ -75,6 +75,10 @@
                 .listen('BasketModeChanged', (e) => {
                     //
                 })
+                .listen('PrintReceipt', (e) => {
+                    // TODO Get printer from settings
+                    new Printer.StarWebPrint(e.transaction).render();
+                })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');
                 })

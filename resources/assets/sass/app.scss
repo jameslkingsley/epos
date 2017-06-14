@@ -18,6 +18,12 @@ body {
 .text-warning { color: $brand-warning !important; }
 .text-danger { color: $brand-danger !important; }
 
+.accent-primary { background: $brand-primary !important; color: white !important; }
+.accent-info { background: $brand-info !important; color: white !important; }
+.accent-success { background: $brand-success !important; color: white !important; }
+.accent-warning { background: $brand-warning !important; color: white !important; }
+.accent-danger { background: $brand-danger !important; color: white !important; }
+
 [v-cloak] {
     display: none;
 }

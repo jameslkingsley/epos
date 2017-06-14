@@ -11,7 +11,7 @@
                 <div class="keyboard-row" v-for="(row, index) in keys">
                     <span
                         v-for="(key, index) in row"
-                        class="keyboard-key has-ripple"
+                        :class="keyClasses(key)"
                         :style="getStyle(key)"
                         @click="getMethod(key)">
                         <md-ink-ripple></md-ink-ripple>
@@ -90,13 +90,26 @@
                         {lower: ','},
                         {lower: 'Space', unfixed: true, method: this.space},
                         {lower: '.'},
-                        {lower: '<i class="material-icons" style="line-height:inherit">keyboard_return</i>', method: this.confirm}
+                        {lower: '<i class="material-icons" style="line-height:inherit">keyboard_return</i>', method: this.confirm, accent: 'primary'}
                     ]
                 ]
             };
         },
 
         methods: {
+            keyClasses(key) {
+                let classes = {
+                    'keyboard-key': true,
+                    'has-ripple': true
+                };
+
+                if ('accent' in key) {
+                    classes['accent-' + key.accent] = true;
+                }
+
+                return classes;
+            },
+
             getMethod(key) {
                 return ('method' in key)
                     ? key.method(key)

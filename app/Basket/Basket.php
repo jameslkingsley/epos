@@ -8,6 +8,7 @@ use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\BasketException;
 use App\Events\TransactionStarted;
+use App\Basket\Printers\StarWebPrint;
 use Illuminate\Support\Facades\Session;
 use App\Basket\Models\TransactionHeader;
 use App\Basket\Collections\DealCollection;
@@ -185,7 +186,7 @@ class Basket extends Model
     public function getPrinterAttribute()
     {
         // TODO Get printer from settings
-        return new GenericPrinter;
+        return new StarWebPrint;
     }
 
     /**

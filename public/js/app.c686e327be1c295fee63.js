@@ -39695,6 +39695,12 @@ __webpack_require__("./resources/assets/js/support/errors.js");
 __webpack_require__("./resources/assets/js/support/form.js");
 __webpack_require__("./resources/assets/js/support/currency.js");
 
+__webpack_require__("./resources/assets/js/support/settings.js");
+window.epos.settings = new Settings().register(window.epos.settings);
+window.setting = function (name) {
+    return window.epos.settings.get(name);
+};
+
 // Keypad
 __webpack_require__("./resources/assets/js/keypad.js");
 window.KeypadOptions = {
@@ -40651,8 +40657,8 @@ var StarWebPrint = function () {
                 papertype: 'normal',
                 blackmark_sensor: 'front_side',
                 url: this.traderUrl({
-                    ip: epos.app.printers.star_web_print.ip,
-                    port: epos.app.printers.star_web_print.port
+                    ip: setting('peripheral:printer:ip'),
+                    port: setting('peripheral:printer:port')
                 })
             });
         }
@@ -41543,6 +41549,70 @@ var Form = function () {
     }]);
 
     return Form;
+}();
+
+/***/ }),
+
+/***/ "./resources/assets/js/support/settings.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Settings = function () {
+    function Settings(name) {
+        //
+
+        _classCallCheck(this, Settings);
+    }
+
+    _createClass(Settings, [{
+        key: "register",
+        value: function register(items) {
+            this.items = items;
+
+            return this;
+        }
+    }, {
+        key: "get",
+        value: function get(name) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var item = _step.value;
+
+                    if (name == item.name) {
+                        if (!item.values) {
+                            return item.value;
+                        } else {
+                            return item.values[0].value;
+                        }
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return null;
+        }
+    }]);
+
+    return Settings;
 }();
 
 /***/ }),

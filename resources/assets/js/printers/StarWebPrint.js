@@ -14,8 +14,8 @@ export default class StarWebPrint {
             papertype: 'normal',
             blackmark_sensor: 'front_side',
             url: this.traderUrl({
-                ip: epos.app.printers.star_web_print.ip,
-                port: epos.app.printers.star_web_print.port
+                ip: setting('peripheral:printer:ip'),
+                port: setting('peripheral:printer:port')
             })
         });
     }

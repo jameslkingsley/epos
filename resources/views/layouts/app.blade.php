@@ -15,7 +15,8 @@
         <script>
             window.epos = {!! json_encode([
                 'csrfToken' => csrf_token(),
-                'app' => config('vue')
+                'app' => config('vue'),
+                'settings' => setting()
             ]) !!};
         </script>
     </head>

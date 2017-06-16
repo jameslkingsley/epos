@@ -8,12 +8,5 @@ return [
     'company' => [
         'name' => env('COMPANY_NAME', 'EPOS'),
         'vat_number' => env('COMPANY_VATNUMBER', '123 456 789')
-    ],
-
-    'printers' => [
-        'star_web_print' => [
-            'ip' => env('PRINTER_STARWEBPRINT_IP', ''),
-            'port' => env('PRINTER_STARWEBPRINT_PORT', '')
-        ]
     ]
 ];

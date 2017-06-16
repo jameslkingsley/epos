@@ -40672,11 +40672,11 @@ var StarWebPrint = function () {
             };
 
             // Company Header
-            this.builder.align('center').heading(epos.app.company.name).nl().text('01872 571479').nl(2).align('left').text(this.transaction.created_at, epos.app.company.vat_number).nl();
+            this.builder.align('center').heading(setting('company:name')).nl(2).text(setting('company:telephone')).nl(3).align('left').text(this.transaction.created_at, setting('company:vat_number')).nl();
 
             // Basket Mode
             if (this.transaction.mode != 0) {
-                this.builder.align('center').bold(this.transaction.mode_name).nl();
+                this.builder.align('right').nl().bold(this.transaction.mode_name).nl();
             }
 
             // Transaction Header

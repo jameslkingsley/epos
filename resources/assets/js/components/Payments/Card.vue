@@ -24,9 +24,9 @@
 
         methods: {
             handle() {
-                Keypad.open({
+                new Keypad({
                     minimum: 1
-                }).then(value => {
+                }).open().then(value => {
                     let payment = this.payment;
                     payment.amount = value;
                     this.$http.post('/api/payments', payment);

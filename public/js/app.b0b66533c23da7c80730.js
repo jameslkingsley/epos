@@ -422,8 +422,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).listen('BasketModeChanged', function (e) {
             //
         }).listen('PrintReceipt', function (e) {
-            // TODO Get printer from settings
-            new Printer.StarWebPrint(e.transaction).render();
+            new Printer[e.printer](e.transaction).render();
         }).listen('TransactionStarted', function (e) {
             _this2.$material.setCurrentTheme('default');
         }).listen('TransactionCompleted', function (e) {
@@ -505,10 +504,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         Event.fire('alert', e.data.item.model.name + ' added');
                     }
                 }, { text: 'Add Many', autoClose: true, action: function action(e) {
-                        Keypad.open({
+                        new Keypad({
                             minimum: 1,
                             currency: null
-                        }).then(function (value) {
+                        }).open().then(function (value) {
                             e.$http.post('/api/items/add-many/' + value, e.data.item);
                             Event.fire('alert', e.data.item.model.name + ' added ' + value + ' times');
                         });
@@ -1358,9 +1357,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handle: function handle() {
             var _this = this;
 
-            Keypad.open({
+            new Keypad({
                 minimum: 1
-            }).then(function (value) {
+            }).open().then(function (value) {
                 var payment = _this.payment;
                 payment.amount = value;
                 _this.$http.post('/api/payments', payment);
@@ -1404,9 +1403,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handle: function handle() {
             var _this = this;
 
-            Keypad.open({
+            new Keypad({
                 minimum: 1
-            }).then(function (value) {
+            }).open().then(function (value) {
                 var payment = _this.payment;
                 payment.amount = value;
                 _this.$http.post('/api/payments', payment);
@@ -40549,15 +40548,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-window.Keyboard = new (function () {
-    function _class() {
-        _classCallCheck(this, _class);
+window.Keyboard = function () {
+    function Keyboard(options) {
+        _classCallCheck(this, Keyboard);
+
+        var extended = _.merge({}, window.KeyboardOptions, options || {});
+
+        Event.fire('keyboard-options', extended);
     }
 
-    _createClass(_class, [{
+    _createClass(Keyboard, [{
         key: 'open',
-        value: function open(options) {
-            Event.fire('keyboard-options', options || {});
+        value: function open() {
             Event.fire('keyboard', true);
 
             return new Promise(function (resolve, reject) {
@@ -40574,8 +40576,8 @@ window.Keyboard = new (function () {
         }
     }]);
 
-    return _class;
-}())();
+    return Keyboard;
+}();
 
 /***/ }),
 
@@ -40586,15 +40588,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-window.Keypad = new (function () {
-    function _class() {
-        _classCallCheck(this, _class);
+window.Keypad = function () {
+    function Keypad(options) {
+        _classCallCheck(this, Keypad);
+
+        var extended = _.merge({}, window.KeypadOptions, options || {});
+
+        Event.fire('keypad-options', extended);
     }
 
-    _createClass(_class, [{
+    _createClass(Keypad, [{
         key: 'open',
-        value: function open(options) {
-            Event.fire('keypad-options', options || {});
+        value: function open() {
             Event.fire('keypad', true);
 
             return new Promise(function (resolve, reject) {
@@ -40611,8 +40616,8 @@ window.Keypad = new (function () {
         }
     }]);
 
-    return _class;
-}())();
+    return Keypad;
+}();
 
 /***/ }),
 

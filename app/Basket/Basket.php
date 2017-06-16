@@ -185,8 +185,9 @@ class Basket extends Model
      */
     public function getPrinterAttribute()
     {
-        // TODO Get printer from settings
-        return new StarWebPrint;
+        $printer = setting('peripheral:printer');
+
+        return new $printer;
     }
 
     /**

@@ -32,10 +32,10 @@
                         }},
 
                         {text: 'Add Many', autoClose: true, action(e) {
-                            Keypad.open({
+                            new Keypad({
                                 minimum: 1,
                                 currency: null
-                            }).then(value => {
+                            }).open().then(value => {
                                 e.$http.post('/api/items/add-many/' + value, e.data.item);
                                 Event.fire('alert', e.data.item.model.name + ' added ' + value + ' times');
                             });

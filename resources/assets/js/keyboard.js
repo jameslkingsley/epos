@@ -1,6 +1,11 @@
-window.Keyboard = new class {
-    open(options) {
-        Event.fire('keyboard-options', options || {});
+window.Keyboard = class Keyboard {
+    constructor(options) {
+        let extended = _.merge({}, window.KeyboardOptions, options || {});
+
+        Event.fire('keyboard-options', extended);
+    }
+
+    open() {
         Event.fire('keyboard', true);
 
         return new Promise((resolve, reject) => {

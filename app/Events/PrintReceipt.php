@@ -23,13 +23,25 @@ class PrintReceipt implements ShouldBroadcast
     public $transaction;
 
     /**
+     * Client printer setting value.
+     *
+     * @var string
+     */
+    public $printer;
+
+    /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(TransactionHeader $header)
+    public function __construct($header)
     {
+        if (!$header) return;
+
         $this->transaction = $header;
+
+        $printerParts = explode('\\', setting('peripheral:printer'));
+        $this->printer = array_pop($printerParts);
     }
 
     /**

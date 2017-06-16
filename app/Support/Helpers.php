@@ -1,6 +1,8 @@
 <?php
 
 use App\Basket\Basket;
+use App\Settings\Setting;
+use App\Settings\NullSetting;
 use App\Basket\Support\Number;
 
 /**
@@ -31,4 +33,14 @@ function number($number = 0)
 function basket()
 {
     return new Basket;
+}
+
+/**
+ * Gets the setting instance.
+ *
+ * @return Setting
+ */
+function setting(string $name = '', $value = NullSetting::class)
+{
+    return Setting::make($name, $value);
 }

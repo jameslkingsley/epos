@@ -1,6 +1,11 @@
-window.Keypad = new class {
-    open(options) {
-        Event.fire('keypad-options', options || {});
+window.Keypad = class Keypad {
+    constructor(options) {
+        let extended = _.merge({}, window.KeypadOptions, options || {});
+
+        Event.fire('keypad-options', extended);
+    }
+
+    open() {
         Event.fire('keypad', true);
 
         return new Promise((resolve, reject) => {

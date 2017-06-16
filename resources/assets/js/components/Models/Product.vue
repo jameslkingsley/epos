@@ -1,5 +1,7 @@
 <template>
     <md-whiteframe md-elevation="1" :class="classes" @click.native="select">
+        <md-ink-ripple />
+
         <span class="item-title">
             {{ item.model.name }}
         </span>
@@ -23,6 +25,7 @@
                 return {
                     'item-wrapper': true,
                     'cursor-pointer': true,
+                    'no-select': true,
                     'has-discount': this.item.discounted
                 };
             }

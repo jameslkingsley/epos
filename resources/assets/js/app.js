@@ -2,6 +2,7 @@ import './bootstrap';
 import router from './routes';
 
 // Components
+Vue.component('actions', require('./components/Actions.vue'));
 Vue.component('keyboard', require('./components/Keyboard.vue'));
 Vue.component('keypad', require('./components/Keypad.vue'));
 Vue.component('pill', require('./components/Pill.vue'));
@@ -26,12 +27,7 @@ Vue.component('basket', require('./components/Basket.vue'));
 Vue.component('item', require('./components/Item.vue'));
 
 Vue.filter('currency', (value) => {
-    let langage = (navigator.language || navigator.browserLanguage).split('-')[0];
-
-    return (value / 100).toLocaleString(langage, {
-        style: 'currency',
-        currency: epos.app.currency
-    });
+    return formatAsCurrency(value);
 });
 
 const app = new Vue({

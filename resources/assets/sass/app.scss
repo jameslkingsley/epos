@@ -164,3 +164,7 @@ body {
     background: $brand-success;
     color: white;
 }
+
+.no-select {
+    user-select: none;
+}

@@ -105,8 +105,10 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Payment $payment)
     {
-        //
+        basket()->payments->remove($payment);
+
+        basket()->reload();
     }
 }

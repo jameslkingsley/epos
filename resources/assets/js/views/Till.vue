@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <alert />
+        <actions />
         <keypad :options="keypadOptions" />
 
         <md-toolbar class="md-dense">

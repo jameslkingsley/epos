@@ -14,20 +14,6 @@
                 <md-table-cell md-numeric>{{ item.qty }}</md-table-cell>
                 <md-table-cell md-numeric>{{ item.qty * item.model.gross | currency }}</md-table-cell>
             </md-table-row>
-
-            <md-dialog ref="itemOptions">
-                <md-dialog-title>Actions</md-dialog-title>
-
-                <md-dialog-content>
-                    <md-button class="md-raised md-primary" v-for="(item, index) in activeOption.model" :key="index" @click.native="item.action(activeOption.args, $http)">
-                        {{ item.text }}
-                    </md-button>
-                </md-dialog-content>
-
-                <md-dialog-actions>
-                    <md-button class="md-primary" @click.native="$refs.itemOptions.close">Close</md-button>
-                </md-dialog-actions>
-            </md-dialog>
         </md-table-body>
     </md-table>
 </template>
@@ -40,47 +26,45 @@
             return {
                 options: {
                     product: [
-                        {text: 'Add One', action(item, http) {
-                            Event.fire('item-select', item);
+                        {text: 'Add One', action(e) {
+                            Event.fire('item-select', e.data.item);
+                            Event.fire('alert', e.data.item.model.name + ' added');
                         }},
 
-                        {text: 'Add Many', action(item, http) {
-                            let count = prompt('Enter Count', '1');
-
-                            if (count != null && count > 0) {
-                                http.post('/api/items/add-many/' + count, item);
-                            }
+                        {text: 'Add Many', autoClose: true, action(e) {
+                            Keypad.open({
+                                minimum: 1,
+                                currency: null
+                            }).then(value => {
+                                e.$http.post('/api/items/add-many/' + value, e.data.item);
+                                Event.fire('alert', e.data.item.model.name + ' added ' + value + ' times');
+                            });
                         }},
 
-                        {text: 'Remove One', action(item, http) {
-                            http.delete('/api/items/' + item.id + '/1');
+                        {text: 'Remove One', action(e) {
+                            e.$http.delete('/api/items/' + e.data.item.id + '/1');
+                            Event.fire('alert', '1 ' + e.data.item.model.name + ' removed');
                         }},
 
-                        {text: 'Remove All', action(item, http) {
-                            http.delete('/api/items/' + item.id);
+                        {text: 'Remove All', autoClose: true, action(e) {
+                            e.$http.delete('/api/items/' + e.data.item.id);
+                            Event.fire('alert', 'All ' + e.data.item.model.name + ' removed');
                         }}
                     ]
-                },
-
-                activeOption: {
-                    model: [],
-                    args: {}
                 }
             };
-        },
-
-        computed: {
-            hasActiveOption() {
-                return _.keys(this.activeOption).length > 0;
-            }
         },
 
         methods: {
             showOptions(item, index) {
                 let model = item.model_type.split('\\').pop().toLowerCase();
-                this.activeOption.model = this.options[model];
-                this.activeOption.args = item;
-                this.$refs.itemOptions.open();
+
+                if (model in this.options) {
+                    new Actions({
+                        options: this.options[model],
+                        data: { item: item }
+                    }).open();
+                }
             }
         }
     }

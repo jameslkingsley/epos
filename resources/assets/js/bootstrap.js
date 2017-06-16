@@ -60,6 +60,7 @@ Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 require('./support/event.js');
 require('./support/errors.js');
 require('./support/form.js');
+require('./support/currency.js');
 
 // Keypad
 require('./keypad.js');
@@ -72,6 +73,9 @@ require('./keyboard.js');
 window.KeyboardOptions = {
     //
 };
+
+// Actions
+require('./actions.js');
 
 // Printers
 window.Printer = require('./printers/printer.js');

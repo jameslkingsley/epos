@@ -22,19 +22,15 @@ class Setting extends Model
      *
      * @return any
      */
-    public static function make(string $name = '', $value = NullSetting::class)
+    public static function make(string $name = '', $default = '')
     {
         $object = new static;
         $object->cache = SettingRepository::serializeForCache();
 
         if ($name) {
-            if ($value != NullSetting::class) {
-                return $object->set($name, $value);
-            } else {
-                return $object->get($name);
-            }
+            return $object->get($name, $default);
         } else {
-            return $object->cache;
+            return $object;
         }
     }
 
@@ -67,10 +63,10 @@ class Setting extends Model
      *
      * @return any
      */
-    public function get(string $name)
+    public function get(string $name, $default = '')
     {
         $setting = $this->cache->where('name', $name)->first();
-        if (!$setting) return;
+        if (!$setting) return $default;
 
         $value = $setting->values;
 
@@ -88,7 +84,7 @@ class Setting extends Model
      *
      * @return self
      */
-    public function set(string $name, $value)
+    public function set(string $name, $value, $default = NullSetting::class)
     {
         $setting = $this->cache->where('name', $name)->first();
 
@@ -97,7 +93,7 @@ class Setting extends Model
                 'name' => $name,
                 'cast' => gettype($value),
                 'value' => $value,
-                'default' => $value
+                'default' => $default == NullSetting::class ? $value : $default
             ]);
 
             $this->cache = SettingRepository::serializeForCache();

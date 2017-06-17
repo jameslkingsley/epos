@@ -2,7 +2,7 @@
 
 namespace App\Basket\Payments;
 
-class FastCash extends Payment
+class FastCash extends Cash
 {
     /**
      * Computes the total payment amount.

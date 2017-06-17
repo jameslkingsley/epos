@@ -15,7 +15,7 @@
                 @click.native="showOptions(payment, index)">
                 <md-table-cell>{{ payment.name }}</md-table-cell>
                 <md-table-cell>&nbsp;</md-table-cell>
-                <md-table-cell md-numeric>{{ payment.amount_normal }}</md-table-cell>
+                <md-table-cell md-numeric>{{ payment.amount | currency }}</md-table-cell>
             </md-table-row>
         </md-table-body>
     </md-table>

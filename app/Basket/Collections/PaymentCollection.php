@@ -177,4 +177,20 @@ class PaymentCollection extends Collection
 
         return $this;
     }
+
+    /**
+     * Checks if all payments have been serviced.
+     *
+     * @return boolean
+     */
+    public function serviced()
+    {
+        foreach ($this->items as $payment) {
+            if (! $payment->serviced) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

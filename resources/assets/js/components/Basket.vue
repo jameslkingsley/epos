@@ -83,6 +83,10 @@
                 .listen('PrintReceipt', (e) => {
                     new Printer[e.printer](e.transaction).render();
                 })
+                .listen('PaymentService', (e) => {
+                    console.log(e);
+                    this.$http.post('/api/payments/service', { service: e.service });
+                })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');
                 })

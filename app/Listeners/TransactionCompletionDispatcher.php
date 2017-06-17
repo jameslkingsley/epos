@@ -27,6 +27,17 @@ class TransactionCompletionDispatcher
      */
     public function handle(TransactionCompleted $event)
     {
+        // Process any payment services such as Stripe
+        foreach (basket()->payments as $payment) {
+            if ($service = $payment->provider->service()) {
+                $service->handle();
+            }
+        }
+
+        // If all payments have been serviced,
+        // commit the transaction, otherwise exit
+        if (! basket()->payments->serviced()) return;
+
         // Close the basket transaction
         // and commits it to storage.
         basket()->commit();

@@ -7,13 +7,34 @@ use App\Basket\Basket;
 abstract class Payment
 {
     /**
+     * Payment instance.
+     *
+     * @var App\Basket\Models\Payment
+     */
+    protected $payment;
+
+    /**
      * Makes a new instance.
      *
      * @return any
      */
-    public static function make()
+    public static function make($model = null)
     {
-        return new static;
+        $provider = new static;
+
+        $provider->payment = $model;
+
+        return $provider;
+    }
+
+    /**
+     * Gets the service provider for the payment.
+     *
+     * @return App\Basket\Payments\Services\Service | null
+     */
+    public function service()
+    {
+        return null;
     }
 
     /**

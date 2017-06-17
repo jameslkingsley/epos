@@ -38,13 +38,13 @@ class Install extends Command
     public function handle()
     {
         // Printer
-        setting('peripheral:printer', 'App\\Basket\\Printers\\StarWebPrint');
-        setting('peripheral:printer:ip', '192.168.123.189');
-        setting('peripheral:printer:port', '80');
+        setting()->set('peripheral:printer', 'App\\Basket\\Printers\\StarWebPrint');
+        setting()->set('peripheral:printer:ip', '192.168.123.189');
+        setting()->set('peripheral:printer:port', '80');
 
         // Company
-        setting('company:name', 'EPOS');
-        setting('company:telephone', '12345 456789');
-        setting('company:vat_number', '123 456 789');
+        setting()->set('company:name', 'EPOS');
+        setting()->set('company:telephone', '12345 456789');
+        setting()->set('company:vat_number', '123 456 789');
     }
 }

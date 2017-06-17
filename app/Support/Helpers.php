@@ -40,7 +40,7 @@ function basket()
  *
  * @return Setting
  */
-function setting(string $name = '', $value = NullSetting::class)
+function setting(string $name = '', $default = '')
 {
-    return Setting::make($name, $value);
+    return Setting::make($name, $default);
 }

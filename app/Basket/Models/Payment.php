@@ -12,7 +12,11 @@ class Payment extends Model
      *
      * @var array
      */
-    protected $appends = ['amount', 'provider', 'amount_normal'];
+    protected $appends = [
+        'amount',
+        'provider',
+        'serviced'
+    ];
 
     /**
      * Amount of the payment.
@@ -22,13 +26,20 @@ class Payment extends Model
     public $amount = 0;
 
     /**
+     * Whether the payment has been serviced.
+     *
+     * @var boolean
+     */
+    public $serviced = false;
+
+    /**
      * Gets the handler instance for the payment.
      *
      * @return any
      */
     public function getProviderAttribute()
     {
-        return $this->handler::make();
+        return $this->handler::make($this);
     }
 
     /**
@@ -42,17 +53,13 @@ class Payment extends Model
     }
 
     /**
-     * Gets the amount normal value.
-     * Removes the inverted sign,
-     * and normalizes number.
+     * Gets the serviced flag.
      *
-     * Includes the currency symbol.
-     *
-     * @return float
+     * @return boolean
      */
-    public function getAmountNormalAttribute()
+    public function getServicedAttribute()
     {
-        return number(-$this->amount)->normal()->display();
+        return $this->serviced;
     }
 
     /**

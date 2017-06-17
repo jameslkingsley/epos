@@ -187,6 +187,8 @@ class Basket extends Model
     {
         $printer = setting('peripheral:printer');
 
+        if (! class_exists($printer)) return null;
+
         return new $printer;
     }
 

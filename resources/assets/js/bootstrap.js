@@ -95,6 +95,6 @@ window.Pusher = require('pusher-js');
 import Echo from 'laravel-echo';
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '648cf3562bf2244772cf',
-    cluster: 'eu'
+    key: epos.app.broadcasting.key,
+    cluster: epos.app.broadcasting.options.cluster
 });

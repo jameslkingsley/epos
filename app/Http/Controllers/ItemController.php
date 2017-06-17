@@ -6,6 +6,7 @@ use App\Basket\Basket;
 use App\Basket\Models\Item;
 use App\Events\BasketReload;
 use Illuminate\Http\Request;
+use App\Basket\Models\Barcode;
 use Illuminate\Support\Facades\Log;
 
 class ItemController extends Controller
@@ -105,5 +106,21 @@ class ItemController extends Controller
         basket()->items->remove($item, $qty);
 
         basket()->reload();
+    }
+
+    /**
+     * Attempts to add and item by the given barcode.
+     *
+     * @return any
+     */
+    public function addViaBarcode(Request $request, Barcode $barcode)
+    {
+        $item = $barcode->resolve($request->code);
+
+        if ($item) {
+            basket()->items->add($item);
+
+            basket()->reload();
+        }
     }
 }

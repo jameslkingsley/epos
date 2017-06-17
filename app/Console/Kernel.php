@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Vue::class,
-        Commands\Log::class
+        Commands\Log::class,
+        Commands\Install::class
     ];
 
     /**

@@ -61,6 +61,11 @@
                 item => this.selected(item)
             );
 
+            Event.listen(
+                'barcode-scanned',
+                code => this.$http.post('/api/items/via-barcode', { code })
+            );
+
             Echo.channel('basket')
                 .listen('BasketReload', (e) => {
                     this.basket = e.basket;
@@ -89,6 +94,14 @@
 
         created() {
             setTimeout(this.reloadBasket, 250);
+
+            this.$barcodeScanner.init(
+                code => Event.fire('barcode-scanned', code)
+            );
+        },
+
+        destroyed() {
+            this.$barcodeScanner.destroy();
         }
     }
 </script>

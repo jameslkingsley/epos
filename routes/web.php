@@ -29,6 +29,7 @@ Route::resource('/api/basket', 'BasketController', [
 
 Route::delete('/api/items/{item}/{qty}', 'ItemController@destroy');
 Route::post('/api/items/add-many/{count}', 'ItemController@addMany');
+Route::post('/api/items/via-barcode', 'ItemController@addViaBarcode');
 Route::resource('/api/items', 'ItemController');
 
 Route::resource('/api/payments', 'PaymentController');

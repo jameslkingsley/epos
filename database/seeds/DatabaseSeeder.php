@@ -29,7 +29,8 @@ class DatabaseSeeder extends Seeder
         });
 
         foreach ([
-            'Generic' => 'App\\Basket\\Printers\\Generic'
+            'Generic' => 'App\\Basket\\Printers\\Generic',
+            'Star Web Print' => 'App\\Basket\\Printers\\StarWebPrint'
         ] as $key => $value) {
             App\Basket\Models\Printer::forceCreate([
                 'name' => $key,
@@ -50,7 +51,8 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach ([
-            'Buy One Get One Free' => 'App\\Basket\\Deals\\BuyOneGetOneFree'
+            'Buy One Get One Free' => 'App\\Basket\\Deals\\BuyOneGetOneFree',
+            'Buy One Get One Half Price' => 'App\\Basket\\Deals\\BuyOneGetOneHalfPrice'
         ] as $key => $value) {
             $deal = App\Basket\Models\Deal::forceCreate([
                 'name' => $key,

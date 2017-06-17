@@ -62,6 +62,10 @@ require('./support/errors.js');
 require('./support/form.js');
 require('./support/currency.js');
 
+// Barcode
+import VueBarcodeScanner from 'vue-barcode-scanner';
+Vue.use(VueBarcodeScanner);
+
 require('./support/settings.js');
 window.epos.settings = new Settings().register(window.epos.settings);
 window.setting = (name) => {

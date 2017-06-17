@@ -19,6 +19,7 @@
     "lodash": "^4.17.4",
     "pusher-js": "^4.1.0",
     "vue": "^2.1.10",
+    "vue-barcode-scanner": "^0.4.0",
     "vue-material": "^0.7.1",
     "vue-resource": "^1.3.1",
     "vue-router": "^2.5.3"

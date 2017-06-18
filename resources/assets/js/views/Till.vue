@@ -4,6 +4,8 @@
         <actions />
         <keypad :options="keypadOptions" />
 
+        <payments-service-container />
+
         <md-toolbar class="md-dense">
             <nav-till />
 

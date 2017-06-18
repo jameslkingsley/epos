@@ -84,8 +84,8 @@
                     new Printer[e.printer](e.transaction).render();
                 })
                 .listen('PaymentService', (e) => {
-                    console.log(e);
-                    this.$http.post('/api/payments/service', { service: e.service });
+                    let service = new Payment[e.service.name + 'Service'](e.service.payment);
+                    service.handle();
                 })
                 .listen('TransactionStarted', (e) => {
                     this.$material.setCurrentTheme('default');

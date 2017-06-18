@@ -2,10 +2,21 @@
 
 namespace App\Basket\Payments\Services;
 
+use Jenssegers\Model\Model;
 use App\Basket\Models\Payment;
 
-abstract class Service
+abstract class Service extends Model
 {
+    /**
+     * Appended attributes.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'name',
+        'payment'
+    ];
+
     /**
      * Payment instance.
      *
@@ -21,6 +32,28 @@ abstract class Service
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
+    }
+
+    /**
+     * Gets the name attribute.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        $parts = explode('\\', get_class($this));
+
+        return array_pop($parts);
+    }
+
+    /**
+     * Gets the payment attribute.
+     *
+     * @return App\Basket\Models\Payment
+     */
+    public function getPaymentAttribute()
+    {
+        return $this->payment;
     }
 
     /**

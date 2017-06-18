@@ -12,6 +12,10 @@
         <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
+        @if (setting('payment:card:service', 'stripe') == 'stripe')
+            <script type="text/javascript" src="https://js.stripe.com/v3"></script>
+        @endif
+
         <script>
             window.epos = {!! json_encode([
                 'csrfToken' => csrf_token(),

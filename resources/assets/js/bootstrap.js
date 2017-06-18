@@ -90,6 +90,9 @@ require('./actions.js');
 // Printers
 window.Printer = require('./printers/printer.js');
 
+// Payments
+window.Payment = require('./payments/payment.js');
+
 // Websocket
 window.Pusher = require('pusher-js');
 import Echo from 'laravel-echo';

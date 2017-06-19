@@ -89,3 +89,5 @@ window.Echo = new Echo({
     key: epos.app.broadcasting.key,
     cluster: epos.app.broadcasting.options.cluster
 });
+
+require('./common');

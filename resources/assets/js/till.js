@@ -1,5 +1,5 @@
 import './bootstrap';
-import router from './routes';
+import router from './routes/till';
 
 // Components
 Vue.component('payments-service-container', require('./components/Payments/ServiceContainer.vue'));
@@ -8,7 +8,6 @@ Vue.component('keyboard', require('./components/Keyboard.vue'));
 Vue.component('keypad', require('./components/Keypad.vue'));
 Vue.component('pill', require('./components/Pill.vue'));
 Vue.component('basket-deals', require('./components/Basket/Deals.vue'));
-Vue.component('alert', require('./components/Alert.vue'));
 Vue.component('nav-till', require('./components/Nav/Till.vue'));
 Vue.component('basket-items', require('./components/Basket/Items.vue'));
 Vue.component('basket-vat', require('./components/Basket/VAT.vue'));
@@ -26,10 +25,6 @@ Vue.component('items', require('./components/Items.vue'));
 Vue.component('categories', require('./components/Categories.vue'));
 Vue.component('basket', require('./components/Basket.vue'));
 Vue.component('item', require('./components/Item.vue'));
-
-Vue.filter('currency', (value) => {
-    return formatAsCurrency(value);
-});
 
 const app = new Vue({
     el: '#app',

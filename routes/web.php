@@ -12,12 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
+    return view('till');
 });
 
 Route::get('/session', function() {
     return session()->all();
 });
+
+Route::resource('/admin', 'AdminController');
 
 Route::resource('/api/categories', 'CategoryController');
 

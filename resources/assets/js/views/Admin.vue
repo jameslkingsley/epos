@@ -4,8 +4,6 @@
             <alert />
 
             <md-toolbar class="md-dense">
-                <nav-till />
-
                 <h2 class="md-title" style="flex: 1">
                     Admin
                 </h2>
@@ -15,13 +13,13 @@
                 <div class="main-sidebar-links" style="background: white">
                     <md-list>
                         <md-list-item>
-                            <router-link to="/admin/transactions">
+                            <router-link to="/transactions">
                                 Transactions
                             </router-link>
                         </md-list-item>
 
                         <md-list-item>
-                            <router-link to="/admin/inventory">
+                            <router-link to="/inventory">
                                 Inventory
                             </router-link>
                         </md-list-item>

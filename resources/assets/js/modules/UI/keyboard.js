@@ -18,3 +18,7 @@ window.Keyboard = class Keyboard {
         Event.fire('keyboard', false);
     }
 }
+
+window.KeyboardOptions = {
+    //
+};

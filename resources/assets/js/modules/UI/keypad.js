@@ -18,3 +18,7 @@ window.Keypad = class Keypad {
         Event.fire('keypad', false);
     }
 }
+
+window.KeypadOptions = {
+    currency: window.epos.app.currency
+};

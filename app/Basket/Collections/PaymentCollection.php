@@ -117,11 +117,13 @@ class PaymentCollection extends Collection
      */
     public function remove(Payment $payment)
     {
-        $this->items = $this->reject(function($p) use($payment) {
-            return $p->isSameAs($payment);
-        })->all();
+        $this->basket->update(function($basket) use($payment) {
+            $basket->payments = $basket->payments->reject(function($p) use($payment) {
+                return $p->isSameAs($payment);
+            });
 
-        event(new PaymentRemoved($payment));
+            return $basket->withEvent(PaymentRemoved::class, $payment);
+        });
     }
 
     /**

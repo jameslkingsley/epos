@@ -25,6 +25,13 @@ class ItemCollection extends Collection
     protected $basket;
 
     /**
+     * Quantity value needed since you can't overload method arguments.
+     *
+     * @var integer
+     */
+    protected $addCount = null;
+
+    /**
      * Constructor method.
      *
      * @return any
@@ -117,13 +124,29 @@ class ItemCollection extends Collection
     }
 
     /**
+     * Adds an item to the collection for the given number of times.
+     *
+     * @return self
+     */
+    public function addMany($item, int $count = 1)
+    {
+        $this->addCount = $count;
+
+        $this->add($item);
+
+        return $this;
+    }
+
+    /**
      * Adds an item to the collection.
      *
      * @return self
      */
     public function add($item)
     {
-        return $this->basket->update(function($basket) use($item) {
+        $addCount = $this->addCount;
+
+        return $this->basket->update(function($basket) use($item, $addCount) {
             $item = $this->resolve($item);
 
             // Validate the item, if invalid, will exit
@@ -131,12 +154,23 @@ class ItemCollection extends Collection
                 return $basket->exception($this->constraint()->reason());
             }
 
-            if ($this->has($item)) {
-                $this->update($item, function(&$item) {
-                    $item->qty++;
+            if ($addCount) {
+                if (! $this->has($item)) {
+                    $this->push($item);
+                    $addCount--;
+                }
+
+                $this->update($item, function(&$item) use($addCount) {
+                    $item->qty += $addCount;
                 });
             } else {
-                $this->push($item);
+                if ($this->has($item)) {
+                    $this->update($item, function(&$item) {
+                        $item->qty++;
+                    });
+                } else {
+                    $this->push($item);
+                }
             }
 
             // Return the updated basket, with the item added event

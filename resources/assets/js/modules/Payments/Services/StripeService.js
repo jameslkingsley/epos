@@ -1,3 +1,5 @@
+Vue.component('payment-component-stripe', require('../Components/Stripe.vue'));
+
 export default class StripeService {
     constructor(payment) {
         this.payment = payment;
@@ -6,20 +8,23 @@ export default class StripeService {
     }
 
     handle() {
+        let container = new ServiceContainer({
+            payment: this.payment,
+            component: 'stripe'
+        });
+
         // Show the payment service container modal
-        Event.fire('payments-service-container', true);
+        container.open();
+
+        container.onSubmit(form => {
+            container.complete(form).then(response => container.close());
+        });
 
         // Create the Stripe input card
         // const card = this.createCard();
 
         // Create the form token events
         // const form = this.createForm(card);
-
-        // Submit the card charge
-        setTimeout(() => {
-            ajax.post('/api/payments/service', { payment: this.payment })
-                .then(response => Event.fire('payments-service-container', false));
-        }, 4000);
     }
 
     createForm(card) {

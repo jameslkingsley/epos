@@ -1,4 +1,4 @@
-class Form {
+window.Form = class Form {
     /**
      * Create a new Form instance.
      *

@@ -1,34 +1,43 @@
 <template>
-    <md-dialog ref="dialog" style="min-width: 400px">
+    <md-dialog ref="dialog" class="payments-service-container">
         <md-dialog-title>Payment Service Container</md-dialog-title>
 
         <md-dialog-content>
-            <form action="/api/payments/service" method="post" id="payment-form">
-                <div class="form-row">
-                    <label for="card-element">
-                        Credit or debit card
-                    </label>
-
-                    <div id="card-element">
-                        <!-- Stripe Element will be inserted here -->
-                    </div>
-
-                    <!-- Used to display Element errors -->
-                    <div id="card-errors" role="alert"></div>
-                </div>
-
-                <md-button type="submit" class="md-primary">Submit Payment</md-button>
-            </form>
+            <component
+                :form="form"
+                :is="component">
+            </component>
         </md-dialog-content>
 
         <md-dialog-actions>
-            <md-button class="md-primary" @click.native="close">Cancel</md-button>
+            <md-button class="md-primary" @click.native="submit">Complete</md-button>
+            <md-button class="md-primary" @click.native="cancel">Cancel</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                form: {
+                    payment: null,
+                    component: 'default'
+                }
+            };
+        },
+
+        computed: {
+            component() {
+                if (! 'component' in this.form) {
+                    console.error('Component was expected in payment service container, but was not defined.');
+                    return null;
+                }
+
+                return 'payment-component-' + this.form.component;
+            }
+        },
+
         methods: {
             open() {
                 this.$refs.dialog.open();
@@ -38,17 +47,31 @@
                 this.$refs.dialog.close();
             },
 
+            cancel() {
+                this.close();
+                Event.fire('payments-service-container-cancel', this.form.payment);
+            },
+
             submit() {
-                //
+                Event.fire('payments-service-container-submit', this.form);
             }
         },
 
         created() {
+            Event.listen('payments-service-container-data', data => this.form = data);
+
             Event.listen(
                 'payments-service-container',
                 state => {
                     if (state) this.open()
                     else this.close()
+                }
+            );
+
+            Event.listen(
+                'payments-service-container-cancel',
+                payment => {
+                    ajax.delete('/api/payments/service/' + payment.id);
                 }
             );
         }

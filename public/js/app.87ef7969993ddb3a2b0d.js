@@ -1965,7 +1965,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).listen('PrintReceipt', function (e) {
             new Printer[e.printer](e.transaction).render();
         }).listen('PaymentService', function (e) {
-            console.log(e);
             var service = new Payment[e.service.name + 'Service'](e.service.payment);
             service.handle();
         }).listen('TransactionStarted', function (e) {
@@ -3067,19 +3066,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: {
+                payment: null,
+                component: 'default'
+            }
+        };
+    },
+
+
+    computed: {
+        component: function component() {
+            if (!'component' in this.form) {
+                console.error('Component was expected in payment service container, but was not defined.');
+                return null;
+            }
+
+            return 'payment-component-' + this.form.component;
+        }
+    },
+
     methods: {
         open: function open() {
             this.$refs.dialog.open();
@@ -3087,16 +3096,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         close: function close() {
             this.$refs.dialog.close();
         },
+        cancel: function cancel() {
+            this.close();
+            Event.fire('payments-service-container-cancel', this.form.payment);
+        },
         submit: function submit() {
-            //
+            Event.fire('payments-service-container-submit', this.form);
         }
     },
 
     created: function created() {
         var _this = this;
 
+        Event.listen('payments-service-container-data', function (data) {
+            return _this.form = data;
+        });
+
         Event.listen('payments-service-container', function (state) {
             if (state) _this.open();else _this.close();
+        });
+
+        Event.listen('payments-service-container-cancel', function (payment) {
+            ajax.delete('/api/payments/service/' + payment.id);
         });
     }
 });
@@ -3131,6 +3152,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'pull-right': this.right != null
             };
         }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/modules/Payments/Components/Default.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['form']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/modules/Payments/Components/Stripe.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['form'],
+
+    created: function created() {
+        console.log(this.form);
     }
 });
 
@@ -27099,6 +27158,22 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-14fc1d72\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/modules/Payments/Components/Stripe.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_vm._v("\n    Stripe Component\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-14fc1d72", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-20a064e6\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Models/Product.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27653,6 +27728,22 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-4ffa8864", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-66bfa8ec\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/modules/Payments/Components/Default.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div')
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-66bfa8ec", module.exports)
   }
 }
 
@@ -28213,40 +28304,24 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('md-dialog', {
     ref: "dialog",
-    staticStyle: {
-      "min-width": "400px"
-    }
-  }, [_c('md-dialog-title', [_vm._v("Payment Service Container")]), _vm._v(" "), _c('md-dialog-content', [_c('form', {
+    staticClass: "payments-service-container"
+  }, [_c('md-dialog-title', [_vm._v("Payment Service Container")]), _vm._v(" "), _c('md-dialog-content', [_c(_vm.component, {
+    tag: "component",
     attrs: {
-      "action": "/api/payments/service",
-      "method": "post",
-      "id": "payment-form"
+      "form": _vm.form
     }
-  }, [_c('div', {
-    staticClass: "form-row"
-  }, [_c('label', {
-    attrs: {
-      "for": "card-element"
-    }
-  }, [_vm._v("\n                    Credit or debit card\n                ")]), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "card-element"
-    }
-  }), _vm._v(" "), _c('div', {
-    attrs: {
-      "id": "card-errors",
-      "role": "alert"
-    }
-  })]), _vm._v(" "), _c('md-button', {
-    staticClass: "md-primary",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Submit Payment")])], 1)]), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
+  })], 1), _vm._v(" "), _c('md-dialog-actions', [_c('md-button', {
     staticClass: "md-primary",
     nativeOn: {
       "click": function($event) {
-        _vm.close($event)
+        _vm.submit($event)
+      }
+    }
+  }, [_vm._v("Complete")]), _vm._v(" "), _c('md-button', {
+    staticClass: "md-primary",
+    nativeOn: {
+      "click": function($event) {
+        _vm.cancel($event)
       }
     }
   }, [_vm._v("Cancel")])], 1)], 1)
@@ -42486,37 +42561,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/actions.js":
-/***/ (function(module, exports) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-window.Actions = function () {
-    function Actions(params) {
-        _classCallCheck(this, Actions);
-
-        Event.fire('actions-options', params || []);
-    }
-
-    _createClass(Actions, [{
-        key: 'open',
-        value: function open() {
-            Event.fire('actions', true);
-        }
-    }, {
-        key: 'close',
-        value: function close() {
-            Event.fire('actions', false);
-        }
-    }]);
-
-    return Actions;
-}();
-
-/***/ }),
-
 /***/ "./resources/assets/js/admin/Inventory.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42638,31 +42682,24 @@ var app = new Vue({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_collect_js__ = __webpack_require__("./node_modules/collect.js/src/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_collect_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_collect_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_barcode_scanner__ = __webpack_require__("./node_modules/vue-barcode-scanner/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_barcode_scanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_barcode_scanner__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_laravel_echo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_barcode_scanner__ = __webpack_require__("./node_modules/vue-barcode-scanner/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_barcode_scanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_barcode_scanner__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_laravel_echo__);
+var modules = ['Payments', 'Printers', 'Support', 'UI'];
+
 // Lodash
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 
 // Axios
-window.ajax = window.axios = __webpack_require__("./node_modules/axios/index.js");
+window.axios = __webpack_require__("./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-var token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
+window.ajax = window.axios;
 
 // Collect
-
-window.collect = __WEBPACK_IMPORTED_MODULE_0_collect_js___default.a;
+window.collect = __webpack_require__("./node_modules/collect.js/src/index.js");
 
 // Vue
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
@@ -42670,7 +42707,7 @@ __webpack_require__("./node_modules/vue-resource/dist/vue-resource.es2015.js");
 
 // Vue Router
 
-Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
+Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 
 // Vue Material Design
 var VueMaterial = __webpack_require__("./node_modules/vue-material/dist/vue-material.js");
@@ -42719,64 +42756,19 @@ Vue.material.registerTheme({
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// Helpers
-__webpack_require__("./resources/assets/js/support/event.js");
-__webpack_require__("./resources/assets/js/support/errors.js");
-__webpack_require__("./resources/assets/js/support/form.js");
-__webpack_require__("./resources/assets/js/support/currency.js");
-
-// Barcode
-
-Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_barcode_scanner___default.a);
-
-__webpack_require__("./resources/assets/js/support/settings.js");
-window.epos.settings = new Settings().register(window.epos.settings);
-window.setting = function (name) {
-    return window.epos.settings.get(name);
-};
-
-// Keypad
-__webpack_require__("./resources/assets/js/keypad.js");
-window.KeypadOptions = {
-    currency: window.epos.app.currency
-};
-
-// Keyboard
-__webpack_require__("./resources/assets/js/keyboard.js");
-window.KeyboardOptions = {
-    //
-};
-
-// Actions
-__webpack_require__("./resources/assets/js/actions.js");
-
-// Printers
-window.Printer = __webpack_require__("./resources/assets/js/printers/printer.js");
-
-// Payments
-window.Payment = __webpack_require__("./resources/assets/js/payments/payment.js");
-
-// Websocket
-window.Pusher = __webpack_require__("./node_modules/pusher-js/dist/web/pusher.js");
-
-window.Echo = new __WEBPACK_IMPORTED_MODULE_3_laravel_echo___default.a({
-    broadcaster: 'pusher',
-    key: epos.app.broadcasting.key,
-    cluster: epos.app.broadcasting.options.cluster
-});
-
-var something = 'a fat piece of shit';
-var c = __WEBPACK_IMPORTED_MODULE_0_collect_js___default()([1, 2, 3, 4, 5]);
+// Load Modules
 var _iteratorNormalCompletion = true;
 var _didIteratorError = false;
 var _iteratorError = undefined;
 
 try {
-    for (var _iterator = c[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var i = _step.value;
+    for (var _iterator = modules[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var m = _step.value;
 
-        console.log(i);
+        __webpack_require__("./resources/assets/js/modules recursive ^\\.\\/.*\\/index\\.js$")("./" + m + '/index.js');
     }
+
+    // Barcode
 } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;
@@ -42791,6 +42783,18 @@ try {
         }
     }
 }
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_barcode_scanner___default.a);
+
+// Websocket
+window.Pusher = __webpack_require__("./node_modules/pusher-js/dist/web/pusher.js");
+
+window.Echo = new __WEBPACK_IMPORTED_MODULE_2_laravel_echo___default.a({
+    broadcaster: 'pusher',
+    key: epos.app.broadcasting.key,
+    cluster: epos.app.broadcasting.options.cluster
+});
 
 /***/ }),
 
@@ -43646,93 +43650,178 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/keyboard.js":
-/***/ (function(module, exports) {
+/***/ "./resources/assets/js/modules recursive ^\\.\\/.*\\/index\\.js$":
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./Payments/index.js": "./resources/assets/js/modules/Payments/index.js",
+	"./Printers/StarWebPrint/index.js": "./resources/assets/js/modules/Printers/StarWebPrint/index.js",
+	"./Printers/index.js": "./resources/assets/js/modules/Printers/index.js",
+	"./Support/index.js": "./resources/assets/js/modules/Support/index.js",
+	"./UI/index.js": "./resources/assets/js/modules/UI/index.js"
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./resources/assets/js/modules recursive ^\\.\\/.*\\/index\\.js$";
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/Payments/Components/Default.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/modules/Payments/Components/Default.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-66bfa8ec\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/modules/Payments/Components/Default.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\modules\\Payments\\Components\\Default.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Default.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-66bfa8ec", Component.options)
+  } else {
+    hotAPI.reload("data-v-66bfa8ec", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/Payments/Components/Stripe.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
+  /* script */
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/modules/Payments/Components/Stripe.vue"),
+  /* template */
+  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-14fc1d72\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/modules/Payments/Components/Stripe.vue"),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\Documents\\GitHub\\epos\\resources\\assets\\js\\modules\\Payments\\Components\\Stripe.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Stripe.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-14fc1d72", Component.options)
+  } else {
+    hotAPI.reload("data-v-14fc1d72", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/Payments/ServiceContainer.js":
+/***/ (function(module, exports, __webpack_require__) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-window.Keyboard = function () {
-    function Keyboard(options) {
-        _classCallCheck(this, Keyboard);
+Vue.component('payment-component-default', __webpack_require__("./resources/assets/js/modules/Payments/Components/Default.vue"));
 
-        var extended = _.merge({}, window.KeyboardOptions, options || {});
+window.ServiceContainer = function () {
+    function ServiceContainer(data) {
+        var _this = this;
 
-        Event.fire('keyboard-options', extended);
+        _classCallCheck(this, ServiceContainer);
+
+        this.data = data;
+        this.hasCancelled = false;
+
+        Event.fire('payments-service-container-data', data);
+
+        Event.listen('payments-service-container-cancel', function () {
+            return _this.hasCancelled = true;
+        });
     }
 
-    _createClass(Keyboard, [{
+    _createClass(ServiceContainer, [{
         key: 'open',
         value: function open() {
-            Event.fire('keyboard', true);
-
-            return new Promise(function (resolve, reject) {
-                Event.listenOnce('keyboard-confirm', function (text) {
-                    return resolve(text);
-                });
-                Event.listenOnce('keyboard-cancel', reject);
-            });
+            Event.fire('payments-service-container', true);
         }
     }, {
         key: 'close',
         value: function close() {
-            Event.fire('keyboard', false);
+            Event.fire('payments-service-container', false);
         }
-    }]);
+    }, {
+        key: 'cancel',
+        value: function cancel() {
+            Event.fire('payments-service-container-cancel', this.data.payment);
+        }
+    }, {
+        key: 'onSubmit',
+        value: function onSubmit(closure) {
+            var _this2 = this;
 
-    return Keyboard;
-}();
-
-/***/ }),
-
-/***/ "./resources/assets/js/keypad.js":
-/***/ (function(module, exports) {
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-window.Keypad = function () {
-    function Keypad(options) {
-        _classCallCheck(this, Keypad);
-
-        var extended = _.merge({}, window.KeypadOptions, options || {});
-
-        Event.fire('keypad-options', extended);
-    }
-
-    _createClass(Keypad, [{
-        key: 'open',
-        value: function open() {
-            Event.fire('keypad', true);
-
-            return new Promise(function (resolve, reject) {
-                Event.listenOnce('keypad-confirm', function (value) {
-                    return resolve(value);
-                });
-                Event.listenOnce('keypad-cancel', reject);
+            Event.listenOnce('payments-service-container-submit', function (form) {
+                if (!_this2.hasCancelled) closure(form);
             });
         }
     }, {
-        key: 'close',
-        value: function close() {
-            Event.fire('keypad', false);
+        key: 'complete',
+        value: function complete(data) {
+            if (!'payment' in data) {
+                data.payment = this.data.payment;
+            }
+
+            return ajax.post('/api/payments/service', data);
         }
     }]);
 
-    return Keypad;
+    return ServiceContainer;
 }();
 
 /***/ }),
 
-/***/ "./resources/assets/js/payments/Services/StripeService.js":
+/***/ "./resources/assets/js/modules/Payments/Services/StripeService.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Vue.component('payment-component-stripe', __webpack_require__("./resources/assets/js/modules/Payments/Components/Stripe.vue"));
 
 var StripeService = function () {
     function StripeService(payment) {
@@ -43746,28 +43835,30 @@ var StripeService = function () {
     _createClass(StripeService, [{
         key: 'handle',
         value: function handle() {
-            var _this = this;
+            var container = new ServiceContainer({
+                payment: this.payment,
+                component: 'stripe'
+            });
 
             // Show the payment service container modal
-            Event.fire('payments-service-container', true);
+            container.open();
+
+            container.onSubmit(function (form) {
+                container.complete(form).then(function (response) {
+                    return container.close();
+                });
+            });
 
             // Create the Stripe input card
             // const card = this.createCard();
 
             // Create the form token events
             // const form = this.createForm(card);
-
-            // Submit the card charge
-            setTimeout(function () {
-                ajax.post('/api/payments/service', { payment: _this.payment }).then(function (response) {
-                    return Event.fire('payments-service-container', false);
-                });
-            }, 4000);
         }
     }, {
         key: 'createForm',
         value: function createForm(card) {
-            var _this2 = this;
+            var _this = this;
 
             // Create a token or display an error when the form is submitted.
             var form = document.getElementById('payment-form');
@@ -43775,14 +43866,14 @@ var StripeService = function () {
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
 
-                _this2.stripe.createToken(card).then(function (result) {
+                _this.stripe.createToken(card).then(function (result) {
                     if (result.error) {
                         // Inform the user if there was an error
                         var errorElement = document.getElementById('card-errors');
                         errorElement.textContent = result.error.message;
                     } else {
                         // Send the token to your server
-                        _this2.handleToken(result.token);
+                        _this.handleToken(result.token);
                     }
                 });
             });
@@ -43840,188 +43931,23 @@ var StripeService = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/payments/payment.js":
+/***/ "./resources/assets/js/modules/Payments/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_StripeService__ = __webpack_require__("./resources/assets/js/payments/Services/StripeService.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StripeService", function() { return __WEBPACK_IMPORTED_MODULE_0__Services_StripeService__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Services_StripeService__ = __webpack_require__("./resources/assets/js/modules/Payments/Services/StripeService.js");
+__webpack_require__("./resources/assets/js/modules/Payments/ServiceContainer.js");
 
 
 
-
-/***/ }),
-
-/***/ "./resources/assets/js/printers/StarWebPrint.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrint_StarWebPrintTrader__ = __webpack_require__("./resources/assets/js/printers/StarWebPrint/StarWebPrintTrader.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StarWebPrint_TextBuilder__ = __webpack_require__("./resources/assets/js/printers/StarWebPrint/TextBuilder.js");
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-var StarWebPrint = function () {
-    function StarWebPrint(transaction) {
-        _classCallCheck(this, StarWebPrint);
-
-        this.transaction = transaction;
-        console.log(this.transaction);
-        this.builder = new __WEBPACK_IMPORTED_MODULE_1__StarWebPrint_TextBuilder__["a" /* default */]({ paperCharacterWidth: 48 });
-        this.traderUrl = _.template('http://<%= ip %>:<%= port %>/StarWebPRNT/SendMessage');
-    }
-
-    _createClass(StarWebPrint, [{
-        key: 'connector',
-        value: function connector() {
-            return new __WEBPACK_IMPORTED_MODULE_0__StarWebPrint_StarWebPrintTrader__["a" /* default */]({
-                papertype: 'normal',
-                blackmark_sensor: 'front_side',
-                url: this.traderUrl({
-                    ip: setting('peripheral:printer:ip'),
-                    port: setting('peripheral:printer:port')
-                })
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var connector = this.connector();
-
-            connector.onError = function (e) {
-                return console.log(e);
-            };
-
-            // Company Header
-            this.builder.align('center').heading(setting('company:name')).nl(2).text(setting('company:telephone')).nl(3).align('left').text(this.transaction.created_at, setting('company:vat_number')).nl();
-
-            // Basket Mode
-            if (this.transaction.mode != 0) {
-                this.builder.align('right').nl().bold(this.transaction.mode_name).nl();
-            }
-
-            // Transaction Header
-            this.builder.align('left').text('Served by: TODO', 'Ref: ' + this.transaction.id).nl(2);
-
-            // Items
-            this.builder.bold('QTY', 'DESCRIPTION', 'AMOUNT').nl();
-
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this.transaction.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var item = _step.value;
-
-                    this.builder.text(item.qty, item.model.name, formatAsCurrency(item.gross_total)).nl();
-                }
-
-                // Deals
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            if (this.transaction.deals.length > 0) {
-                this.builder.nl().bold('DISCOUNTS', 'AMOUNT').nl();
-
-                var _iteratorNormalCompletion2 = true;
-                var _didIteratorError2 = false;
-                var _iteratorError2 = undefined;
-
-                try {
-                    for (var _iterator2 = this.transaction.deals[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                        var deal = _step2.value;
-
-                        this.builder.text(deal.title, formatAsCurrency(deal.discount_total)).nl();
-                    }
-                } catch (err) {
-                    _didIteratorError2 = true;
-                    _iteratorError2 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                            _iterator2.return();
-                        }
-                    } finally {
-                        if (_didIteratorError2) {
-                            throw _iteratorError2;
-                        }
-                    }
-                }
-            }
-
-            // Payments
-            this.builder.nl().bold('PAYMENTS', 'AMOUNT').nl();
-
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
-            try {
-                for (var _iterator3 = this.transaction.payments[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var payment = _step3.value;
-
-                    this.builder.text(payment.title, formatAsCurrency(payment.amount_total)).nl();
-                }
-
-                // TODO If card payment used show card details
-
-                // Total
-            } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                        _iterator3.return();
-                    }
-                } finally {
-                    if (_didIteratorError3) {
-                        throw _iteratorError3;
-                    }
-                }
-            }
-
-            this.builder.nl().bold('TOTAL', formatAsCurrency(this.transaction.due_from_customer));
-
-            // Change
-            this.builder.nl().bold('CHANGE', formatAsCurrency(this.transaction.change_given));
-
-            // Padding
-            this.builder.nl(5);
-
-            // Finish Receipt
-            this.builder.cutPaper().openDraw();
-
-            connector.sendMessage({ request: this.builder.get() });
-        }
-    }]);
-
-    return StarWebPrint;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (StarWebPrint);
+window.Payment = {
+    StripeService: __WEBPACK_IMPORTED_MODULE_0__Services_StripeService__["a" /* default */]
+};
 
 /***/ }),
 
-/***/ "./resources/assets/js/printers/StarWebPrint/StarWebPrintBuilder.js":
+/***/ "./resources/assets/js/modules/Printers/StarWebPrint/StarWebPrintBuilder.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44132,7 +44058,7 @@ StarWebPrintBuilder.prototype._encodeRasterImage = function (b, a, d) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/printers/StarWebPrint/StarWebPrintTrader.js":
+/***/ "./resources/assets/js/modules/Printers/StarWebPrint/StarWebPrintTrader.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44220,11 +44146,11 @@ StarWebPrintTrader.prototype._encodeEscapeSequence = function (a) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/printers/StarWebPrint/TextBuilder.js":
+/***/ "./resources/assets/js/modules/Printers/StarWebPrint/TextBuilder.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrintBuilder__ = __webpack_require__("./resources/assets/js/printers/StarWebPrint/StarWebPrintBuilder.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrintBuilder__ = __webpack_require__("./resources/assets/js/modules/Printers/StarWebPrint/StarWebPrintBuilder.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44431,52 +44357,190 @@ var TextBuilder = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/printers/printer.js":
+/***/ "./resources/assets/js/modules/Printers/StarWebPrint/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrint__ = __webpack_require__("./resources/assets/js/printers/StarWebPrint.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StarWebPrint", function() { return __WEBPACK_IMPORTED_MODULE_0__StarWebPrint__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrintTrader__ = __webpack_require__("./resources/assets/js/modules/Printers/StarWebPrint/StarWebPrintTrader.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TextBuilder__ = __webpack_require__("./resources/assets/js/modules/Printers/StarWebPrint/TextBuilder.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
+
+var StarWebPrint = function () {
+    function StarWebPrint(transaction) {
+        _classCallCheck(this, StarWebPrint);
+
+        this.transaction = transaction;
+        console.log(this.transaction);
+        this.builder = new __WEBPACK_IMPORTED_MODULE_1__TextBuilder__["a" /* default */]({ paperCharacterWidth: 48 });
+        this.traderUrl = _.template('http://<%= ip %>:<%= port %>/StarWebPRNT/SendMessage');
+    }
+
+    _createClass(StarWebPrint, [{
+        key: 'connector',
+        value: function connector() {
+            return new __WEBPACK_IMPORTED_MODULE_0__StarWebPrintTrader__["a" /* default */]({
+                papertype: 'normal',
+                blackmark_sensor: 'front_side',
+                url: this.traderUrl({
+                    ip: setting('peripheral:printer:ip'),
+                    port: setting('peripheral:printer:port')
+                })
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var connector = this.connector();
+
+            connector.onError = function (e) {
+                return console.log(e);
+            };
+
+            // Company Header
+            this.builder.align('center').heading(setting('company:name')).nl(2).text(setting('company:telephone')).nl(3).align('left').text(this.transaction.created_at, setting('company:vat_number')).nl();
+
+            // Basket Mode
+            if (this.transaction.mode != 0) {
+                this.builder.align('right').nl().bold(this.transaction.mode_name).nl();
+            }
+
+            // Transaction Header
+            this.builder.align('left').text('Served by: TODO', 'Ref: ' + this.transaction.id).nl(2);
+
+            // Items
+            this.builder.bold('QTY', 'DESCRIPTION', 'AMOUNT').nl();
+
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.transaction.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var item = _step.value;
+
+                    this.builder.text(item.qty, item.model.name, formatAsCurrency(item.gross_total)).nl();
+                }
+
+                // Deals
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            if (this.transaction.deals.length > 0) {
+                this.builder.nl().bold('DISCOUNTS', 'AMOUNT').nl();
+
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = this.transaction.deals[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var deal = _step2.value;
+
+                        this.builder.text(deal.title, formatAsCurrency(deal.discount_total)).nl();
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
+
+            // Payments
+            this.builder.nl().bold('PAYMENTS', 'AMOUNT').nl();
+
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
+            try {
+                for (var _iterator3 = this.transaction.payments[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var payment = _step3.value;
+
+                    this.builder.text(payment.title, formatAsCurrency(payment.amount_total)).nl();
+                }
+
+                // TODO If card payment used show card details
+
+                // Total
+            } catch (err) {
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
+                    }
+                } finally {
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
+                    }
+                }
+            }
+
+            this.builder.nl().bold('TOTAL', formatAsCurrency(this.transaction.due_from_customer));
+
+            // Change
+            this.builder.nl().bold('CHANGE', formatAsCurrency(this.transaction.change_given));
+
+            // Padding
+            this.builder.nl(5);
+
+            // Finish Receipt
+            this.builder.cutPaper().openDraw();
+
+            connector.sendMessage({ request: this.builder.get() });
+        }
+    }]);
+
+    return StarWebPrint;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (StarWebPrint);
 
 /***/ }),
 
-/***/ "./resources/assets/js/routes.js":
+/***/ "./resources/assets/js/modules/Printers/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StarWebPrint_index_js__ = __webpack_require__("./resources/assets/js/modules/Printers/StarWebPrint/index.js");
 
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-    routes: [{
-        path: '/',
-        component: __webpack_require__("./resources/assets/js/views/Till.vue")
-    }, {
-        path: '/login',
-        component: __webpack_require__("./resources/assets/js/views/Login.vue")
-    }, {
-        path: '/sandbox',
-        component: __webpack_require__("./resources/assets/js/views/Sandbox.vue")
-    }, {
-        path: '/admin',
-        component: __webpack_require__("./resources/assets/js/views/Admin.vue"),
-        children: [{
-            path: 'transactions',
-            component: __webpack_require__("./resources/assets/js/admin/Transactions.vue")
-        }, {
-            path: 'inventory',
-            component: __webpack_require__("./resources/assets/js/admin/Inventory.vue")
-        }]
-    }]
-}));
+window.Printer = {
+    StarWebPrint: __WEBPACK_IMPORTED_MODULE_0__StarWebPrint_index_js__["default"]
+};
 
 /***/ }),
 
-/***/ "./resources/assets/js/support/currency.js":
+/***/ "./resources/assets/js/modules/Support/currency.js":
 /***/ (function(module, exports) {
 
 window.formatAsCurrency = function (value) {
@@ -44490,14 +44554,14 @@ window.formatAsCurrency = function (value) {
 
 /***/ }),
 
-/***/ "./resources/assets/js/support/errors.js":
+/***/ "./resources/assets/js/modules/Support/errors.js":
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Errors = function () {
+window.Errors = function () {
     /**
      * Create a new Errors instance.
      */
@@ -44580,7 +44644,7 @@ var Errors = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/support/event.js":
+/***/ "./resources/assets/js/modules/Support/event.js":
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -44618,14 +44682,14 @@ window.Event = new (function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/support/form.js":
+/***/ "./resources/assets/js/modules/Support/form.js":
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Form = function () {
+window.Form = function () {
     /**
      * Create a new Form instance.
      *
@@ -44779,7 +44843,18 @@ var Form = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/support/settings.js":
+/***/ "./resources/assets/js/modules/Support/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/modules/Support/currency.js");
+__webpack_require__("./resources/assets/js/modules/Support/event.js");
+__webpack_require__("./resources/assets/js/modules/Support/settings.js");
+__webpack_require__("./resources/assets/js/modules/Support/errors.js");
+__webpack_require__("./resources/assets/js/modules/Support/form.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/Support/settings.js":
 /***/ (function(module, exports) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -44802,7 +44877,7 @@ window.Settings = function () {
         }
     }, {
         key: "get",
-        value: function get(name) {
+        value: function get(name, defaultValue) {
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
@@ -44834,12 +44909,178 @@ window.Settings = function () {
                 }
             }
 
-            return null;
+            return defaultValue || null;
         }
     }]);
 
     return Settings;
 }();
+
+window.epos.settings = new Settings().register(window.epos.settings);
+
+window.setting = function (name) {
+    return window.epos.settings.get(name);
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/UI/actions.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Actions = function () {
+    function Actions(params) {
+        _classCallCheck(this, Actions);
+
+        Event.fire('actions-options', params || []);
+    }
+
+    _createClass(Actions, [{
+        key: 'open',
+        value: function open() {
+            Event.fire('actions', true);
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            Event.fire('actions', false);
+        }
+    }]);
+
+    return Actions;
+}();
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/UI/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./resources/assets/js/modules/UI/keyboard.js");
+__webpack_require__("./resources/assets/js/modules/UI/keypad.js");
+__webpack_require__("./resources/assets/js/modules/UI/actions.js");
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/UI/keyboard.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Keyboard = function () {
+    function Keyboard(options) {
+        _classCallCheck(this, Keyboard);
+
+        var extended = _.merge({}, window.KeyboardOptions, options || {});
+
+        Event.fire('keyboard-options', extended);
+    }
+
+    _createClass(Keyboard, [{
+        key: 'open',
+        value: function open() {
+            Event.fire('keyboard', true);
+
+            return new Promise(function (resolve, reject) {
+                Event.listenOnce('keyboard-confirm', function (text) {
+                    return resolve(text);
+                });
+                Event.listenOnce('keyboard-cancel', reject);
+            });
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            Event.fire('keyboard', false);
+        }
+    }]);
+
+    return Keyboard;
+}();
+
+window.KeyboardOptions = {
+    //
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/modules/UI/keypad.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.Keypad = function () {
+    function Keypad(options) {
+        _classCallCheck(this, Keypad);
+
+        var extended = _.merge({}, window.KeypadOptions, options || {});
+
+        Event.fire('keypad-options', extended);
+    }
+
+    _createClass(Keypad, [{
+        key: 'open',
+        value: function open() {
+            Event.fire('keypad', true);
+
+            return new Promise(function (resolve, reject) {
+                Event.listenOnce('keypad-confirm', function (value) {
+                    return resolve(value);
+                });
+                Event.listenOnce('keypad-cancel', reject);
+            });
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            Event.fire('keypad', false);
+        }
+    }]);
+
+    return Keypad;
+}();
+
+window.KeypadOptions = {
+    currency: window.epos.app.currency
+};
+
+/***/ }),
+
+/***/ "./resources/assets/js/routes.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
+    routes: [{
+        path: '/',
+        component: __webpack_require__("./resources/assets/js/views/Till.vue")
+    }, {
+        path: '/login',
+        component: __webpack_require__("./resources/assets/js/views/Login.vue")
+    }, {
+        path: '/sandbox',
+        component: __webpack_require__("./resources/assets/js/views/Sandbox.vue")
+    }, {
+        path: '/admin',
+        component: __webpack_require__("./resources/assets/js/views/Admin.vue"),
+        children: [{
+            path: 'transactions',
+            component: __webpack_require__("./resources/assets/js/admin/Transactions.vue")
+        }, {
+            path: 'inventory',
+            component: __webpack_require__("./resources/assets/js/admin/Inventory.vue")
+        }]
+    }]
+}));
 
 /***/ }),
 

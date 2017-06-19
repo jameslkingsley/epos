@@ -1,5 +1,7 @@
+require('./ServiceContainer');
+
 import StripeService from './Services/StripeService';
 
-export {
+window.Payment = {
     StripeService
 }

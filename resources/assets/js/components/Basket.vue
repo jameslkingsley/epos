@@ -84,7 +84,6 @@
                     new Printer[e.printer](e.transaction).render();
                 })
                 .listen('PaymentService', e => {
-                    console.log(e);
                     let service = new Payment[e.service.name + 'Service'](e.service.payment);
                     service.handle();
                 })

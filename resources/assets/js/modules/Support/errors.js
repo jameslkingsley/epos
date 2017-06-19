@@ -1,4 +1,4 @@
-class Errors {
+window.Errors = class Errors {
     /**
      * Create a new Errors instance.
      */

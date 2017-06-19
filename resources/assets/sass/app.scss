@@ -168,3 +168,10 @@ body {
 .no-select {
     user-select: none;
 }
+
+.payments-service-container {
+    .md-dialog {
+        min-width: 33vw !important;
+        min-height: 33vh !important;
+    }
+}

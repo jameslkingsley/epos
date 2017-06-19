@@ -126,4 +126,14 @@ class PaymentController extends Controller
 
         $payment->provider->service()->complete();
     }
+
+    /**
+     * Cancels the given payment service.
+     *
+     * @return void
+     */
+    public function cancelService(Request $request, Payment $payment)
+    {
+        $payment->provider->service()->cancel();
+    }
 }

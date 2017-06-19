@@ -1,21 +1,21 @@
+const modules = [
+    'Payments',
+    'Printers',
+    'Support',
+    'UI'
+];
+
 // Lodash
 window._ = require('lodash');
 
 // Axios
-window.ajax = window.axios = require('axios');
+window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-let token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
+window.ajax = window.axios;
 
 // Collect
-import collect from 'collect.js';
-window.collect = collect;
+window.collect = require('collect.js');
 
 // Vue
 window.Vue = require('vue');
@@ -72,42 +72,14 @@ Vue.material.registerTheme({
 Vue.http.headers.common['X-CSRF-TOKEN'] = window.epos.csrfToken;
 Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// Helpers
-require('./support/event.js');
-require('./support/errors.js');
-require('./support/form.js');
-require('./support/currency.js');
+// Load Modules
+for (let m of modules) {
+    require('./modules/' + m + '/index.js');
+}
 
 // Barcode
 import VueBarcodeScanner from 'vue-barcode-scanner';
 Vue.use(VueBarcodeScanner);
-
-require('./support/settings.js');
-window.epos.settings = new Settings().register(window.epos.settings);
-window.setting = (name) => {
-    return window.epos.settings.get(name);
-}
-
-// Keypad
-require('./keypad.js');
-window.KeypadOptions = {
-    currency: window.epos.app.currency
-};
-
-// Keyboard
-require('./keyboard.js');
-window.KeyboardOptions = {
-    //
-};
-
-// Actions
-require('./actions.js');
-
-// Printers
-window.Printer = require('./printers/printer.js');
-
-// Payments
-window.Payment = require('./payments/payment.js');
 
 // Websocket
 window.Pusher = require('pusher-js');

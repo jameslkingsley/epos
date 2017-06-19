@@ -104,4 +104,19 @@ abstract class Service extends Model
     {
         $this->completed();
     }
+
+    /**
+     * Cancels the service.
+     *
+     * @return self
+     */
+    public function cancel()
+    {
+        basket()->payments->update($this->payment, function(&$payment) {
+            $payment->serviced = false;
+            $payment->isServicing = false;
+        }, false);
+
+        return $this;
+    }
 }

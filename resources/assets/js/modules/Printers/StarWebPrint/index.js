@@ -1,5 +1,5 @@
-import StarWebPrintTrader from './StarWebPrint/StarWebPrintTrader';
-import TextBuilder from './StarWebPrint/TextBuilder';
+import StarWebPrintTrader from './StarWebPrintTrader';
+import TextBuilder from './TextBuilder';
 
 export default class StarWebPrint {
     constructor(transaction) {

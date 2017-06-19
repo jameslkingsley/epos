@@ -9,7 +9,7 @@ window.Settings = class Settings {
         return this;
     }
 
-    get(name) {
+    get(name, defaultValue) {
         for (let item of this.items) {
             if (name == item.name) {
                 if (!item.values) {
@@ -20,6 +20,12 @@ window.Settings = class Settings {
             }
         }
 
-        return null;
+        return defaultValue || null;
     }
+}
+
+window.epos.settings = new Settings().register(window.epos.settings);
+
+window.setting = (name) => {
+    return window.epos.settings.get(name);
 }

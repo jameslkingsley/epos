@@ -33,6 +33,7 @@ Route::post('/api/items/via-barcode', 'ItemController@addViaBarcode');
 Route::resource('/api/items', 'ItemController');
 
 Route::post('/api/payments/service', 'PaymentController@service');
+Route::delete('/api/payments/service/{payment}', 'PaymentController@cancelService');
 Route::resource('/api/payments', 'PaymentController');
 
 Route::resource('/api/receipt', 'ReceiptController');

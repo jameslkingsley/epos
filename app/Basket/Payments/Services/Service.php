@@ -18,6 +18,13 @@ abstract class Service extends Model
     ];
 
     /**
+     * Client-side class name.
+     *
+     * @var string
+     */
+    protected $clientHandlerName = null;
+
+    /**
      * Payment instance.
      *
      * @var App\Basket\Models\Payment
@@ -41,9 +48,7 @@ abstract class Service extends Model
      */
     public function getNameAttribute()
     {
-        $parts = explode('\\', get_class($this));
-
-        return array_pop($parts);
+        return $this->clientHandlerName;
     }
 
     /**

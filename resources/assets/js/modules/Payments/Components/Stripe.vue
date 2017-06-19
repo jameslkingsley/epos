@@ -9,7 +9,7 @@
         props: ['form'],
 
         created() {
-            console.log(this.form);
+            //
         }
     }
 </script>

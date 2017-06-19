@@ -7,6 +7,13 @@ use App\Events\PaymentService;
 class Stripe extends Service
 {
     /**
+     * Client-side class name.
+     *
+     * @var string
+     */
+    protected $clientHandlerName = 'StripeService';
+
+    /**
      * Handles the payment service.
      *
      * @return mixed

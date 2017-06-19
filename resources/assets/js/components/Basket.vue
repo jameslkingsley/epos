@@ -84,8 +84,7 @@
                     new Printer[e.printer](e.transaction).render();
                 })
                 .listen('PaymentService', e => {
-                    let service = new Payment[e.service.name + 'Service'](e.service.payment);
-                    service.handle();
+                    new Payment[e.service.name](e.service.payment).handle();
                 })
                 .listen('TransactionStarted', e => {
                     this.$material.setCurrentTheme('default');

@@ -2,38 +2,36 @@
 
 namespace App\Events;
 
+use App\Events\BasketChanged;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use App\Basket\Payments\Services\Service;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PaymentService implements ShouldBroadcast
+class ItemUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * Service instance.
+     * Item instance.
      *
-     * @var App\Basket\Payments\Services\Service
+     * @var App\Basket\Models\Item
      */
-    public $service;
-
-    public $trace;
+    protected $item;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Service $service)
+    public function __construct($item)
     {
-        $this->service = $service;
+        $this->item = $item;
 
-        $this->trace = traceApplicationStack();
+        event(new BasketChanged);
     }
 
     /**
@@ -43,6 +41,6 @@ class PaymentService implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('basket');
+        return new PrivateChannel('channel-name');
     }
 }

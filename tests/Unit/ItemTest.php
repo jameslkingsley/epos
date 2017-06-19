@@ -60,10 +60,10 @@ class ItemTest extends TestCase
         $this->basket->items->add($item);
 
         $this->basket->items->update($item, function(&$item) {
-            $item->model_type = 'model_type_changed';
+            $item->qty = 100;
         });
 
-        $this->assertEquals('model_type_changed', $this->basket->items->first()->model_type);
+        $this->assertEquals(100, $this->basket->items->first()->qty);
     }
 
     /** @test */

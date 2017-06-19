@@ -5,6 +5,7 @@ namespace App\Basket\Collections;
 use App\Events\ItemAdded;
 use App\Basket\Models\Item;
 use App\Events\ItemRemoved;
+use App\Events\ItemUpdated;
 use App\Events\BasketException;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Traits\HasConstraints;
@@ -180,6 +181,8 @@ class ItemCollection extends Collection
                 $closure($i);
             }
         });
+
+        event(new ItemUpdated($item));
 
         return $this;
     }

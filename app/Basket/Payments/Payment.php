@@ -28,16 +28,6 @@ abstract class Payment
     }
 
     /**
-     * Gets the service provider for the payment.
-     *
-     * @return App\Basket\Payments\Services\Service | null
-     */
-    public function service()
-    {
-        return null;
-    }
-
-    /**
      * Computes the total payment amount.
      *
      * @return float

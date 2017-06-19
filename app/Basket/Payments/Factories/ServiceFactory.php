@@ -3,7 +3,8 @@
 namespace App\Basket\Payments\Factories;
 
 use App\Basket\Models\Payment;
-use App\Basket\Payments\Services\{Stripe};
+use App\Basket\Exceptions\Exception;
+use App\Basket\Payments\Services\{Stripe, Common};
 
 class ServiceFactory
 {
@@ -13,6 +14,7 @@ class ServiceFactory
      * @var array
      */
     protected $map = [
+        'common' => Common::class,
         'stripe' => Stripe::class
     ];
 

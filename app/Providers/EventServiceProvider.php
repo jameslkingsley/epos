@@ -12,14 +12,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\PaymentAdded' => [
-            'App\Listeners\TransactionCompletionStatus',
-        ],
         'App\Events\TransactionCompleted' => [
             'App\Listeners\TransactionCompletionDispatcher',
         ],
         'App\Events\BasketChanged' => [
-            'App\Listeners\DealWatcher'
+            'App\Listeners\DealWatcher',
+            'App\Listeners\TransactionCompletionStatus'
         ]
     ];
 

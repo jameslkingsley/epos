@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\BasketChanged;
 use App\Events\TransactionCompleted;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,7 +25,7 @@ class TransactionCompletionStatus
      * @param $event
      * @return void
      */
-    public function handle($event)
+    public function handle(BasketChanged $event)
     {
         $basket = basket();
 

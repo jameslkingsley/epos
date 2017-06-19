@@ -2,8 +2,8 @@
 
 namespace App\Basket;
 
+use App\Support\Model;
 use App\Basket\Models\Deal;
-use Jenssegers\Model\Model;
 use App\Events\BasketReload;
 use App\Basket\Models\Summary;
 use App\Events\BasketException;
@@ -264,7 +264,7 @@ class Basket extends Model
      *
      * @return self
      */
-    public function withEvent(string $name, $args)
+    public function withEvent(string $name, $args = null)
     {
         $this->events->push([
             'name' => $name,

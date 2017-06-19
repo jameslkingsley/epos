@@ -49,7 +49,7 @@
             },
 
             modeTheme() {
-                return _.findKey(this.basket.modes, (i) => {
+                return _.findKey(this.basket.modes, i => {
                     return i == this.basket.meta.mode;
                 }).toLowerCase();
             }
@@ -67,30 +67,31 @@
             );
 
             Echo.channel('basket')
-                .listen('BasketReload', (e) => {
+                .listen('BasketReload', e => {
                     this.basket = e.basket;
                     this.loaded = true;
 
                     // Set the overall theme to match the basket mode
                     this.$material.setCurrentTheme(this.modeTheme());
                 })
-                .listen('BasketException', (e) => {
+                .listen('BasketException', e => {
                     Event.fire('alert', e.message);
                 })
-                .listen('BasketModeChanged', (e) => {
+                .listen('BasketModeChanged', e => {
                     //
                 })
-                .listen('PrintReceipt', (e) => {
+                .listen('PrintReceipt', e => {
                     new Printer[e.printer](e.transaction).render();
                 })
-                .listen('PaymentService', (e) => {
+                .listen('PaymentService', e => {
+                    console.log(e);
                     let service = new Payment[e.service.name + 'Service'](e.service.payment);
                     service.handle();
                 })
-                .listen('TransactionStarted', (e) => {
+                .listen('TransactionStarted', e => {
                     this.$material.setCurrentTheme('default');
                 })
-                .listen('TransactionCompleted', (e) => {
+                .listen('TransactionCompleted', e => {
                     this.$material.setCurrentTheme('success');
                     this.basket = e.basket;
                 });

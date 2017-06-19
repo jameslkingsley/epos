@@ -33,6 +33,8 @@ class Item extends Model
      */
     public function getModelAttribute()
     {
+        if (! class_exists($this->model_type)) return null;
+
         return $this->model_type::findOrFail($this->model_id);
     }
 

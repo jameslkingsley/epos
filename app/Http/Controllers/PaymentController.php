@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Basket\Basket;
 use App\Events\BasketReload;
 use Illuminate\Http\Request;
+use App\Events\BasketChanged;
 use App\Basket\Models\Payment;
 
 class PaymentController extends Controller
@@ -110,5 +111,19 @@ class PaymentController extends Controller
         basket()->payments->remove($payment);
 
         basket()->reload();
+    }
+
+    /**
+     * Services the payment.
+     *
+     * @return mixed
+     */
+    public function service(Request $request)
+    {
+        $payment = $this->payment->findOrFail(
+            array_to_object($request->payment)->id
+        );
+
+        $payment->provider->service()->complete();
     }
 }

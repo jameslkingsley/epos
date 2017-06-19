@@ -3,7 +3,7 @@
 namespace App\Basket\Models;
 
 use App\Basket\Basket;
-use Jenssegers\Model\Model;
+use App\Support\Model;
 use App\Basket\Traits\AutoAttributes;
 
 class Balance extends Model

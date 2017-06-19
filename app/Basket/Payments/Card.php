@@ -2,9 +2,10 @@
 
 namespace App\Basket\Payments;
 
+use App\Basket\Payments\Contracts\Servicable;
 use App\Basket\Payments\Factories\ServiceFactory;
 
-class Card extends Payment
+class Card extends Payment implements Servicable
 {
     /**
      * Gets the service provider for the payment.

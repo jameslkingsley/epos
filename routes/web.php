@@ -32,6 +32,7 @@ Route::post('/api/items/add-many/{count}', 'ItemController@addMany');
 Route::post('/api/items/via-barcode', 'ItemController@addViaBarcode');
 Route::resource('/api/items', 'ItemController');
 
+Route::post('/api/payments/service', 'PaymentController@service');
 Route::resource('/api/payments', 'PaymentController');
 
 Route::resource('/api/receipt', 'ReceiptController');

@@ -4,6 +4,7 @@ use App\Basket\Basket;
 use App\Settings\Setting;
 use App\Settings\NullSetting;
 use App\Basket\Support\Number;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Converts a multidimensional array to an object.
@@ -43,4 +44,34 @@ function basket()
 function setting(string $name = '', $default = '')
 {
     return Setting::make($name, $default);
+}
+
+/**
+ * Logs the trace stack.
+ * Only logs files from App namespace
+ *
+ * @return void
+ */
+function traceApplicationStack()
+{
+    $stack = collect(debug_backtrace());
+
+    $withClass = $stack->reject(function($item) {
+        return ! array_key_exists('class', $item);
+    });
+
+    $fromApp = $withClass->reject(function($item) {
+        return ! starts_with($item['class'], 'App');
+    });
+
+    $filtered = $fromApp->map(function($item) {
+        return [
+            'class' => $item['class'],
+            'function' => $item['function']
+        ];
+    });
+
+    return $filtered->all();
+
+    // Log::info($filtered->all());
 }

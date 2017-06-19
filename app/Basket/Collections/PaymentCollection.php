@@ -4,8 +4,10 @@ namespace App\Basket\Collections;
 
 use App\Basket\Basket;
 use App\Events\PaymentAdded;
+use App\Events\BasketChanged;
 use App\Basket\Models\Payment;
 use App\Events\PaymentRemoved;
+use App\Events\PaymentUpdated;
 use Illuminate\Support\Facades\Log;
 use App\Basket\Exceptions\Exception;
 use App\Basket\Traits\HasConstraints;
@@ -13,6 +15,7 @@ use App\Basket\Collections\Collection;
 use Illuminate\Support\Facades\Artisan;
 use App\Basket\Models\TransactionHeader;
 use App\Basket\Constraints\PaymentConstraint;
+use App\Basket\Payments\Contracts\Servicable;
 
 class PaymentCollection extends Collection
 {
@@ -32,7 +35,7 @@ class PaymentCollection extends Collection
      */
     public function __construct($payments, $basket = null)
     {
-        $this->basket = $basket;
+        $this->basket = $basket ? $basket : basket();
 
         // Register the constraint class
         $this->constraint(new PaymentConstraint);
@@ -138,13 +141,17 @@ class PaymentCollection extends Collection
      *
      * @return self
      */
-    public function update(Payment $payment, callable $closure)
+    public function update(Payment $payment, callable $closure, bool $raiseEvent = true)
     {
         $this->each(function(&$p) use($payment, $closure) {
             if ($p->isSameAs($payment)) {
                 $closure($p);
             }
         });
+
+        if ($raiseEvent) {
+            event(new PaymentUpdated($payment));
+        }
 
         return $this;
     }
@@ -185,12 +192,24 @@ class PaymentCollection extends Collection
      */
     public function serviced()
     {
-        foreach ($this->items as $payment) {
+        foreach ($this->servicable() as $payment) {
             if (! $payment->serviced) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Gets the servicable payments.
+     *
+     * @return Collection App\Basket\Models\Payment
+     */
+    public function servicable()
+    {
+        return $this->reject(function($payment) {
+            return ! $payment->provider instanceof Servicable;
+        });
     }
 }

@@ -1,6 +1,22 @@
 // Lodash
 window._ = require('lodash');
 
+// Axios
+window.ajax = window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+// Collect
+import collect from 'collect.js';
+window.collect = collect;
+
 // Vue
 window.Vue = require('vue');
 require('vue-resource');

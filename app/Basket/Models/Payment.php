@@ -15,7 +15,8 @@ class Payment extends Model
     protected $appends = [
         'amount',
         'provider',
-        'serviced'
+        'serviced',
+        'isServicing'
     ];
 
     /**
@@ -31,6 +32,13 @@ class Payment extends Model
      * @var boolean
      */
     public $serviced = false;
+
+    /**
+     * Whether the payment is servicing.
+     *
+     * @var boolean
+     */
+    public $isServicing = false;
 
     /**
      * Gets the handler instance for the payment.
@@ -60,6 +68,36 @@ class Payment extends Model
     public function getServicedAttribute()
     {
         return $this->serviced;
+    }
+
+    /**
+     * Sets the serviced flag.
+     *
+     * @return void
+     */
+    public function setServicedAttribute($value)
+    {
+        $this->serviced = $value;
+    }
+
+    /**
+     * Gets the servicing flag.
+     *
+     * @return boolean
+     */
+    public function getIsServicingAttribute()
+    {
+        return $this->isServicing;
+    }
+
+    /**
+     * Sets the servicing flag.
+     *
+     * @return void
+     */
+    public function setIsServicingAttribute($value)
+    {
+        $this->isServicing = $value;
     }
 
     /**

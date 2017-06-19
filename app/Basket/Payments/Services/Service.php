@@ -2,7 +2,7 @@
 
 namespace App\Basket\Payments\Services;
 
-use Jenssegers\Model\Model;
+use App\Support\Model;
 use App\Basket\Models\Payment;
 
 abstract class Service extends Model
@@ -65,6 +65,21 @@ abstract class Service extends Model
     {
         basket()->payments->update($this->payment, function(&$payment) {
             $payment->serviced = true;
+            $payment->isServicing = false;
+        });
+
+        return $this;
+    }
+
+    /**
+     * Marks the payment service as pending.
+     *
+     * @return self
+     */
+    public function pending()
+    {
+        basket()->payments->update($this->payment, function(&$payment) {
+            $payment->isServicing = true;
         });
 
         return $this;
@@ -73,9 +88,19 @@ abstract class Service extends Model
     /**
      * Handles the payment service.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
+    {
+        $this->completed();
+    }
+
+    /**
+     * Completes the service.
+     *
+     * @return void
+     */
+    public function complete()
     {
         $this->completed();
     }

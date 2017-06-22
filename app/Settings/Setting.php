@@ -112,4 +112,26 @@ class Setting extends Model
 
         return $this;
     }
+
+    /**
+     * Forgets the given setting.
+     *
+     * @return self
+     */
+    public function forget($name = null)
+    {
+        if (! $name) {
+            $this->cache->each(function($setting) {
+                $setting->delete();
+            });
+        } else {
+            $setting = $this->cache->where('name', $name)->first();
+
+            if ($setting) {
+                $setting->delete();
+            }
+        }
+
+        return $this;
+    }
 }

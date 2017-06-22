@@ -2,6 +2,8 @@
 
 namespace App\Settings\Traits;
 
+use App\Settings\Models\UserSetting;
+
 trait HasUserSettings
 {
     /**
@@ -15,6 +17,6 @@ trait HasUserSettings
 
         return UserSetting::where('setting_id', $this->id)
             ->where('user_id', auth()->user()->id)
-            ->get();
+            ->first();
     }
 }

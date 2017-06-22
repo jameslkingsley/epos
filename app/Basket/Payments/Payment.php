@@ -3,6 +3,8 @@
 namespace App\Basket\Payments;
 
 use App\Basket\Basket;
+use App\Basket\Payments\Contracts\Servicable;
+use App\Basket\Payments\Factories\ServiceFactory;
 
 abstract class Payment
 {
@@ -14,6 +16,13 @@ abstract class Payment
     protected $payment;
 
     /**
+     * Service factory instance.
+     *
+     * @var App\Basket\Payments\Factories\ServiceFactory
+     */
+    protected $factory;
+
+    /**
      * Makes a new instance.
      *
      * @return any
@@ -23,6 +32,10 @@ abstract class Payment
         $provider = new static;
 
         $provider->payment = $model;
+
+        if ($provider instanceof Servicable) {
+            $provider->factory = new ServiceFactory;
+        }
 
         return $provider;
     }

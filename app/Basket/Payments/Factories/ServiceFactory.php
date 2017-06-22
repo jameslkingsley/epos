@@ -4,20 +4,9 @@ namespace App\Basket\Payments\Factories;
 
 use App\Basket\Models\Payment;
 use App\Basket\Exceptions\Exception;
-use App\Basket\Payments\Services\{Stripe, Common};
 
 class ServiceFactory
 {
-    /**
-     * Service map.
-     *
-     * @var array
-     */
-    protected $map = [
-        'common' => Common::class,
-        'stripe' => Stripe::class
-    ];
-
     /**
      * Makes the given service class.
      *
@@ -25,10 +14,12 @@ class ServiceFactory
      */
     public function make($service, Payment $payment)
     {
-        if (! array_key_exists($service, $this->map)) {
+        $map = config('services.payments');
+
+        if (! array_key_exists($service, $map)) {
             throw new Exception('Service '.$service.' does not exist');
         }
 
-        return new $this->map[$service]($payment);
+        return new $map[$service]($payment);
     }
 }

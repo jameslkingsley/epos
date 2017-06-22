@@ -41,6 +41,6 @@ class PaymentAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('basket');
+        return new PrivateChannel('App.User.'.auth()->user()->id);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 class Install extends Command
 {
@@ -46,5 +48,22 @@ class Install extends Command
         setting()->set('company:name', 'EPOS');
         setting()->set('company:telephone', '12345 456789');
         setting()->set('company:vat_number', '123 456 789');
+
+        // Create admin user account
+        User::create([
+            'username' => 'Admin',
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('password')
+        ]);
+
+        User::create([
+            'username' => 'Test',
+            'first_name' => 'Test',
+            'last_name' => 'Test',
+            'email' => 'test@test.com',
+            'password' => Hash::make('password')
+        ]);
     }
 }

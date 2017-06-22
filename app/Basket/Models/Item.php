@@ -16,7 +16,9 @@ class Item extends Model
      * @var array
      */
     protected $appends = [
-        'qty', 'model', 'discounted'
+        'qty',
+        'model',
+        'discounted'
     ];
 
     /**
@@ -35,7 +37,7 @@ class Item extends Model
     {
         if (! class_exists($this->model_type)) return null;
 
-        return $this->model_type::findOrFail($this->model_id);
+        return $this->hasOne($this->model_type, 'id', 'model_id')->first();
     }
 
     /**

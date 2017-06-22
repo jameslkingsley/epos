@@ -129,7 +129,7 @@ class Basket extends Model
         }
 
         // Static basket attributes
-        $this->cash_float = config('basket.cash_float');
+        $this->cash_float = setting('basket:cash_float', 20000);
 
         session()->put('basket', $this);
 

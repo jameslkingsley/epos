@@ -20,7 +20,8 @@
             window.epos = {!! json_encode([
                 'csrfToken' => csrf_token(),
                 'app' => config('vue'),
-                'settings' => setting()
+                'settings' => setting(),
+                'user_id' => auth()->guest() ? null : auth()->user()->id
             ]) !!};
         </script>
     </head>

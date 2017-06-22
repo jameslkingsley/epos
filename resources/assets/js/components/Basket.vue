@@ -66,7 +66,7 @@
                 code => this.$http.post('/api/items/via-barcode', { code })
             );
 
-            Echo.channel('basket')
+            Echo.private(`App.User.${epos.user_id}`)
                 .listen('BasketReload', e => {
                     this.basket = e.basket;
                     this.loaded = true;

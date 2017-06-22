@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,12 @@
 
 Route::get('/', function () {
     return view('till');
+});
+
+Route::get('/test-login/{user}', function(Request $request, User $user) {
+    auth()->login($user, true);
+
+    return auth()->user();
 });
 
 Route::get('/session', function() {

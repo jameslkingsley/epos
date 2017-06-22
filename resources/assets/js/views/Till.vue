@@ -59,7 +59,7 @@
         created() {
             Event.listen('checkout', state => this.checkout = state);
 
-            Echo.channel('basket')
+            Echo.private(`App.User.${epos.user_id}`)
                 .listen('BasketReload', (e) => {
                     this.basket = e.basket;
                 });

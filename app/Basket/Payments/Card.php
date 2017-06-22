@@ -10,15 +10,13 @@ class Card extends Payment implements Servicable
     /**
      * Gets the service provider for the payment.
      *
-     * @return App\Basket\Payments\Services\Service | null
+     * @return App\Basket\Payments\Services\Service
      */
     public function service()
     {
-        $service = setting('payment:card:service', 'stripe');
-
-        // If no service provided, exit
-        if (! $service) return null;
-
-        return (new ServiceFactory)->make($service, $this->payment);
+        return $this->factory->make(
+            setting('payment:card:service', 'stripe'),
+            $this->payment
+        );
     }
 }

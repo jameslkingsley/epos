@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f707303d19ec6f97576b13136670d38",
+    "content-hash": "f5c5feb13c998bf6a3715f7770adde06",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -209,6 +209,52 @@
                 "parser"
             ],
             "time": "2017-03-29T16:04:15+00:00"
+        },
+        {
+            "name": "ingenico-epayments/connect-sdk-php",
+            "version": "5.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ingenico-ePayments/connect-sdk-php.git",
+                "reference": "150edc4fa38327ae2ac3a5627e823ee15766136d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ingenico-ePayments/connect-sdk-php/zipball/150edc4fa38327ae2ac3a5627e823ee15766136d",
+                "reference": "150edc4fa38327ae2ac3a5627e823ee15766136d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ingenico\\Connect\\Sdk\\": [
+                        "src/Ingenico/Connect/Sdk",
+                        "lib/Ingenico/Connect/Sdk"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ingenico ePayments",
+                    "homepage": "http://www.ingenico.com/epayments/"
+                }
+            ],
+            "description": "PHP SDK to communicate with the GlobalCollect platform server-to-server API",
+            "homepage": "http://www.ingenico.com/epayments/",
+            "keywords": [
+                "sdk"
+            ],
+            "time": "2017-05-29T13:52:10+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

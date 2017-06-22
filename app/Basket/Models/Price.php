@@ -13,7 +13,7 @@ class Price extends Model
      */
     public function model()
     {
-        return $this->model_type::findOrFail($this->model_id);
+        return $this->hasOne($this->model_type, 'id', 'model_id');
     }
 
     /**
